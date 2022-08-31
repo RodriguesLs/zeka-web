@@ -5,7 +5,10 @@ interface User {
   password: string;
 }
 
-const user = {} as User;
+const user = {
+  email: 'a@a.com',
+  password: '123123',
+} as User;
 
 const makeServer = () => {
   return createServer({

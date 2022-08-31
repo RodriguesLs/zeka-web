@@ -4,7 +4,6 @@ import apiClient from '@/services/apiClient';
 
 interface User {
   id: string;
-  avatar_url: string;
   name: string;
   email: string;
 }
@@ -20,6 +19,7 @@ interface AuthProviderProps {
 
 export interface AuthContextData {
   user: User | null;
+  token: string | null;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
 }
@@ -35,6 +35,8 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       return token;
     }
+
+    return null;
   });
 
   useEffect(() => {
@@ -53,7 +55,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
     try {
-      const response = await apiClient.post('sessiaons', { email, password });
+      const response = await apiClient.post('sessions', { email, password });
 
       const { token, user } = response.data;
 
@@ -79,6 +81,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
   return (
     <AuthContext.Provider
       value={{
+        token,
         user,
         signIn,
         signOut,

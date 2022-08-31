@@ -33,8 +33,6 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
       description,
     };
 
-    console.log('aqui');
-
     setMessages((state) => [...state, toast]);
   }, []);
 
