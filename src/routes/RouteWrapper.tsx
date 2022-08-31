@@ -1,3 +1,4 @@
+import useAuth from '@/hooks/useAuth';
 import { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
@@ -14,7 +15,9 @@ const RouteWrapper = ({
 }: RouteWrapperProps) => {
   const location = useLocation();
 
-  const isAuthenticated = false;
+  const { user } = useAuth();
+
+  const isAuthenticated = !!user;
 
   useEffect(() => {
     if (title) document.title = `Zeka | ${title}`;

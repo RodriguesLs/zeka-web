@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -32,7 +33,8 @@ const AccountStepFormSchema = yup.object().shape({
 });
 
 const AccountStep = ({ onBackStep }: AccountStepProps) => {
-  const { formData } = useSignUpForm();
+  const { signUpFormData } = useSignUpForm();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -40,21 +42,43 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
     formState: { errors },
   } = useForm<AccountStepFormData>({
     resolver: yupResolver(AccountStepFormSchema),
-    defaultValues: formData,
+    defaultValues: signUpFormData,
   });
 
-  const onSubmit = async (data: AccountStepFormData) => {
+  const onSubmit = async (formData: AccountStepFormData) => {
     try {
-      // const signUpFormCompleted = {
-      //   ...formData,
-      //   ...data,
-      // };
+      const signUpFormCompleted = {
+        ...signUpFormData,
+        ...formData,
+      };
 
-      const signUpFormData = new FormData();
+      const data = new FormData();
 
-      // TO-DO -> Convert signUpFormCompleted to FormData
+      data.append('companyName', signUpFormCompleted.companyName);
+      data.append('cnpj', signUpFormCompleted.cnpj);
+      data.append('responsible', signUpFormCompleted.responsible);
+      data.append('phoneNumber', signUpFormCompleted.phoneNumber);
+      data.append('imageProfile', signUpFormCompleted.imageProfile);
+      data.append('address.street', signUpFormCompleted.address.street);
+      data.append('address.city', signUpFormCompleted.address.city);
+      data.append('address.cep', signUpFormCompleted.address.cep);
+      data.append('address.uf', signUpFormCompleted.address.uf);
+      data.append('address.complement', signUpFormCompleted.address.complement);
+      data.append('address.district', signUpFormCompleted.address.district);
+      data.append('email', signUpFormCompleted.email);
+      data.append('password', signUpFormCompleted.password);
+      data.append('confirmPassword', signUpFormCompleted.confirmPassword);
 
-      const response = await apiClient.post('/signup', signUpFormData);
+      await apiClient.post('/signup', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log(signUpFormCompleted);
+
+      alert('Usuário criado com sucesso!');
+      navigate('/');
     } catch (e) {
       console.error(e);
     }
@@ -78,7 +102,7 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
         error={errors.password}
         register={register}
         autoComplete='off'
-        style={{ marginTop: '0.5rem' }}
+        containerStyle={{ marginTop: '0.5rem' }}
       />
       <Input
         type='password'
@@ -87,7 +111,7 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
         error={errors.confirmPassword}
         register={register}
         autoComplete='off'
-        style={{ marginTop: '0.5rem' }}
+        containerStyle={{ marginTop: '0.5rem' }}
       />
       <ButtonGroup>
         <Button type='button' onClick={() => onBackStep()}>

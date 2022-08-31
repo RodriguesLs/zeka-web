@@ -1,23 +1,28 @@
 import React, { createContext, useCallback, useState, useContext, useEffect } from 'react';
 
+interface AddressFormData {
+  street: string;
+  complement: string;
+  cep: string;
+  city: string;
+  uf: string;
+  district: string;
+}
+
 interface SignUpFormData {
   imageProfile: File;
   companyName: string;
   cnpj: string;
   responsible: string;
   phoneNumber: string;
-  cep: string;
-  address: string;
-  numberAddress: string;
-  uf: string;
-  city: string;
-  district: string;
-  actArea: string;
+  address: AddressFormData;
   email: string;
+  password: string;
+  confirmPassword: string;
 }
 
 interface SignUpFormContextData {
-  formData: SignUpFormData;
+  signUpFormData: SignUpFormData;
   handleUpdateSignupFormData: (data: any) => void;
 }
 
@@ -28,27 +33,23 @@ interface SignUpFormContextProps {
 const SignUpFormContext = createContext<SignUpFormContextData>({} as SignUpFormContextData);
 
 const SignUpFormProvider = ({ children }: SignUpFormContextProps) => {
-  const [formData, setFormData] = useState<SignUpFormData>({} as SignUpFormData);
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+  const [signUpFormData, setSignUpFormData] = useState<SignUpFormData>({} as SignUpFormData);
 
   const handleUpdateSignupFormData = useCallback(
-    (data: any) => {
-      setFormData({
-        ...formData,
+    (data: Partial<SignUpFormData>) => {
+      setSignUpFormData({
+        ...signUpFormData,
         ...data,
       });
     },
-    [formData],
+    [signUpFormData],
   );
 
   return (
     <SignUpFormContext.Provider
       value={{
         handleUpdateSignupFormData,
-        formData,
+        signUpFormData,
       }}
     >
       {children}

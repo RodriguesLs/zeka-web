@@ -7,13 +7,17 @@ import { useSignUpForm } from '@/contexts/SignUpFormContext';
 
 import { ButtonGroup, FormGroup } from '../styles';
 
-interface AddressStepFormData {
+interface Address {
   cep: string;
-  address: string;
+  street: string;
   district: string;
   complement: string;
   city: string;
   uf: string;
+}
+
+interface AddressStepFormData {
+  address: Address;
 }
 
 interface AddressStepProps {
@@ -22,16 +26,21 @@ interface AddressStepProps {
 }
 
 const addressStepFormSchema = yup.object().shape({
-  cep: yup.string().required('O CEP é obrigatório'),
-  address: yup.string().required('O endereço é obrigatório'),
-  city: yup.string().required('A cidade é obrigatória'),
-  district: yup.string().required('O bairro é obrigatório'),
-  complement: yup.string(),
-  uf: yup.string().required('O estado é obrigatório'),
+  address: yup.object().shape({
+    cep: yup
+      .string()
+      .required('O CEP é obrigatório')
+      .matches(/^[0-9]{5}-[0-9]{3}$/, 'Você deve preencher o CEP corretamente'),
+    street: yup.string().required('O endereço é obrigatório'),
+    city: yup.string().required('A cidade é obrigatória'),
+    district: yup.string().required('O bairro é obrigatório'),
+    complement: yup.string(),
+    uf: yup.string().required('O estado é obrigatório'),
+  }),
 });
 
 const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
-  const { handleUpdateSignupFormData, formData } = useSignUpForm();
+  const { handleUpdateSignupFormData, signUpFormData } = useSignUpForm();
 
   const {
     register,
@@ -39,11 +48,11 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
     formState: { errors },
   } = useForm<AddressStepFormData>({
     resolver: yupResolver(addressStepFormSchema),
-    defaultValues: formData,
+    defaultValues: signUpFormData,
   });
 
-  const onSubmit = (data: AddressStepFormData) => {
-    handleUpdateSignupFormData(data);
+  const onSubmit = (formData: AddressStepFormData) => {
+    handleUpdateSignupFormData(formData);
     onNextStep();
   };
 
@@ -53,9 +62,9 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
         <Input
           type='text'
           label='CEP*'
-          name='cep'
+          name='address.cep'
           placeholder='Ex: 69000-000*'
-          error={errors.cep}
+          error={errors?.address?.cep}
           register={register}
           containerStyle={{ flex: 1 }}
           mask='99999-999'
@@ -64,9 +73,9 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
         <Input
           type='text'
           label='Endereço*'
-          name='address'
+          name='address.street'
           placeholder='Ex: Av. Fulano da Silva'
-          error={errors.address}
+          error={errors?.address?.street}
           register={register}
           autoComplete='off'
           containerStyle={{ flex: 3 }}
@@ -76,18 +85,18 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
         <Input
           type='text'
           label='Bairro*'
-          name='district'
+          name='address.district'
           placeholder='Ex: Fulano da Silva'
-          error={errors.district}
+          error={errors?.address?.district}
           register={register}
           autoComplete='off'
         />
         <Input
           type='text'
           label='Complemento*'
-          name='complement'
+          name='address.complement'
           placeholder='Ex: 2240'
-          error={errors.complement}
+          error={errors?.address?.complement}
           register={register}
           autoComplete='off'
         />
@@ -96,18 +105,18 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
         <Input
           type='text'
           label='Cidade*'
-          name='city'
+          name='address.city'
           placeholder='Ex: São Paulo'
-          error={errors.city}
+          error={errors?.address?.city}
           register={register}
           autoComplete='off'
         />
         <Input
           type='text'
           label='UF*'
-          name='uf'
+          name='address.uf'
           placeholder='Ex: AM'
-          error={errors.uf}
+          error={errors?.address?.uf}
           register={register}
           autoComplete='off'
         />

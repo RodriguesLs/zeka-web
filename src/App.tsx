@@ -1,12 +1,16 @@
 import { Suspense } from 'react';
+
+import AppProvider from './contexts';
 import Loading from './pages/Loading';
 import Routes from './routes';
 
 const App = () => {
   return (
-    <Suspense fallback={<Loading />}>
-      <Routes />
-    </Suspense>
+    <AppProvider>
+      <Suspense fallback={<Loading />}>
+        <Routes />
+      </Suspense>
+    </AppProvider>
   );
 };
 

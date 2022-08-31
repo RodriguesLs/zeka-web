@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { Button, Input } from '@/components';
-
 import logoImg from '@/assets/img/logo.svg';
+import { Button, Input } from '@/components';
+import useAuth from '@/hooks/useAuth';
 
 import * as S from './styles';
 
@@ -20,16 +20,21 @@ const signInFormSchema = yup.object().shape({
 });
 
 const Signin = () => {
+  const { signIn } = useAuth();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SignInFormData>({
     resolver: yupResolver(signInFormSchema),
   });
 
-  const onSubmit = (data: SignInFormData) => {
-    console.log(data);
+  const onSubmit = async (formData: SignInFormData) => {
+    try {
+      await signIn(formData);
+    } catch (err) {
+      alert('Ocorreu um erro ao fazer login, cheque as credenciais!');
+    }
   };
 
   return (
@@ -56,7 +61,7 @@ const Signin = () => {
           <Link to='/esqueci-senha' className='forgotPassword'>
             Esqueceu sua senha?
           </Link>
-          <Button type='submit' variant='primary'>
+          <Button type='submit' variant='primary' loading={isSubmitting}>
             Entrar
           </Button>
         </form>
