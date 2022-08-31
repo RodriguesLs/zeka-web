@@ -35,9 +35,9 @@ const Input: React.FC<InputProps> = ({ error, name, label, containerStyle, regis
   }, []);
 
   return (
-    <>
+    <S.Wrapper style={containerStyle}>
+      {label && <label htmlFor={name}>{label}</label>}
       <S.Container
-        style={containerStyle}
         isFocused={isFocused}
         isFilled={isFilled}
         isErrored={!!error}
@@ -45,11 +45,10 @@ const Input: React.FC<InputProps> = ({ error, name, label, containerStyle, regis
         onBlur={handleInputBlur}
         ref={containerRef}
       >
-        {label && <label htmlFor={name}>{label}</label>}
         <input ref={inputRef} {...register(name)} {...rest} />
       </S.Container>
       {!!error && <S.ErrorMessage>{error.message}</S.ErrorMessage>}
-    </>
+    </S.Wrapper>
   );
 };
 

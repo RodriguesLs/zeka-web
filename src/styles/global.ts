@@ -9,11 +9,12 @@ export default createGlobalStyle`
   }
 
   :root{
-    --primary-color: #3466AF;
-    --secondary-color: #05AEB9;
-    --error-color: #c53030;
+    --secondary-color: #3763ac;
+    --primary-color: #31aeb9;
+    --error-color: #e62b4b;
     --text-color: #333;
-    --text-complementary-color: #666360;
+    --text-complementary-color: #808080;
+    --gray-300: #ccc;
     --border-color: #e1e2e3;
   }
 
@@ -21,7 +22,7 @@ export default createGlobalStyle`
     font-size: 16px;
     font-family: 'Inter', sans-serif;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
   }
 
   ul {

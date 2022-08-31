@@ -5,10 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Button, Input } from '@/components';
 
-import logoImg from '@/assets/img/logo.png';
+import logoImg from '@/assets/img/logo.svg';
 
 import * as S from './styles';
-import { useState } from 'react';
 
 interface SignInFormData {
   email: string;
@@ -29,19 +28,14 @@ const Signin = () => {
     resolver: yupResolver(signInFormSchema),
   });
 
-  const [load, setLoad] = useState(false);
-
   const onSubmit = (data: SignInFormData) => {
-    setLoad(true);
-    setTimeout(() => {
-      setLoad(false);
-    }, 10000);
+    console.log(data);
   };
 
   return (
     <S.Container>
       <div className='content'>
-        <img src={logoImg} alt='logo zeka' />
+        <img src={logoImg} alt='logo zeka educação digital' />
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
             type='email'
@@ -53,15 +47,13 @@ const Signin = () => {
           <Input
             type='password'
             name='password'
-            containerStyle={{ marginTop: '8px' }}
+            containerStyle={{ marginTop: '0.5rem' }}
             placeholder='Senha*'
             error={errors.password}
             register={register}
           />
           <Link to='/esqueci-senha'>Esqueceu sua senha?</Link>
-          <Button loading={load} type='submit'>
-            Entrar
-          </Button>
+          <Button type='submit'>Entrar</Button>
         </form>
         <p className='signupNow'>
           Não tem uma conta ainda? <Link to='cadastrar-me'>Cadastre-se agora</Link>

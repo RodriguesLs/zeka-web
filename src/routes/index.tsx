@@ -5,6 +5,7 @@ import { Routes as AppRoutes, Route } from 'react-router-dom';
 import Wrapper from './RouteWrapper';
 
 const OnboardingLayout = lazy(() => import('@/layouts/Onboarding'));
+const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
 const Signin = lazy(() => import('@/pages/Signin'));
 const Signup = lazy(() => import('@/pages/Signup'));
 
@@ -13,7 +14,8 @@ const Routes = () => {
     <AppRoutes>
       <Route element={<OnboardingLayout />}>
         <Route path='/' element={<Wrapper component={Signin} />} />
-        <Route path='/signup' element={<Wrapper component={Signup} />} />
+        <Route path='/esqueci-senha' element={<Wrapper component={ForgotPassword} />} />
+        <Route path='/cadastrar-me' element={<Wrapper component={Signup} />} />
       </Route>
     </AppRoutes>
   );

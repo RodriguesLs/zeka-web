@@ -6,14 +6,29 @@ interface ContainerProps {
   isErrored?: boolean;
 }
 
-export const Container = styled.div<ContainerProps>`
-  border-radius: 6px;
-  border: 2px solid var(--border-color);
-  padding: 1rem;
+export const Wrapper = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 0.25rem;
+    color: var(--text-complementary-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+`;
+
+export const Container = styled.div<ContainerProps>`
+  width: 100%;
+
+  padding: 1rem;
+
   display: flex;
   align-items: center;
   color: var(--text-color);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
 
   ${(props) =>
     props.isErrored &&
