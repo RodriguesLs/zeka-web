@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FiCamera } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
+import InputMask from 'react-input-mask';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -8,6 +9,7 @@ import { Button, Input } from '@/components';
 import { useSignUpForm } from '@/contexts/SignUpFormContext';
 
 import * as S from './styles';
+import { InputProps } from '@/components/Input';
 
 interface CompanyStepFormData {
   companyName: string;
@@ -35,6 +37,7 @@ const CompanyStep = ({ onNextStep }: CompanyStepProps) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<CompanyStepFormData>({
     resolver: yupResolver(companyStepFormSchema),
@@ -76,10 +79,11 @@ const CompanyStep = ({ onNextStep }: CompanyStepProps) => {
         type='text'
         label='CNPJ*'
         name='cnpj'
-        placeholder='Ex: 000000000.00000'
+        placeholder='Ex: 99.999.999/9999-99'
         error={errors.cnpj}
         register={register}
         containerStyle={{ marginTop: '0.5rem' }}
+        typeMask='cnpj'
       />
       <Input
         type='text'
@@ -94,10 +98,11 @@ const CompanyStep = ({ onNextStep }: CompanyStepProps) => {
         type='text'
         label='Telefone para contato*'
         name='phoneNumber'
-        placeholder='Ex: (11)9999-9999'
+        placeholder='Ex: (99)99999-9999'
         error={errors.phoneNumber}
         register={register}
         containerStyle={{ marginTop: '0.5rem' }}
+        typeMask='phone'
       />
       <Button type='submit'>Próximo passo</Button>
     </form>

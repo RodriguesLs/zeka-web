@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCallback, useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 
@@ -12,7 +12,6 @@ import * as S from './styles';
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
-  const navigate = useNavigate();
 
   const handleBackStep = useCallback(() => {
     if (step > 1) setStep((oldState) => oldState - 1);
@@ -25,10 +24,10 @@ const SignUp = () => {
   return (
     <SignUpFormProvider>
       <S.Container>
-        <button className='backButton' onClick={() => navigate(-1)}>
+        <Link className='backButton' to='/'>
           <FiArrowLeft />
           Voltar para login
-        </button>
+        </Link>
         <h1>Crie sua conta agora mesmo!</h1>
         <Steps currentStep={step} />
         <div className='content'>

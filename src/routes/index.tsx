@@ -4,6 +4,8 @@ import { Routes as AppRoutes, Route } from 'react-router-dom';
 // check if route is private or not
 import Wrapper from './RouteWrapper';
 
+const NotFound = lazy(() => import('@/pages/NotFound'));
+
 const OnboardingLayout = lazy(() => import('@/layouts/Onboarding'));
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
 const Signin = lazy(() => import('@/pages/Signin'));
@@ -17,6 +19,7 @@ const Routes = () => {
         <Route path='/esqueci-senha' element={<Wrapper component={ForgotPassword} />} />
         <Route path='/cadastrar-me' element={<Wrapper component={Signup} />} />
       </Route>
+      <Route path='*' element={<NotFound />} />
     </AppRoutes>
   );
 };

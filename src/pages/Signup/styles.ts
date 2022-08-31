@@ -50,20 +50,6 @@ export const Container = styled.div`
       margin-top: 1rem;
     }
   }
-
-  .backLogin {
-    margin-top: 2rem;
-    background: transparent;
-    border: 0;
-    color: var(--primary-color);
-    font-size: 1.125rem;
-
-    transition: all 200ms linear;
-
-    &:hover {
-      filter: brightness(0.9);
-    }
-  }
 `;
 
 export const StepsContainer = styled.ul`
@@ -96,6 +82,27 @@ export const StepsContainer = styled.ul`
 
     &::after {
       background-color: var(--primary-color);
+    }
+  }
+
+  @media (max-width: 1180px) {
+    margin: 1rem 0 2rem 0;
+    flex-direction: column;
+
+    li {
+      display: none;
+      & + li {
+        margin: 0;
+      }
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .active {
+      display: flex;
+      font-size: 1.25rem;
     }
   }
 `;

@@ -58,6 +58,7 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           error={errors.cep}
           register={register}
           containerStyle={{ flex: 1 }}
+          typeMask='cep'
         />
         <Input
           type='text'

@@ -49,7 +49,7 @@ const ForgotPassword = () => {
           />
           <Button type='submit'>Redefinir senha</Button>
         </form>
-        <button className='backLogin' onClick={() => navigate(-1)}>
+        <button className='backLogin' onClick={() => navigate('/')}>
           Voltar para login
         </button>
       </div>
