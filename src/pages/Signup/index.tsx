@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { useCallback, useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 
@@ -24,10 +23,10 @@ const SignUp = () => {
   return (
     <SignUpFormProvider>
       <S.Container>
-        <Link className='backButton' to='/'>
+        <S.BackButton to='/'>
           <FiArrowLeft />
           Voltar para login
-        </Link>
+        </S.BackButton>
         <h1>Crie sua conta agora mesmo!</h1>
         <Steps currentStep={step} />
         <div className='content'>

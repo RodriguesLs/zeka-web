@@ -47,7 +47,9 @@ const ForgotPassword = () => {
             error={errors.email}
             register={register}
           />
-          <Button type='submit'>Redefinir senha</Button>
+          <Button type='submit' variant='primary'>
+            Redefinir senha
+          </Button>
         </form>
         <button className='backLogin' onClick={() => navigate('/')}>
           Voltar para login

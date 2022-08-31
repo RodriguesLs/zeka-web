@@ -1,21 +1,23 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
-  width: 100%;
-  height: 100%;
 
   .content {
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
 
   img {
     max-width: 200px;
+    margin-bottom: 2.5rem;
   }
 
   a {
@@ -24,12 +26,11 @@ export const Container = styled.div`
 
   form {
     width: 100%;
-    max-width: 450px;
-    margin-top: 2rem;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
 
-    a {
+    .forgotPassword {
       margin: 1rem 0;
       text-align: end;
       font-size: 0.875rem;
@@ -41,11 +42,10 @@ export const Container = styled.div`
     margin-top: 2rem;
   }
 
-  span {
-    justify-self: end;
+  .footerText {
     width: 50%;
-    font-size: 1.875rem;
-    text-align: justify;
+    font-size: 1.25rem;
+    text-align: center;
     line-height: 1.75rem;
     color: var(--primary-color);
 
@@ -55,10 +55,9 @@ export const Container = styled.div`
   }
 
   @media (max-width: 720px) {
-    span {
+    .footerText {
       width: 100%;
       font-size: 1.15rem;
-      text-align: center;
     }
   }
 `;

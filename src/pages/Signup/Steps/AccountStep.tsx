@@ -5,8 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '@/components';
 import { useSignUpForm } from '@/contexts/SignUpFormContext';
 
-import * as S from './styles';
 import apiClient from '@/services/apiClient';
+
+import { ButtonGroup } from '../styles';
 
 interface AccountStepFormData {
   email: string;
@@ -68,6 +69,7 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
         placeholder='Ex: fulano@zeka.com*'
         error={errors.email}
         register={register}
+        autoComplete='off'
       />
       <Input
         type='password'
@@ -75,7 +77,8 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
         name='password'
         error={errors.password}
         register={register}
-        containerStyle={{ marginTop: '0.5rem' }}
+        autoComplete='off'
+        style={{ marginTop: '0.5rem' }}
       />
       <Input
         type='password'
@@ -83,14 +86,17 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
         name='confirmPassword'
         error={errors.confirmPassword}
         register={register}
-        containerStyle={{ marginTop: '0.5rem' }}
+        autoComplete='off'
+        style={{ marginTop: '0.5rem' }}
       />
-      <S.Row>
+      <ButtonGroup>
         <Button type='button' onClick={() => onBackStep()}>
-          Voltar passo
+          Voltar
         </Button>
-        <Button type='submit'>Finalizar cadastro</Button>
-      </S.Row>
+        <Button type='submit' variant='primary'>
+          Concluir
+        </Button>
+      </ButtonGroup>
     </form>
   );
 };

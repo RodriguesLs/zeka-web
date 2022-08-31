@@ -1,27 +1,19 @@
-import { InputHTMLAttributes, useState, useEffect, useRef, useCallback } from 'react';
+import { InputHTMLAttributes, useState, useEffect, useRef, useCallback, ReactNode } from 'react';
 import { FieldError } from 'react-hook-form';
 import ReactInputMask from 'react-input-mask';
 
 import * as S from './styles';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: string;
-  label?: string;
-  error?: FieldError;
   containerStyle?: React.CSSProperties;
+  error?: FieldError;
+  label?: string;
+  mask?: string;
+  name: string;
   register?: any;
-  typeMask?: 'phone' | 'cnpj' | 'cep' | 'cpf' | '';
 }
 
-const Input = ({
-  error,
-  name,
-  label,
-  containerStyle,
-  typeMask = '',
-  register,
-  ...rest
-}: InputProps) => {
+const Input = ({ error, name, label, containerStyle, mask, register, ...rest }: InputProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
@@ -55,20 +47,11 @@ const Input = ({
         onBlur={handleInputBlur}
         ref={containerRef}
       >
-        {typeMask === 'cnpj' && (
-          <ReactInputMask mask='99.999.999/9999-99' ref={inputRef} {...register(name)} {...rest} />
+        {mask ? (
+          <ReactInputMask mask={mask} ref={inputRef} {...register(name)} {...rest} />
+        ) : (
+          <input ref={inputRef} {...register(name)} {...rest} />
         )}
-        {typeMask === 'cpf' && (
-          <ReactInputMask mask='999.999.999-99' ref={inputRef} {...register(name)} {...rest} />
-        )}
-        {typeMask === 'cep' && (
-          <ReactInputMask mask='99999-999' ref={inputRef} {...register(name)} {...rest} />
-        )}
-        {typeMask === 'phone' && (
-          <ReactInputMask mask='(99)99999-9999' ref={inputRef} {...register(name)} {...rest} />
-        )}
-
-        {typeMask === '' && <input ref={inputRef} {...register(name)} {...rest} />}
       </S.Container>
       {!!error && <S.ErrorMessage>{error.message}</S.ErrorMessage>}
     </S.Wrapper>

@@ -12,12 +12,8 @@ export const Container = styled.main`
   .contentLayout {
     width: 100%;
     height: 100%;
-    padding: 2rem;
+    padding: 2rem 3rem;
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     background-color: '#FFF';
   }
 
@@ -26,6 +22,16 @@ export const Container = styled.main`
     height: 100%;
     background: url(${OnboardingImg}) no-repeat;
     background-size: cover;
+  }
+
+  @media (min-width: 1921px) {
+    .contentLayout {
+      flex: 2;
+    }
+    .imageOnboarding {
+      background-size: 100%;
+      background-position: 0 20%;
+    }
   }
 
   @media (max-width: 720px) {

@@ -16,8 +16,14 @@ const Routes = () => {
     <AppRoutes>
       <Route element={<OnboardingLayout />}>
         <Route path='/' element={<Wrapper component={Signin} />} />
-        <Route path='/esqueci-senha' element={<Wrapper component={ForgotPassword} />} />
-        <Route path='/cadastrar-me' element={<Wrapper component={Signup} />} />
+        <Route
+          path='/esqueci-senha'
+          element={<Wrapper component={ForgotPassword} title='Esqueci minha senha' />}
+        />
+        <Route
+          path='/cadastrar-me'
+          element={<Wrapper component={Signup} title='Criando minha conta' />}
+        />
       </Route>
       <Route path='*' element={<NotFound />} />
     </AppRoutes>

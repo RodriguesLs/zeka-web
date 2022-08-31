@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '@/components';
 import { useSignUpForm } from '@/contexts/SignUpFormContext';
 
-import * as S from './styles';
+import { ButtonGroup, FormGroup } from '../styles';
 
 interface AddressStepFormData {
   cep: string;
@@ -49,7 +49,7 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <S.Row>
+      <FormGroup>
         <Input
           type='text'
           label='CEP*'
@@ -58,7 +58,8 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           error={errors.cep}
           register={register}
           containerStyle={{ flex: 1 }}
-          typeMask='cep'
+          mask='99999-999'
+          autoComplete='off'
         />
         <Input
           type='text'
@@ -67,10 +68,11 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           placeholder='Ex: Av. Fulano da Silva'
           error={errors.address}
           register={register}
+          autoComplete='off'
           containerStyle={{ flex: 3 }}
         />
-      </S.Row>
-      <S.Row>
+      </FormGroup>
+      <FormGroup>
         <Input
           type='text'
           label='Bairro*'
@@ -78,6 +80,7 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           placeholder='Ex: Fulano da Silva'
           error={errors.district}
           register={register}
+          autoComplete='off'
         />
         <Input
           type='text'
@@ -86,9 +89,10 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           placeholder='Ex: 2240'
           error={errors.complement}
           register={register}
+          autoComplete='off'
         />
-      </S.Row>
-      <S.Row>
+      </FormGroup>
+      <FormGroup>
         <Input
           type='text'
           label='Cidade*'
@@ -96,6 +100,7 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           placeholder='Ex: São Paulo'
           error={errors.city}
           register={register}
+          autoComplete='off'
         />
         <Input
           type='text'
@@ -104,16 +109,17 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           placeholder='Ex: AM'
           error={errors.uf}
           register={register}
+          autoComplete='off'
         />
-      </S.Row>
-      <S.Row>
+      </FormGroup>
+      <ButtonGroup>
         <Button type='button' onClick={() => onBackStep()}>
-          Voltar passo
+          Voltar
         </Button>
-        <Button type='submit' style={{ marginLeft: '0.5rem' }}>
-          Próximo passo
+        <Button type='submit' variant='primary'>
+          Avançar
         </Button>
-      </S.Row>
+      </ButtonGroup>
     </form>
   );
 };

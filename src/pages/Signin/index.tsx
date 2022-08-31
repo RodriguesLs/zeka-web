@@ -43,6 +43,7 @@ const Signin = () => {
             placeholder='E-mail*'
             error={errors.email}
             register={register}
+            autoComplete='off'
           />
           <Input
             type='password'
@@ -52,14 +53,18 @@ const Signin = () => {
             error={errors.password}
             register={register}
           />
-          <Link to='/esqueci-senha'>Esqueceu sua senha?</Link>
-          <Button type='submit'>Entrar</Button>
+          <Link to='/esqueci-senha' className='forgotPassword'>
+            Esqueceu sua senha?
+          </Link>
+          <Button type='submit' variant='primary'>
+            Entrar
+          </Button>
         </form>
         <p className='signupNow'>
           Não tem uma conta ainda? <Link to='cadastrar-me'>Cadastre-se agora</Link>
         </p>
       </div>
-      <span>
+      <span className='footerText'>
         O estudo que <strong>abre um mundo</strong> de oportunidades.
       </span>
     </S.Container>
