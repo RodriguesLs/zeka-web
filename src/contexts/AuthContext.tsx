@@ -53,7 +53,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
     try {
-      const response = await apiClient.post('sessions', { email, password });
+      const response = await apiClient.post('sessiaons', { email, password });
 
       const { token, user } = response.data;
 
@@ -64,7 +64,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     } catch (e) {
-      alert('Estamos enfrentando problemas em nossa plataforma! :(');
+      throw new Error();
     }
   }, []);
 

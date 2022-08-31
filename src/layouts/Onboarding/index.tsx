@@ -5,9 +5,9 @@ import * as S from './styles';
 const Onboarding = () => {
   return (
     <S.Container>
-      <div className='contentLayout'>
+      <S.AnimationContainer>
         <Outlet />
-      </div>
+      </S.AnimationContainer>
       <div className='imageOnboarding' />
     </S.Container>
   );

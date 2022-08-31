@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import logoImg from '@/assets/img/logo.svg';
 import { Button, Input } from '@/components';
 import useAuth from '@/hooks/useAuth';
+import useToast from '@/hooks/useToast';
 
 import * as S from './styles';
 
@@ -21,6 +22,7 @@ const signInFormSchema = yup.object().shape({
 
 const Signin = () => {
   const { signIn } = useAuth();
+  const { addToast } = useToast();
   const {
     register,
     handleSubmit,
@@ -33,7 +35,11 @@ const Signin = () => {
     try {
       await signIn(formData);
     } catch (err) {
-      alert('Ocorreu um erro ao fazer login, cheque as credenciais!');
+      addToast({
+        title: 'Erro na autenticação',
+        description: 'Ocorreu um erro ao fazer login, verifique as credenciais',
+        type: 'error',
+      });
     }
   };
 

@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Button, Input } from '@/components';
 import { useSignUpForm } from '@/contexts/SignUpFormContext';
+import useToast from '@/hooks/useToast';
 
 import apiClient from '@/services/apiClient';
 
@@ -34,6 +35,7 @@ const AccountStepFormSchema = yup.object().shape({
 
 const AccountStep = ({ onBackStep }: AccountStepProps) => {
   const { signUpFormData } = useSignUpForm();
+  const { addToast } = useToast();
   const navigate = useNavigate();
 
   const {
@@ -77,10 +79,18 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
 
       console.log(signUpFormCompleted);
 
-      alert('Usuário criado com sucesso!');
+      addToast({
+        title: 'Conta criada!',
+        description: 'Deu tudo certo! Sua conta foi Zeka foi criada com sucesso.',
+        type: 'success',
+      });
       navigate('/');
     } catch (e) {
-      console.error(e);
+      addToast({
+        title: 'Erro ao criar nova conta!',
+        description: 'Houve um erro ao tentar criar a sua nova conta, tente novamente!',
+        type: 'error',
+      });
     }
   };
 
