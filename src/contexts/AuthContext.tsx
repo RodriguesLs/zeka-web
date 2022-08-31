@@ -1,9 +1,11 @@
 import { createContext, useCallback, useState, ReactNode, useEffect } from 'react';
 
 import apiClient from '@/services/apiClient';
+import { useNavigate } from 'react-router-dom';
 
 interface User {
   id: string;
+  avatar_url: string;
   name: string;
   email: string;
 }
@@ -27,6 +29,8 @@ export interface AuthContextData {
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthContextProvider = ({ children }: AuthProviderProps) => {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(() => {
     const token = localStorage.getItem('@Zeka:token');
@@ -65,6 +69,8 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
       setUser(user);
 
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+      navigate('/dashboard');
     } catch (e) {
       throw new Error();
     }
