@@ -27,7 +27,7 @@ const Profile = () => {
 
   const handleToggleMenu = useCallback(() => {
     setMenuIsVisible((oldState) => !oldState);
-  }, [menuIsVisible]);
+  }, []);
 
   return (
     <>
