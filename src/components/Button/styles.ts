@@ -7,15 +7,26 @@ interface ButtonProps {
 
 export const Container = styled.button<ButtonProps>`
   width: 100%;
-  height: 48px;
+  height: 42px;
   padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   background-color: transparent;
   color: var(--primary-color);
   border-radius: 6px;
   border: 0;
-  font-weight: 700;
+  font-weight: 500;
+  font-size: 0.875rem;
   text-transform: uppercase;
   transition: linear 150ms all 0s;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 0.5rem;
+  }
 
   ${(props) =>
     props.isLoading &&

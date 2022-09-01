@@ -19,10 +19,13 @@ export default createGlobalStyle`
   }
 
   html, body {
-    font-size: 16px;
-    font-family: 'Inter', sans-serif;
     width: 100%;
     min-height: 100vh;
+  }
+
+  html,body, button, input {
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
   }
 
   ul {

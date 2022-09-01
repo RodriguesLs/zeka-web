@@ -14,6 +14,6 @@ export const Container = styled.main`
 
 export const Content = styled.div`
   grid-area: content;
-  padding: 2rem;
+  padding: 1rem;
   background-color: #f1f2f3;
 `;

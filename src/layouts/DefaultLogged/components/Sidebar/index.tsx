@@ -13,6 +13,7 @@ const Sidebar = () => {
       <img src={logoImg} alt='logo zeka img' loading='lazy' />
       <S.NavContainer>
         <NavLink to='/dashboard' icon={FiHome} title='Dashboard' />
+        <NavLink to='/usuarios' icon={FiUser} title='Usuários' />
       </S.NavContainer>
       <ListSocial />
     </S.Container>

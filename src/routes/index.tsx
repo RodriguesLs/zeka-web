@@ -4,9 +4,9 @@ import { Routes as AppRoutes, Route } from 'react-router-dom';
 import PublicRoutes from './utils/PublicRoutes';
 import PrivateRoutes from './utils/PrivateRoutes';
 import RouteWrapper from './utils/RouteWrapper';
-import DefaultLogged from '@/layouts/DefaultLogged';
 
 // LAYOUTS
+import DefaultLoggedLayout from '@/layouts/DefaultLogged';
 const OnboardingLayout = lazy(() => import('@/layouts/Onboarding'));
 
 // PAGES
@@ -15,6 +15,7 @@ const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 const Signin = lazy(() => import('@/pages/Signin'));
 const Signup = lazy(() => import('@/pages/Signup'));
+const Users = lazy(() => import('@/pages/Users'));
 
 const publicRoutes = () => (
   <Route element={<PublicRoutes />}>
@@ -34,8 +35,9 @@ const publicRoutes = () => (
 
 const privateRoutes = () => (
   <Route element={<PrivateRoutes />}>
-    <Route element={<DefaultLogged />}>
+    <Route element={<DefaultLoggedLayout />}>
       <Route path='/dashboard' element={<RouteWrapper title='Dashboard' component={Dashboard} />} />
+      <Route path='/usuarios' element={<RouteWrapper title='Usuários' component={Users} />} />
     </Route>
   </Route>
 );
