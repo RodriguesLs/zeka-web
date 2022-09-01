@@ -5,16 +5,17 @@ import { NavLinkContainer } from './styles';
 
 interface NavLinkProps {
   icon?: React.ComponentType<IconBaseProps>;
+  hideTitle?: boolean;
   title: string;
   to: string;
 }
 
-const NavLink = ({ to, icon: Icon, title }: NavLinkProps) => {
+const NavLink = ({ to, hideTitle, icon: Icon, title }: NavLinkProps) => {
   return (
-    <NavLinkContainer tabIndex={0}>
+    <NavLinkContainer tabIndex={0} hideTitle={hideTitle}>
       <RouterNavLink to={to} className={({ isActive }) => (isActive ? 'navLinkActive' : '')}>
         {Icon && <Icon />}
-        <span>{title}</span>
+        {!hideTitle && <span>{title}</span>}
       </RouterNavLink>
     </NavLinkContainer>
   );

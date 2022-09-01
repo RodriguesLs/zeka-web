@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { AuthContextProvider } from './AuthContext';
+import { SidebarProvider } from './SidebarContext';
 import { ToastProvider } from './ToastContext';
 
 interface AppProviderProps {
@@ -9,7 +10,9 @@ interface AppProviderProps {
 const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <AuthContextProvider>
-      <ToastProvider>{children}</ToastProvider>
+      <ToastProvider>
+        <SidebarProvider>{children}</SidebarProvider>
+      </ToastProvider>
     </AuthContextProvider>
   );
 };

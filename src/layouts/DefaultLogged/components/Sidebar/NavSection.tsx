@@ -4,13 +4,14 @@ import { NavSectionContainer } from './styles';
 
 interface NavSectionProps {
   children: ReactNode;
+  hideTitle?: boolean;
   title: string;
 }
 
-const NavSection = ({ children, title }: NavSectionProps) => {
+const NavSection = ({ children, hideTitle, title }: NavSectionProps) => {
   return (
     <NavSectionContainer>
-      <h3>{title}</h3>
+      {!hideTitle && <h3>{title}</h3>}
       <div className='content'>{children}</div>
     </NavSectionContainer>
   );

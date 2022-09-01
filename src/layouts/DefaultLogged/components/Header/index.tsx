@@ -1,6 +1,4 @@
-import { FiBell } from 'react-icons/fi';
-
-import Profile from '../Profile';
+import { Notifications, Profile } from '@/components';
 
 import * as S from './styles';
 
@@ -12,14 +10,6 @@ const Header = () => {
         <Profile />
       </div>
     </S.Container>
-  );
-};
-
-const Notifications = () => {
-  return (
-    <S.NotificationsBadge>
-      <FiBell />
-    </S.NotificationsBadge>
   );
 };
 

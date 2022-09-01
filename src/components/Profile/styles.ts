@@ -23,13 +23,13 @@ export const ProfileBadgeContainer = styled.div<ProfileBadgeContainerProps>`
   transition: all 200ms linear;
 
   &:hover {
-    border-color: var(--secondary-color);
+    border-color: var(--primary-color);
   }
 
   ${(props) =>
     props.isVisible &&
     css`
-      border-color: var(--secondary-color);
+      border-color: var(--primary-color);
     `}
 `;
 
@@ -39,6 +39,7 @@ export const MenuContainer = styled.div`
   right: 1rem;
   width: 260px;
   max-width: 260px;
+  z-index: 2;
 
   display: flex;
   flex-direction: column;

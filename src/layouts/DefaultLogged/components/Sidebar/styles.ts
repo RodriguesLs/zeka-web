@@ -1,6 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface NavContainerHideTitle {
+  hideTitle?: boolean;
+}
 
 export const Container = styled.aside`
+  position: relative;
   grid-area: aside;
 
   display: flex;
@@ -14,13 +19,49 @@ export const Container = styled.aside`
   }
 `;
 
-export const NavContainer = styled.nav`
+export const ButtonToggleSidebar = styled.button`
+  position: absolute;
+  top: 1rem;
+  right: -1.25rem;
+
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-content: center;
+
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    color: var(--text-complementary-color);
+  }
+
+  &:hover {
+    svg {
+      color: var(--primary-color);
+    }
+  }
+`;
+
+type NavContainerProps = NavContainerHideTitle;
+
+export const NavContainer = styled.nav<NavContainerProps>`
   height: 100%;
   width: 100%;
   margin: 2rem 0;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
   display: flex;
   flex-direction: column;
+
+  ${(props) =>
+    props.hideTitle &&
+    css`
+      padding: 0;
+    `}
 `;
 
 export const NavSectionContainer = styled.div`
@@ -38,7 +79,9 @@ export const NavSectionContainer = styled.div`
   }
 `;
 
-export const NavLinkContainer = styled.div`
+type NavLinkContainerProps = NavContainerHideTitle;
+
+export const NavLinkContainer = styled.div<NavLinkContainerProps>`
   width: 100%;
   display: flex;
   align-items: center;
@@ -71,6 +114,14 @@ export const NavLinkContainer = styled.div`
   &:hover {
     color: var(--primary-color);
   }
+
+  ${(props) =>
+    props.hideTitle &&
+    css`
+      svg {
+        margin: 0 auto;
+      }
+    `}
 `;
 
 export const SocialContainer = styled.div`

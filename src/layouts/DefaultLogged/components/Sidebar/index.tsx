@@ -1,21 +1,27 @@
-import { FiHome, FiUser } from 'react-icons/fi';
+import { FiHome, FiUser, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { FaYoutube, FaLinkedin, FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
 
 import NavLink from './NavLink';
 
 import logoImg from '@/assets/img/logo.svg';
+import { useSidebar } from '@/contexts/SidebarContext';
 
 import * as S from './styles';
 
 const Sidebar = () => {
+  const { isVisible, toggleSidebar } = useSidebar();
+
   return (
     <S.Container>
+      <S.ButtonToggleSidebar onClick={toggleSidebar}>
+        {isVisible ? <FiChevronLeft /> : <FiChevronRight />}
+      </S.ButtonToggleSidebar>
       <img src={logoImg} alt='logo zeka img' loading='lazy' />
-      <S.NavContainer>
-        <NavLink to='/dashboard' icon={FiHome} title='Dashboard' />
-        <NavLink to='/usuarios' icon={FiUser} title='Usuários' />
+      <S.NavContainer hideTitle={!isVisible}>
+        <NavLink to='/dashboard' icon={FiHome} title='Dashboard' hideTitle={!isVisible} />
+        <NavLink to='/usuarios' icon={FiUser} title='Usuários' hideTitle={!isVisible} />
       </S.NavContainer>
-      <ListSocial />
+      {isVisible && <ListSocial />}
     </S.Container>
   );
 };

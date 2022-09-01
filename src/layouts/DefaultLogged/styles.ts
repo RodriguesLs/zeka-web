@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Container = styled.main`
+interface ContainerProps {
+  sideBarIsVisible: boolean;
+}
+
+export const Container = styled.main<ContainerProps>`
   width: 100%;
   height: 100vh;
   display: grid;
@@ -8,7 +12,7 @@ export const Container = styled.main`
     'aside header header'
     'aside content content'
     'aside content content';
-  grid-template-columns: 240px auto;
+  grid-template-columns: ${(props) => (props.sideBarIsVisible ? '240px auto' : '64px auto')};
   grid-template-rows: 64px auto;
 `;
 
