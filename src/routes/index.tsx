@@ -4,6 +4,7 @@ import { Routes as AppRoutes, Route } from 'react-router-dom';
 import PublicRoutes from './utils/PublicRoutes';
 import PrivateRoutes from './utils/PrivateRoutes';
 import RouteWrapper from './utils/RouteWrapper';
+import DefaultLogged from '@/layouts/DefaultLogged';
 
 // LAYOUTS
 const OnboardingLayout = lazy(() => import('@/layouts/Onboarding'));
@@ -33,7 +34,9 @@ const publicRoutes = () => (
 
 const privateRoutes = () => (
   <Route element={<PrivateRoutes />}>
-    <Route path='/dashboard' element={<RouteWrapper title='Dashboard' component={Dashboard} />} />
+    <Route element={<DefaultLogged />}>
+      <Route path='/dashboard' element={<RouteWrapper title='Dashboard' component={Dashboard} />} />
+    </Route>
   </Route>
 );
 
