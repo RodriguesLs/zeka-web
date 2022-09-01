@@ -1,7 +1,7 @@
 import { createContext, useCallback, useState, ReactNode, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import apiClient from '@/services/apiClient';
-import { useNavigate } from 'react-router-dom';
 
 interface User {
   id: string;
@@ -46,24 +46,25 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     async function getUser() {
       try {
-        const response = await apiClient.get('/me');
+        const { data } = await apiClient.get('/me');
 
-        setUser(response.data);
+        setUser(data);
       } catch (err) {
-        console.error('Erro em nossa plataforma');
+        throw new Error();
       }
     }
 
-    if (token) getUser();
+    if (!user && token) getUser();
   }, []);
 
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
     try {
       const response = await apiClient.post('sessions', { email, password });
 
-      const { token, user } = response.data;
+      const { token, refreshToken, user } = response.data;
 
       localStorage.setItem('@Zeka:token', token);
+      localStorage.setItem('@Zeka:refreshToken', refreshToken);
 
       setToken(token);
       setUser(user);
@@ -78,7 +79,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
   const signOut = useCallback(() => {
     localStorage.removeItem('@Zeka:token');
-    localStorage.removeItem('@Zeka:user');
+    localStorage.removeItem('@Zeka:refreshToken');
 
     setToken('');
     setUser(null);

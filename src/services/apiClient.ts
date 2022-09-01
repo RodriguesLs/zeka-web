@@ -1,46 +1,94 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
-const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_CLIENT_BASE_URL,
-});
+import signOutAxios from './signOutAxios';
 
-apiClient.interceptors.request.use(
-  (config: any) => {
-    const token = localStorage.getItem('@Zeka:token');
+let isRefreshing = false;
+let failedRequestQueue: any[] = [];
 
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
+function api() {
+  const apiClient = axios.create({
+    baseURL: import.meta.env.VITE_API_CLIENT_BASE_URL,
+  });
 
-apiClient.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalConfig = error.config;
+  apiClient.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem('@Zeka:token');
 
-    if (originalConfig.url !== '/sessions' && error.response) {
-      if (error.response.status === 401 && !originalConfig._retry) {
-        originalConfig._retry = true;
+      if (token && config.headers) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
 
-        try {
-          const refreshTokenLocal = localStorage.getItem('@Zeka:refreshToken');
+      return config;
+    },
+    (error) => Promise.reject(error),
+  );
 
-          const responseRefreshToken = await apiClient.post('/refresh_token', {
-            refreshToken: refreshTokenLocal,
+  apiClient.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error.response.status === 401) {
+        if (error.response.data?.code === 'token.expired') {
+          const refreshToken = localStorage.getItem('@Zeka:refreshToken');
+
+          const originalConfig = error.config;
+
+          if (!isRefreshing) {
+            isRefreshing = true;
+
+            apiClient
+              .post('/refresh', {
+                refreshToken,
+              })
+              .then((response) => {
+                const { token, refreshToken: newRefreshToken } = response.data;
+
+                localStorage.setItem('@Zeka:token', token);
+
+                localStorage.setItem('@Zeka:refreshToken', newRefreshToken);
+
+                apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+                failedRequestQueue.forEach((request) => request.onSuccess(token));
+
+                failedRequestQueue = [];
+              })
+              .catch((err) => {
+                failedRequestQueue.forEach((request) => request.onFailure(err));
+
+                failedRequestQueue = [];
+
+                signOutAxios();
+              })
+              .finally(() => {
+                isRefreshing = false;
+              });
+          }
+
+          return new Promise((resolve, reject) => {
+            failedRequestQueue.push({
+              onSuccess: (token: string) => {
+                originalConfig.headers['Authorization'] = `Bearer ${token}`;
+
+                resolve(apiClient(originalConfig));
+              },
+
+              onFailure: (err: AxiosError) => {
+                reject(err);
+              },
+            });
           });
-          const { refreshToken } = responseRefreshToken.data;
-
-          localStorage.setItem('@Zeka:refreshToken', refreshToken);
-        } catch (err) {
-          return Promise.reject(err);
         }
       }
-    }
-    return Promise.reject(error);
-  },
-);
+
+      return Promise.reject(error);
+    },
+  );
+
+  return apiClient;
+}
+
+const apiClient = api();
 
 export default apiClient;
