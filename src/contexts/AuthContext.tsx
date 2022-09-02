@@ -2,6 +2,7 @@ import { createContext, useCallback, useState, ReactNode, useEffect } from 'reac
 import { useNavigate } from 'react-router-dom';
 
 import apiClient from '@/services/apiClient';
+import localStorageService from '@/services/localStorageService';
 
 interface User {
   id: string;
@@ -33,7 +34,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(() => {
-    const token = localStorage.getItem('@Zeka:token');
+    const token = localStorageService().getToken;
 
     if (token) {
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -63,8 +64,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
       const { token, refreshToken, user } = response.data;
 
-      localStorage.setItem('@Zeka:token', token);
-      localStorage.setItem('@Zeka:refreshToken', refreshToken);
+      localStorageService().signIn({ token, refreshToken });
 
       setToken(token);
       setUser(user);
@@ -78,8 +78,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@Zeka:token');
-    localStorage.removeItem('@Zeka:refreshToken');
+    localStorageService().signOut();
 
     setToken('');
     setUser(null);

@@ -1,9 +1,13 @@
 import axios, { AxiosError } from 'axios';
+import localStorageService from './localStorageService';
 
-import signOutAxios from './signOutAxios';
+interface FailedRequestQueue {
+  onSuccess: (token: string) => void;
+  onFailure: (err: AxiosError) => void;
+}
 
 let isRefreshing = false;
-let failedRequestQueue: any[] = [];
+let failedRequestQueue: FailedRequestQueue[] = [];
 
 function api() {
   const apiClient = axios.create({
@@ -12,7 +16,7 @@ function api() {
 
   apiClient.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem('@Zeka:token');
+      const token = localStorageService().getToken;
 
       if (token && config.headers) {
         config.headers['Authorization'] = `Bearer ${token}`;
@@ -30,7 +34,7 @@ function api() {
     (error) => {
       if (error.response.status === 401) {
         if (error.response.data?.code === 'token.expired') {
-          const refreshToken = localStorage.getItem('@Zeka:refreshToken');
+          const refreshToken = localStorageService().getRefreshToken;
 
           const originalConfig = error.config;
 
@@ -44,9 +48,7 @@ function api() {
               .then((response) => {
                 const { token, refreshToken: newRefreshToken } = response.data;
 
-                localStorage.setItem('@Zeka:token', token);
-
-                localStorage.setItem('@Zeka:refreshToken', newRefreshToken);
+                localStorageService().signIn({ token, refreshToken: newRefreshToken });
 
                 apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
@@ -59,7 +61,8 @@ function api() {
 
                 failedRequestQueue = [];
 
-                signOutAxios();
+                localStorageService().signOut();
+                location.href = '/';
               })
               .finally(() => {
                 isRefreshing = false;

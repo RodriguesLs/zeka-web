@@ -22,6 +22,10 @@ export const Container = styled.div`
 
   a {
     color: var(--primary-color);
+
+    &:focus {
+      text-decoration: underline;
+    }
   }
 
   form {

@@ -20,10 +20,10 @@
     "react-router-dom": "^6.3.0",
     "react-spring": "^9.5.2",
     "styled-components": "^5.3.5",
-    "uuidv4": "^6.2.13",
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@types/jwt-encode": "^1.0.0",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/react-input-mask": "2.0.4",
@@ -38,6 +38,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
+    "jwt-encode": "^1.0.1",
     "prettier": "^2.6.2",
     "typescript": "^4.6.4",
     "vite": "^3.0.7",
