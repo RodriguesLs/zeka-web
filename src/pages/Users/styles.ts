@@ -103,7 +103,7 @@ export const SearchBoxContainer = styled.div`
 `;
 
 export const TableContainer = styled.table`
-  height: 100%;
+  width: 100%;
 
   text-align: left;
   border-radius: 6px;

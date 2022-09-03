@@ -9,15 +9,16 @@ export const Container = styled.main<ContainerProps>`
   height: 100vh;
   display: grid;
   grid-template-areas:
-    'aside header header'
-    'aside content content'
-    'aside content content';
-  grid-template-columns: ${(props) => (props.sideBarIsVisible ? '240px auto' : '64px auto')};
-  grid-template-rows: 64px auto;
+    'aside header'
+    'aside content';
+  grid-template-columns: ${(props) => (props.sideBarIsVisible ? '240px 1fr' : '64px 1fr')};
+  grid-template-rows: 64px 1fr;
 `;
 
 export const Content = styled.div`
   grid-area: content;
+
   padding: 1rem;
   background-color: #f1f2f3;
+  overflow-x: hidden;
 `;
