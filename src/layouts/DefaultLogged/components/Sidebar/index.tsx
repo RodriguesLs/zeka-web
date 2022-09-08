@@ -1,27 +1,26 @@
-import { FiHome, FiUser, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { useState } from 'react';
+import { FiHome, FiUser, FiChevronLeft } from 'react-icons/fi';
 import { FaYoutube, FaLinkedin, FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
 
 import NavLink from './NavLink';
-
 import logoImg from '@/assets/img/logo.svg';
-import { useSidebar } from '@/contexts/SidebarContext';
 
 import * as S from './styles';
 
 const Sidebar = () => {
-  const { isVisible, toggleSidebar } = useSidebar();
+  const [isMinimized, setIsMinimized] = useState(false);
 
   return (
-    <S.Container>
-      <S.ButtonToggleSidebar onClick={toggleSidebar}>
-        {isVisible ? <FiChevronLeft /> : <FiChevronRight />}
+    <S.Container isMinimized={isMinimized}>
+      <S.ButtonToggleSidebar onClick={() => setIsMinimized((oldState) => !oldState)}>
+        <FiChevronLeft />
       </S.ButtonToggleSidebar>
-      <img src={logoImg} alt='logo zeka img' loading='lazy' />
-      <S.NavContainer hideTitle={!isVisible}>
-        <NavLink to='/dashboard' icon={FiHome} title='Dashboard' hideTitle={!isVisible} />
-        <NavLink to='/usuarios' icon={FiUser} title='Usuários' hideTitle={!isVisible} />
+      {!isMinimized && <img src={logoImg} alt='logo zeka img' loading='lazy' />}
+      <S.NavContainer>
+        <NavLink to='/dashboard' icon={FiHome} title='Dashboard' />
+        <NavLink to='/usuarios' icon={FiUser} title='Usuários' />
       </S.NavContainer>
-      {isVisible && <ListSocial />}
+      {!isMinimized && <ListSocial />}
     </S.Container>
   );
 };

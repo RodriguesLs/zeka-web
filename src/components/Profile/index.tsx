@@ -8,6 +8,7 @@ import * as S from './styles';
 
 const Profile = () => {
   const { signOut } = useAuth();
+
   const menuRef = useRef<HTMLDivElement>(null);
 
   const [menuIsVisible, setMenuIsVisible] = useState(false);
@@ -31,7 +32,7 @@ const Profile = () => {
 
   return (
     <>
-      <S.ProfileBadgeContainer onClick={handleToggleMenu} isVisible={menuIsVisible}>
+      <S.ProfileBadgeContainer onClick={handleToggleMenu} isVisible={menuIsVisible} tabIndex={0}>
         VF
       </S.ProfileBadgeContainer>
       {menuIsVisible && (

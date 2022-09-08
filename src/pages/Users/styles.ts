@@ -44,6 +44,7 @@ export const FilterUserTypeItem = styled.button<FilterUserTypeItemProps>`
   border: 0;
   font-weight: 500;
   font-size: 1rem;
+  background: none;
   color: var(--text-color);
   cursor: pointer;
 

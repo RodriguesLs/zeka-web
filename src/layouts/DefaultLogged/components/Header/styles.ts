@@ -6,9 +6,8 @@ export const Container = styled.header`
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
 
-  background-color: #f1f2f3;
   border-bottom: 1px solid var(--gray-300);
 
   .listOptions {
