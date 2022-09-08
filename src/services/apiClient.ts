@@ -11,7 +11,7 @@ let failedRequestQueue: FailedRequestQueue[] = [];
 
 function api() {
   const apiClient = axios.create({
-    baseURL: '/mirage',
+    baseURL: import.meta.env.VITE_API_CLIENT_BASE_URL,
   });
 
   apiClient.interceptors.request.use(
