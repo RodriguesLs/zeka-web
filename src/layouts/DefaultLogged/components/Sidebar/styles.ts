@@ -1,10 +1,11 @@
 import styled, { css } from 'styled-components';
 
-interface NavContainerHideTitle {
-  hideTitle?: boolean;
+interface IContainer {
+  isMinimized: boolean;
 }
 
-export const Container = styled.aside`
+export const Container = styled.aside<IContainer>`
+  width: ${(props) => (props.isMinimized ? '64px' : '240px')};
   position: relative;
   grid-area: aside;
 
@@ -13,10 +14,30 @@ export const Container = styled.aside`
   align-items: center;
   padding: 2rem 0;
 
+  background: #fff;
+
   img {
     max-width: 120px;
     margin: 0 2rem;
   }
+
+  ${(props) =>
+    props.isMinimized &&
+    css`
+      > nav {
+        margin-top: 4rem;
+        padding: 0;
+
+        a {
+          span {
+            display: none;
+          }
+          > svg {
+            margin: 0 auto;
+          }
+        }
+      }
+    `}
 `;
 
 export const ButtonToggleSidebar = styled.button`
@@ -47,41 +68,25 @@ export const ButtonToggleSidebar = styled.button`
   }
 `;
 
-type NavContainerProps = NavContainerHideTitle;
-
-export const NavContainer = styled.nav<NavContainerProps>`
+export const NavContainer = styled.nav`
   height: 100%;
   width: 100%;
   margin: 2rem 0;
-  padding: 0 1rem;
   display: flex;
   flex-direction: column;
-
-  ${(props) =>
-    props.hideTitle &&
-    css`
-      padding: 0;
-    `}
 `;
 
 export const NavSectionContainer = styled.div`
-  padding: 1rem 0;
+  padding: 0 1rem;
 
   h3 {
-    margin-bottom: 0.5rem;
     color: var(--text-complementary-color);
     font-size: 1rem;
     text-transform: uppercase;
   }
-
-  .content {
-    padding-left: 1rem;
-  }
 `;
 
-type NavLinkContainerProps = NavContainerHideTitle;
-
-export const NavLinkContainer = styled.div<NavLinkContainerProps>`
+export const NavLinkContainer = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
@@ -92,7 +97,7 @@ export const NavLinkContainer = styled.div<NavLinkContainerProps>`
 
   a {
     width: 100%;
-    padding: 1rem 0;
+    padding: 1rem;
 
     display: flex;
     align-items: center;
@@ -114,14 +119,6 @@ export const NavLinkContainer = styled.div<NavLinkContainerProps>`
   &:hover {
     color: var(--primary-color);
   }
-
-  ${(props) =>
-    props.hideTitle &&
-    css`
-      svg {
-        margin: 0 auto;
-      }
-    `}
 `;
 
 export const SocialContainer = styled.div`

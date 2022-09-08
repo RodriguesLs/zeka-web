@@ -1,7 +1,6 @@
-import { Button } from '@/components';
-import Page from '@/layouts/Page';
 import { useState } from 'react';
 import { FiPlus, FiSearch, FiUpload } from 'react-icons/fi';
+import { Button } from '@/components';
 
 import * as S from './styles';
 
@@ -9,7 +8,7 @@ const Users = () => {
   const [selectedTypeUser, setSelectedTypeUser] = useState<'all' | 'active' | 'inactive'>('all');
 
   return (
-    <Page title='Usuários'>
+    <>
       <S.HeaderContainer>
         <div className='groupButtons'>
           <Button variant='primary' icon={FiUpload}>
@@ -26,7 +25,7 @@ const Users = () => {
         <SearchBox />
       </S.HeaderContainer>
       <UsersTable />
-    </Page>
+    </>
   );
 };
 

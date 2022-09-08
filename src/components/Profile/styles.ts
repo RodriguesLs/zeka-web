@@ -26,6 +26,11 @@ export const ProfileBadgeContainer = styled.div<ProfileBadgeContainerProps>`
     border-color: var(--primary-color);
   }
 
+  &:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
+  }
+
   ${(props) =>
     props.isVisible &&
     css`

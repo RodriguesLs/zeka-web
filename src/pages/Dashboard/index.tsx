@@ -5,15 +5,13 @@ import * as S from './styles';
 
 const Dashboard = () => {
   return (
-    <>
-      <S.Container>
-        <div className='dashboardItem--full'>
-          <Card title='Taxa de reprovação'>
-            <Chart />
-          </Card>
-        </div>
-      </S.Container>
-    </>
+    <S.Container>
+      <div className='dashboardItem--full'>
+        <Card title='Taxa de reprovação'>
+          <Chart />
+        </Card>
+      </div>
+    </S.Container>
   );
 };
 

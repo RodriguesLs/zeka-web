@@ -4,14 +4,14 @@ import { NavSectionContainer } from './styles';
 
 interface NavSectionProps {
   children: ReactNode;
-  hideTitle?: boolean;
+  isMinimized?: boolean;
   title: string;
 }
 
-const NavSection = ({ children, hideTitle, title }: NavSectionProps) => {
+const NavSection = ({ children, isMinimized, title }: NavSectionProps) => {
   return (
     <NavSectionContainer>
-      {!hideTitle && <h3>{title}</h3>}
+      {!isMinimized && <h3>{title}</h3>}
       <div className='content'>{children}</div>
     </NavSectionContainer>
   );

@@ -3,17 +3,19 @@ import { Outlet } from 'react-router-dom';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 
-import { useSidebar } from '@/contexts/SidebarContext';
+import { useTitlePage } from '@/contexts/TitlePageContext';
 
 import * as S from './styles';
 
 const DefaultLogged = () => {
-  const { isVisible } = useSidebar();
+  const { title } = useTitlePage();
+
   return (
-    <S.Container sideBarIsVisible={isVisible}>
+    <S.Container>
       <Header />
       <Sidebar />
       <S.Content>
+        <h1>{title}</h1>
         <Outlet />
       </S.Content>
     </S.Container>
