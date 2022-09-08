@@ -17,6 +17,7 @@ export const Content = styled.div`
   grid-area: content;
 
   padding: 1.5rem;
+  background-color: #f1f2f3;
 
   h1 {
     margin-bottom: 1rem;

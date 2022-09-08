@@ -12,7 +12,10 @@ const Sidebar = () => {
 
   return (
     <S.Container isMinimized={isMinimized}>
-      <S.ButtonToggleSidebar onClick={() => setIsMinimized((oldState) => !oldState)}>
+      <S.ButtonToggleSidebar
+        onClick={() => setIsMinimized((oldState) => !oldState)}
+        isMinimized={isMinimized}
+      >
         <FiChevronLeft />
       </S.ButtonToggleSidebar>
       {!isMinimized && <img src={logoImg} alt='logo zeka img' loading='lazy' />}

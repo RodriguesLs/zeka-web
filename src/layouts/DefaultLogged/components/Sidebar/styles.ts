@@ -40,7 +40,9 @@ export const Container = styled.aside<IContainer>`
     `}
 `;
 
-export const ButtonToggleSidebar = styled.button`
+type ButtonToggleSidebar = IContainer;
+
+export const ButtonToggleSidebar = styled.button<ButtonToggleSidebar>`
   position: absolute;
   top: 1rem;
   right: -1.25rem;
@@ -55,6 +57,8 @@ export const ButtonToggleSidebar = styled.button`
   border: none;
   background: #fff;
 
+  transition: transform 200ms linear;
+
   svg {
     width: 2rem;
     height: 2rem;
@@ -66,6 +70,15 @@ export const ButtonToggleSidebar = styled.button`
       color: var(--primary-color);
     }
   }
+
+  ${(props) =>
+    props.isMinimized
+      ? css`
+          transform: rotate(180deg);
+        `
+      : css`
+          transform: rotate(0deg);
+        `}
 `;
 
 export const NavContainer = styled.nav`

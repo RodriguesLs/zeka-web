@@ -4,8 +4,6 @@ export const Container = styled.section`
   --number-columns: 1;
   --number-rows: 1;
 
-  min-height: 100%;
-
   display: grid;
   grid-template-columns: repeat(var(--number-columns), 1fr);
   grid-template-rows: repeat(var(--number-rows), 1fr);
