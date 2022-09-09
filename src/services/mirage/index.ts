@@ -1,9 +1,10 @@
-import { ActiveModelSerializer, createServer, Factory, Model } from 'miragejs';
-import { faker } from '@faker-js/faker';
+import { ActiveModelSerializer, createServer, Model } from 'miragejs';
 
 import { ILicense } from '@/pages/Licenses/types';
 
 import apiAuthHandlers from './auth/server';
+import factoryLicenses from './factories/licenses';
+import factoryStudents from './factories/students';
 
 const makeServer = () => {
   const server = createServer({
@@ -12,35 +13,16 @@ const makeServer = () => {
     },
     models: {
       license: Model.extend<Partial<ILicense>>({}),
+      student: Model.extend<Partial<any>>({}),
     },
     factories: {
-      license: Factory.extend({
-        id(i: number) {
-          return i;
-        },
-        code() {
-          return faker.datatype.uuid();
-        },
-        name() {
-          return faker.name.jobArea();
-        },
-        expiration_date() {
-          return faker.date.future();
-        },
-        total_uses() {
-          return faker.datatype.number();
-        },
-        available_uses() {
-          return faker.datatype.number();
-        },
-        status() {
-          return faker.datatype.boolean();
-        },
-      }),
+      license: factoryLicenses,
+      student: factoryStudents,
     },
 
     seeds(server) {
       server.createList('license', 5);
+      server.createList('student', 15);
     },
 
     routes() {
@@ -48,6 +30,12 @@ const makeServer = () => {
       this.timing = 500;
 
       apiAuthHandlers(this);
+
+      this.get('/students', function (schema, request) {
+        const students = this.serialize(schema.all('student')).students;
+
+        return students;
+      });
 
       this.get('/licenses', function (schema, request) {
         const licenses = this.serialize(schema.all('license')).licenses;
