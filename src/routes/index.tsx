@@ -6,12 +6,13 @@ import PrivateRoutes from './utils/PrivateRoutes';
 import RouteWrapper from './utils/RouteWrapper';
 
 // LAYOUTS
-import DefaultLoggedLayout from '@/layouts/DefaultLogged';
+const DefaultLoggedLayout = lazy(() => import('@/layouts/DefaultLogged'));
 const OnboardingLayout = lazy(() => import('@/layouts/Onboarding'));
 
 // PAGES
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
+const Licenses = lazy(() => import('@/pages/Licenses'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 const Signin = lazy(() => import('@/pages/Signin'));
 const Signup = lazy(() => import('@/pages/Signup'));
@@ -37,6 +38,10 @@ const privateRoutes = () => (
   <Route element={<PrivateRoutes />}>
     <Route element={<DefaultLoggedLayout />}>
       <Route path='/dashboard' element={<RouteWrapper title='Dashboard' component={Dashboard} />} />
+      <Route
+        path='/licencas'
+        element={<RouteWrapper title='Gerenciamento de Licenças' component={Licenses} />}
+      />
       <Route path='/usuarios' element={<RouteWrapper title='Usuários' component={Users} />} />
     </Route>
   </Route>

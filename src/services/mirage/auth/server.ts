@@ -2,6 +2,8 @@ import { Response, Server } from 'miragejs';
 import { generateJwtAndRefreshToken } from './auth';
 import { users, seedUserStore } from './database';
 
+const defaultEmail = 'admin@admin.com';
+
 const apiAuthHandlers = (server: Server) => {
   seedUserStore();
 
@@ -34,7 +36,7 @@ const apiAuthHandlers = (server: Server) => {
   });
 
   server.post('/refresh', (_, request) => {
-    const { token, refreshToken: newRefreshToken } = generateJwtAndRefreshToken('a@a.com');
+    const { token, refreshToken: newRefreshToken } = generateJwtAndRefreshToken(defaultEmail);
 
     return {
       token,
@@ -43,7 +45,7 @@ const apiAuthHandlers = (server: Server) => {
   });
 
   server.get('/me', (_, request) => {
-    const user: any = users.get('a@a.com') ?? {};
+    const user: any = users.get(defaultEmail) ?? {};
 
     const { password, ...rest } = user;
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiHome, FiUser, FiChevronLeft } from 'react-icons/fi';
+import { FiHome, FiKey, FiUser, FiChevronLeft } from 'react-icons/fi';
 import { FaYoutube, FaLinkedin, FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
 
 import NavLink from './NavLink';
@@ -22,6 +22,7 @@ const Sidebar = () => {
       <S.NavContainer>
         <NavLink to='/dashboard' icon={FiHome} title='Dashboard' />
         <NavLink to='/usuarios' icon={FiUser} title='Usuários' />
+        <NavLink to='/licencas' icon={FiKey} title='Licenças' />
       </S.NavContainer>
       {!isMinimized && <ListSocial />}
     </S.Container>

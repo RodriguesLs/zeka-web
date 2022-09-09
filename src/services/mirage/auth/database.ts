@@ -14,11 +14,11 @@ export const users: UsersStore = new Map();
 export const tokens: RefreshTokensStore = new Map();
 
 export const seedUserStore = () => {
-  users.set('a@a.com', {
-    email: 'a@a.com',
-    name: 'John Doe',
+  users.set('admin@admin.com', {
+    email: 'admin@admin.com',
+    name: 'Admin Zeka',
     avatar_url:
       'https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
-    password: '123123',
+    password: '123456',
   });
 };
