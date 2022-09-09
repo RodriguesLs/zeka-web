@@ -55,6 +55,10 @@ const makeServer = () => {
         return licenses;
       });
 
+      this.post('/licenses', (_, request) => {
+        return new Response(200, {}, { message: 'License created successful!' });
+      });
+
       this.namespace = '';
       this.passthrough();
     },

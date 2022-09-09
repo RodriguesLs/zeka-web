@@ -10,6 +10,7 @@ const DefaultLoggedLayout = lazy(() => import('@/layouts/DefaultLogged'));
 const OnboardingLayout = lazy(() => import('@/layouts/Onboarding'));
 
 // PAGES
+const CreateLicense = lazy(() => import('@/pages/CreateLicense'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
 const Licenses = lazy(() => import('@/pages/Licenses'));
@@ -38,11 +39,17 @@ const privateRoutes = () => (
   <Route element={<PrivateRoutes />}>
     <Route element={<DefaultLoggedLayout />}>
       <Route path='/dashboard' element={<RouteWrapper title='Dashboard' component={Dashboard} />} />
-      <Route
-        path='/licencas'
-        element={<RouteWrapper title='Gerenciamento de Licenças' component={Licenses} />}
-      />
-      <Route path='/usuarios' element={<RouteWrapper title='Usuários' component={Users} />} />
+      <Route path='licencas'>
+        <Route
+          index
+          element={<RouteWrapper title='Gerenciamento de Licenças' component={Licenses} />}
+        />
+        <Route
+          path='nova-licenca'
+          element={<RouteWrapper title='Nova licença' component={CreateLicense} />}
+        />
+      </Route>
+      <Route path='usuarios' element={<RouteWrapper title='Usuários' component={Users} />} />
     </Route>
   </Route>
 );

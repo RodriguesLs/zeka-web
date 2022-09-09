@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { FiPlus } from 'react-icons/fi';
 
@@ -11,6 +12,8 @@ import { Button } from '@/components';
 import * as S from './styles';
 
 const Licenses = () => {
+  const navigate = useNavigate();
+
   const [selectedTypeLicense, setSelectedTypeLicense] = useState<FilterOptions>('all');
 
   const { data } = useQuery(['admin-licenses'], fetchLicenses);
@@ -19,7 +22,11 @@ const Licenses = () => {
     <>
       <S.HeaderContainer>
         <div className='groupButtons'>
-          <Button variant='primary' icon={FiPlus}>
+          <Button
+            variant='primary'
+            icon={FiPlus}
+            onClick={() => navigate('/licencas/nova-licenca')}
+          >
             Adquirir nova licença
           </Button>
         </div>
