@@ -1,25 +1,33 @@
 import { FiSearch } from 'react-icons/fi';
-import { CSSProperties } from 'styled-components';
-
-import * as S from './styles';
+import { Input, HStack, Icon } from '@chakra-ui/react';
 
 interface SearchBoxProps {
-  containerStyle?: CSSProperties;
   value: string;
   onChange: (value: string) => void;
 }
 
-const SearchBox = ({ value, onChange, containerStyle = {} }: SearchBoxProps) => {
+const SearchBox = ({ value, onChange }: SearchBoxProps) => {
   return (
-    <S.Container style={containerStyle}>
-      <input
+    <HStack
+      w='100%'
+      maxW='300px'
+      p='0.5rem'
+      borderWidth='1px'
+      borderColor='gray.300'
+      borderRadius='6px'
+    >
+      <Input
         type='text'
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder='Pesquisar pelo nome...'
+        border='none'
+        _focus={{
+          boxShadow: 'none',
+        }}
       />
-      <FiSearch />
-    </S.Container>
+      <Icon as={FiSearch} w='18px' h='18px' color='gray.500' />
+    </HStack>
   );
 };
 

@@ -1,4 +1,5 @@
 import { IconBaseProps } from 'react-icons';
+import { Icon, Text } from '@chakra-ui/react';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 
 import { NavLinkContainer } from './styles';
@@ -9,12 +10,14 @@ interface NavLinkProps {
   to: string;
 }
 
-const NavLink = ({ to, icon: Icon, title }: NavLinkProps) => {
+const NavLink = ({ to, icon, title }: NavLinkProps) => {
   return (
-    <NavLinkContainer tabIndex={0}>
+    <NavLinkContainer>
       <RouterNavLink to={to} className={({ isActive }) => (isActive ? 'navLinkActive' : '')}>
-        {Icon && <Icon />}
-        <span>{title}</span>
+        {Icon && <Icon as={icon} w='24px' h='24px' />}
+        <Text as='span' ml='1.25rem'>
+          {title}
+        </Text>
       </RouterNavLink>
     </NavLinkContainer>
   );

@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { Box, Flex, VStack } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -8,8 +9,6 @@ import { Button, Input } from '@/components';
 import useToast from '@/hooks/useToast';
 import apiClient from '@/services/apiClient';
 import { queryClient } from '@/services/queryClient';
-
-import * as S from './styles';
 
 interface LicenseFormData {
   id: number;
@@ -73,58 +72,57 @@ const CreateLicense = () => {
   };
 
   return (
-    <S.Container>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          type='text'
-          name='name'
-          placeholder='Ex: Básico'
-          error={errors.name}
-          register={register}
-          autoComplete='off'
-          label='Descrição*'
-        />
-        <Input
-          type='text'
-          name='code'
-          placeholder='Ex: A1B2C3D4'
-          error={errors.code}
-          register={register}
-          autoComplete='off'
-          label='Código:*'
-          containerStyle={{ marginTop: '1rem' }}
-        />
-        <Input
-          type='text'
-          name='expiration_date'
-          placeholder='Data de expiração*'
-          error={errors.expiration_date}
-          register={register}
-          autoComplete='off'
-          label='Data de expiração*'
-          mask='99/99/9999'
-          containerStyle={{ marginTop: '1rem' }}
-        />
-        <Input
-          type='text'
-          name='available_uses'
-          placeholder='Ex: 20'
-          error={errors.available_uses}
-          register={register}
-          autoComplete='off'
-          label='Quantidade para uso*'
-          containerStyle={{ marginTop: '1rem' }}
-        />
-        <div className='groupButtons'>
-          <Button type='button' onClick={() => navigate(-1)}>
-            Cancelar
-          </Button>
-          <Button type='submit' variant='primary' disabled={isSubmitting}>
-            Salvar
-          </Button>
-        </div>
-      </form>
-    </S.Container>
+    <Box as='section' w='100%'>
+      <Box as='form' w='100%' maxWidth='700px' onSubmit={handleSubmit(onSubmit)}>
+        <VStack gap='1rem'>
+          <Input
+            type='text'
+            name='name'
+            placeholder='Ex: Básico'
+            error={errors.name}
+            register={register}
+            autoComplete='off'
+            label='Descrição*'
+          />
+          <Input
+            type='text'
+            name='code'
+            placeholder='Ex: A1B2C3D4'
+            error={errors.code}
+            register={register}
+            autoComplete='off'
+            label='Código:*'
+          />
+          <Input
+            type='text'
+            name='expiration_date'
+            placeholder='Data de expiração*'
+            error={errors.expiration_date}
+            register={register}
+            autoComplete='off'
+            label='Data de expiração*'
+            mask='99/99/9999'
+          />
+          <Input
+            type='text'
+            name='available_uses'
+            placeholder='Ex: 20'
+            error={errors.available_uses}
+            register={register}
+            autoComplete='off'
+            label='Quantidade para uso*'
+          />
+          <Flex w='100%' mt='2rem' alignItems='center' gap='1rem'>
+            <Button type='button' onClick={() => navigate(-1)}>
+              Cancelar
+            </Button>
+            <Button type='submit' variant='primary' disabled={isSubmitting}>
+              Salvar
+            </Button>
+          </Flex>
+        </VStack>
+      </Box>
+    </Box>
   );
 };
 

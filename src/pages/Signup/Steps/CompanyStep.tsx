@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { FiCamera, FiTrash } from 'react-icons/fi';
+import { Box, HStack, IconButton, VStack } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '@/components';
 import { useSignUpForm } from '@/contexts/SignUpFormContext';
 
-import { FormGroup, Thumbnail, ThumbnailWrapper } from '../styles';
+import { Thumbnail } from '../styles';
 
 const LIMIT_SIZE_IMAGE = 1024 * 1024; // 1 MB
 
@@ -70,18 +71,28 @@ const CompanyStep = ({ onNextStep }: CompanyStepProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <ThumbnailWrapper>
+    <VStack as='form' width='100%' onSubmit={handleSubmit(onSubmit)}>
+      <Box position='relative'>
         <Thumbnail style={{ backgroundImage: `url(${preview})` }} hasThumbnail={!!thumbnail}>
           <input type='file' accept='image/*' max='1' onChange={onChangeImage} />
           <FiCamera />
         </Thumbnail>
         {!!thumbnail && (
-          <button type='button' className='trashButton' onClick={() => setThumbnail(null)}>
-            <FiTrash />
-          </button>
+          <IconButton
+            aria-label='remove-avatar'
+            icon={<FiTrash />}
+            position='absolute'
+            bottom='12px'
+            right='-12px'
+            bg='none'
+            color='#BBB'
+            onClick={() => setThumbnail(null)}
+            _hover={{
+              color: '#e62b4b',
+            }}
+          />
         )}
-      </ThumbnailWrapper>
+      </Box>
       <Input
         type='text'
         label='Nome da empresa*'
@@ -99,10 +110,9 @@ const CompanyStep = ({ onNextStep }: CompanyStepProps) => {
         error={errors.cnpj}
         register={register}
         autoComplete='off'
-        containerStyle={{ marginTop: '0.5rem' }}
         mask='99.999.999/9999-99'
       />
-      <FormGroup>
+      <HStack width='100%' gap='1rem' alignItems='baseline'>
         <Input
           type='text'
           label='Nome do responsável*'
@@ -111,7 +121,6 @@ const CompanyStep = ({ onNextStep }: CompanyStepProps) => {
           error={errors.responsible}
           register={register}
           autoComplete='off'
-          containerStyle={{ marginTop: '0.5rem' }}
         />
         <Input
           type='text'
@@ -121,14 +130,13 @@ const CompanyStep = ({ onNextStep }: CompanyStepProps) => {
           error={errors.phoneNumber}
           register={register}
           autoComplete='off'
-          containerStyle={{ marginTop: '0.5rem' }}
           mask='(99)99999-9999'
         />
-      </FormGroup>
-      <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
+      </HStack>
+      <Button type='submit' variant='primary' style={{ marginTop: '2rem' }}>
         Avançar
       </Button>
-    </form>
+    </VStack>
   );
 };
 

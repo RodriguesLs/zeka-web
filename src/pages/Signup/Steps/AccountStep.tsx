@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { HStack, VStack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,8 +9,6 @@ import { useSignUpForm } from '@/contexts/SignUpFormContext';
 import useToast from '@/hooks/useToast';
 
 import apiClient from '@/services/apiClient';
-
-import { ButtonGroup } from '../styles';
 
 interface AccountStepFormData {
   email: string;
@@ -95,7 +94,7 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <VStack as='form' width='100%' onSubmit={handleSubmit(onSubmit)}>
       <Input
         type='email'
         label='Email*'
@@ -112,7 +111,6 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
         error={errors.password}
         register={register}
         autoComplete='off'
-        containerStyle={{ marginTop: '0.5rem' }}
       />
       <Input
         type='password'
@@ -121,17 +119,16 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
         error={errors.confirmPassword}
         register={register}
         autoComplete='off'
-        containerStyle={{ marginTop: '0.5rem' }}
       />
-      <ButtonGroup>
+      <HStack width='100%' pt='2rem'>
         <Button type='button' onClick={() => onBackStep()}>
           Voltar
         </Button>
         <Button type='submit' variant='primary'>
           Concluir
         </Button>
-      </ButtonGroup>
-    </form>
+      </HStack>
+    </VStack>
   );
 };
 

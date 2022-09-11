@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Heading, HStack, Image, Icon, Link, VStack } from '@chakra-ui/react';
 import { FiHome, FiKey, FiUser, FiChevronLeft } from 'react-icons/fi';
 import { FaYoutube, FaLinkedin, FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
 
@@ -18,12 +19,17 @@ const Sidebar = () => {
       >
         <FiChevronLeft />
       </S.ButtonToggleSidebar>
-      {!isMinimized && <img src={logoImg} alt='logo zeka img' loading='lazy' />}
-      <S.NavContainer>
+      <Image
+        src={logoImg}
+        w='120px'
+        alt='logo zeka img'
+        visibility={isMinimized ? 'hidden' : 'visible'}
+      />
+      <VStack as='nav' w='100%' h='100%' px='0.5rem'>
         <NavLink to='/dashboard' icon={FiHome} title='Dashboard' />
         <NavLink to='/usuarios' icon={FiUser} title='Usuários' />
         <NavLink to='/licencas' icon={FiKey} title='Licenças' />
-      </S.NavContainer>
+      </VStack>
       {!isMinimized && <ListSocial />}
     </S.Container>
   );
@@ -31,36 +37,28 @@ const Sidebar = () => {
 
 const ListSocial = () => {
   return (
-    <S.SocialContainer>
-      <p>ZEKA na mídia</p>
-      <ul className='listSocial'>
-        <li>
-          <a href='https://facebook.com' target='blank'>
-            <FaFacebook />
-          </a>
-        </li>
-        <li>
-          <a href='https://instagram.com' target='blank'>
-            <FaInstagram />
-          </a>
-        </li>
-        <li>
-          <a href='https://linkedin.com' target='blank'>
-            <FaLinkedin />
-          </a>
-        </li>
-        <li>
-          <a href='https://twitter.com' target='blank'>
-            <FaTwitter />
-          </a>
-        </li>
-        <li>
-          <a href='https://youtube.com' target='blank'>
-            <FaYoutube />
-          </a>
-        </li>
-      </ul>
-    </S.SocialContainer>
+    <VStack gap='1rem'>
+      <Heading as='h4' fontSize='1rem'>
+        ZEKA na mídia
+      </Heading>
+      <HStack w='100%' gap='0.25rem' listStyleType='none' color='gray.500'>
+        <Link href='https://facebook.com' target='_blank' _hover={{ color: 'brand.500' }}>
+          <Icon as={FaFacebook} h='22px' w='22px' />
+        </Link>
+        <Link href='https://instagram.com' target='_blank' _hover={{ color: 'brand.500' }}>
+          <Icon as={FaInstagram} h='22px' w='22px' />
+        </Link>
+        <Link href='https://linkedin.com' target='_blank' _hover={{ color: 'brand.500' }}>
+          <Icon as={FaLinkedin} h='22px' w='22px' />
+        </Link>
+        <Link href='https://twitter.com' target='_blank' _hover={{ color: 'brand.500' }}>
+          <Icon as={FaTwitter} h='22px' w='22px' />
+        </Link>
+        <Link href='https://youtube.com' target='_blank' _hover={{ color: 'brand.500' }}>
+          <Icon as={FaYoutube} h='22px' w='22px' />
+        </Link>
+      </HStack>
+    </VStack>
   );
 };
 

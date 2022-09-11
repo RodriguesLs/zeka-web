@@ -1,11 +1,10 @@
 import { useForm } from 'react-hook-form';
+import { HStack, VStack } from '@chakra-ui/react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Button, Input } from '@/components';
 import { useSignUpForm } from '@/contexts/SignUpFormContext';
-
-import { ButtonGroup, FormGroup } from '../styles';
 
 interface Address {
   cep: string;
@@ -57,8 +56,8 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <FormGroup>
+    <VStack as='form' width='100%' onSubmit={handleSubmit(onSubmit)}>
+      <HStack width='100%' gap='1rem' alignItems='baseline'>
         <Input
           type='text'
           label='CEP*'
@@ -66,9 +65,9 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           placeholder='Ex: 69000-000*'
           error={errors?.address?.cep}
           register={register}
-          containerStyle={{ flex: 1 }}
           mask='99999-999'
           autoComplete='off'
+          containerStyle={{ width: '200px' }}
         />
         <Input
           type='text'
@@ -78,10 +77,9 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           error={errors?.address?.street}
           register={register}
           autoComplete='off'
-          containerStyle={{ flex: 3 }}
         />
-      </FormGroup>
-      <FormGroup>
+      </HStack>
+      <HStack width='100%' gap='1rem' alignItems='baseline'>
         <Input
           type='text'
           label='Bairro*'
@@ -100,8 +98,8 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           register={register}
           autoComplete='off'
         />
-      </FormGroup>
-      <FormGroup>
+      </HStack>
+      <HStack width='100%' gap='1rem' alignItems='baseline'>
         <Input
           type='text'
           label='Cidade*'
@@ -120,16 +118,16 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           register={register}
           autoComplete='off'
         />
-      </FormGroup>
-      <ButtonGroup>
+      </HStack>
+      <HStack width='100%' pt='2rem' gap='1rem'>
         <Button type='button' onClick={() => onBackStep()}>
           Voltar
         </Button>
         <Button type='submit' variant='primary'>
           Avançar
         </Button>
-      </ButtonGroup>
-    </form>
+      </HStack>
+    </VStack>
   );
 };
 

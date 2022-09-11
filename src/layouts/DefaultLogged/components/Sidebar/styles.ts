@@ -6,26 +6,21 @@ interface IContainer {
 
 export const Container = styled.aside<IContainer>`
   width: ${(props) => (props.isMinimized ? '64px' : '240px')};
+  height: 100%;
   position: relative;
   grid-area: aside;
-
+  padding: 2rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 0;
+  gap: 2rem;
 
   background: #fff;
-
-  img {
-    max-width: 120px;
-    margin: 0 2rem;
-  }
 
   ${(props) =>
     props.isMinimized &&
     css`
       > nav {
-        margin-top: 4rem;
         padding: 0;
 
         a {
@@ -81,24 +76,6 @@ export const ButtonToggleSidebar = styled.button<ButtonToggleSidebar>`
         `}
 `;
 
-export const NavContainer = styled.nav`
-  height: 100%;
-  width: 100%;
-  margin: 2rem 0;
-  display: flex;
-  flex-direction: column;
-`;
-
-export const NavSectionContainer = styled.div`
-  padding: 0 1rem;
-
-  h3 {
-    color: var(--text-complementary-color);
-    font-size: 1rem;
-    text-transform: uppercase;
-  }
-`;
-
 export const NavLinkContainer = styled.div`
   width: 100%;
   display: flex;
@@ -117,12 +94,6 @@ export const NavLinkContainer = styled.div`
 
     font-size: 1rem;
     font-weight: bold;
-
-    svg {
-      margin-right: 1.125rem;
-      width: 24px;
-      height: 24px;
-    }
   }
 
   .navLinkActive {
@@ -131,43 +102,5 @@ export const NavLinkContainer = styled.div`
 
   &:hover {
     color: var(--primary-color);
-  }
-`;
-
-export const SocialContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  p {
-    font-weight: 500;
-  }
-
-  .listSocial {
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-
-    li {
-      a {
-        svg {
-          width: 22px;
-          height: 22px;
-
-          color: var(--text-complementary-color);
-        }
-      }
-      & + li {
-        margin-left: 0.75rem;
-      }
-
-      &:hover {
-        a {
-          svg {
-            color: var(--primary-color);
-          }
-        }
-      }
-    }
   }
 `;

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { VStack } from '@chakra-ui/react';
 
 import FilterUsers from '../FilterUsers';
 import SearchBox from '../SearchBox';
@@ -75,15 +76,11 @@ const UsersTable = ({ data }: UsersTableProps) => {
   );
 
   return (
-    <>
+    <VStack width='100%' gap='1rem' alignItems='start'>
       <FilterUsers typeSelected={selectedTypeUser} onChangeType={setSelectedTypeUser} />
-      <SearchBox
-        value={nameFiltered}
-        onChange={setNameFiltered}
-        containerStyle={{ margin: '1rem 0' }}
-      />
+      <SearchBox value={nameFiltered} onChange={setNameFiltered} />
       <Table data={users} columns={columns} />
-    </>
+    </VStack>
   );
 };
 

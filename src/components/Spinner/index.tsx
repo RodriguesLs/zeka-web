@@ -1,14 +1,17 @@
-import * as S from './styles';
+import { Spinner as ChakraSpinner, SpinnerProps as ChakraSpinnerProps } from '@chakra-ui/react';
 
-interface SpinnerProps {
-  containerStyle?: any;
-}
+type SpinnerProps = ChakraSpinnerProps;
 
-const Spinner = ({ containerStyle }: SpinnerProps) => {
+const Spinner = ({ ...rest }: SpinnerProps) => {
   return (
-    <S.Wrapper>
-      <S.Container style={containerStyle} />
-    </S.Wrapper>
+    <ChakraSpinner
+      thickness='4px'
+      speed='0.4s'
+      emptyColor='gray.300'
+      color='background.white'
+      size='xl'
+      {...rest}
+    />
   );
 };
 

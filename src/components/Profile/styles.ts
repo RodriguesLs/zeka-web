@@ -38,61 +38,13 @@ export const ProfileBadgeContainer = styled.div<ProfileBadgeContainerProps>`
     `}
 `;
 
-export const MenuContainer = styled.div`
-  position: absolute;
-  top: 68px;
-  right: 1rem;
-  width: 260px;
-  max-width: 260px;
-  z-index: 2;
-
-  display: flex;
-  flex-direction: column;
-
-  background: #fff;
-  border: 1px solid var(--gray-300);
-  border-radius: 6px;
-
-  ul {
-    width: 100%;
-
-    li {
-      padding: 1rem;
-
-      color: var(--text-color);
-
-      svg {
-        margin-right: 1rem;
-        width: 22px;
-        height: 22px;
-      }
-
-      a {
-        display: flex;
-        align-items: center;
-      }
-
-      & + li {
-        border-top: 1px solid var(--gray-300);
-      }
-
-      &:hover {
-        color: var(--primary-color);
-      }
-    }
-  }
-`;
-
 export const SignOutButton = styled.button`
   padding: 1rem;
   display: flex;
   align-items: center;
 
-  margin-top: 3rem;
-
   background: none;
   border: none;
-  border-top: 1px solid var(--gray-300);
   color: var(--error-color);
   font-weight: bold;
   font-size: 1rem;

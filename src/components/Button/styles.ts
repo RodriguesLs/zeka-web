@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 interface ButtonProps {
   isLoading?: boolean;
-  variant?: 'default' | 'primary';
+  variant?: 'default' | 'primary' | 'danger';
 }
 
 export const Container = styled.button<ButtonProps>`
@@ -42,6 +42,18 @@ export const Container = styled.button<ButtonProps>`
 
       &:focus {
         outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+    `}
+
+    ${({ variant }) =>
+    variant === 'danger' &&
+    css`
+      background-color: var(--error-color);
+      color: #fff;
+
+      &:focus {
+        outline: 2px solid var(--error-color);
         outline-offset: 2px;
       }
     `}

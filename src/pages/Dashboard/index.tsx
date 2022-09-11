@@ -1,17 +1,14 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { SimpleGrid } from '@chakra-ui/react';
 import { Card } from '@/components';
-
-import * as S from './styles';
 
 const Dashboard = () => {
   return (
-    <S.Container>
-      <div className='dashboardItem--full'>
-        <Card title='Taxa de reprovação'>
-          <Chart />
-        </Card>
-      </div>
-    </S.Container>
+    <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
+      <Card title='Taxa de reprovação'>
+        <Chart />
+      </Card>
+    </SimpleGrid>
   );
 };
 

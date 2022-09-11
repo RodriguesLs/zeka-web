@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Badge } from '@chakra-ui/react';
+import { Badge, VStack } from '@chakra-ui/react';
 
 import { FiEdit } from 'react-icons/fi';
 
@@ -74,11 +74,10 @@ const LicensesTable = ({ data }: LicenseTableProps) => {
   );
 
   return (
-    <>
+    <VStack w='100%' gap='1rem'>
       <FilterLicense typeSelected={selectedTypeLicense} onChangeType={setSelectedTypeLicense} />
-      <div style={{ margin: '1rem 0' }} />
       <Table data={licenses} columns={columns} />
-    </>
+    </VStack>
   );
 };
 

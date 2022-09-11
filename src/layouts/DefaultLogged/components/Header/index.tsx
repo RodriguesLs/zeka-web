@@ -1,15 +1,23 @@
+import { Box, Divider, HStack } from '@chakra-ui/react';
 import { Notifications, Profile } from '@/components';
-
-import * as S from './styles';
 
 const Header = () => {
   return (
-    <S.Container>
-      <div className='listOptions'>
+    <Box
+      as='header'
+      display='flex'
+      alignItems='center'
+      justifyContent='end'
+      p='0.75rem 1.5rem'
+      borderBottomWidth='1px'
+      borderColor='gray.300'
+    >
+      <HStack spacing='1rem'>
         <Notifications />
+        <Divider orientation='horizontal' w='1px' h='30px' bg='gray.300' />
         <Profile />
-      </div>
-    </S.Container>
+      </HStack>
+    </Box>
   );
 };
 

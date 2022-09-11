@@ -1,12 +1,12 @@
-import Spinner from '@/components/Spinner';
+import { Box } from '@chakra-ui/react';
 
-import * as S from './styles';
+import Spinner from '@/components/Spinner';
 
 const Loading = () => {
   return (
-    <S.Container>
-      <Spinner containerStyle={{ width: '48px', height: '48px' }} />
-    </S.Container>
+    <Box as='main' w='100vw' h='100vh' display='grid' placeContent='center' bg='rgba(0,0,0,0.15)'>
+      <Spinner />
+    </Box>
   );
 };
 

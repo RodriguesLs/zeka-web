@@ -1,19 +1,24 @@
 import { ReactNode } from 'react';
-
-import { NavSectionContainer } from './styles';
+import { Box, Heading, VStack } from '@chakra-ui/react';
 
 interface NavSectionProps {
   children: ReactNode;
-  isMinimized?: boolean;
+  isMinimized: boolean;
   title: string;
 }
 
 const NavSection = ({ children, isMinimized, title }: NavSectionProps) => {
   return (
-    <NavSectionContainer>
-      {!isMinimized && <h3>{title}</h3>}
-      <div className='content'>{children}</div>
-    </NavSectionContainer>
+    <Box w='100%' border='1px solid red'>
+      {!isMinimized && (
+        <Heading as='h3' fontSize='1rem' textTransform='uppercase' color='gray.500'>
+          {title}
+        </Heading>
+      )}
+      <VStack w='100%' mt='0.5rem'>
+        {children}
+      </VStack>
+    </Box>
   );
 };
 

@@ -1,18 +1,21 @@
-import { CSSProperties, ReactNode } from 'react';
-import * as S from './styles';
+import { ReactNode } from 'react';
+import { Box, Heading } from '@chakra-ui/react';
 
 interface CardProps {
-  containerStyle?: CSSProperties;
   children: ReactNode;
   title?: string;
 }
 
-const Card = ({ children, containerStyle, title }: CardProps) => {
+const Card = ({ children, title }: CardProps) => {
   return (
-    <S.Container style={containerStyle}>
-      {title && <h3>{title}</h3>}
+    <Box w='100%' h='100%' bg='background.white' p='1.5rem' borderRadius='6px'>
+      {title && (
+        <Heading as='h3' size='base' color='gray.500' mb='1rem'>
+          {title}
+        </Heading>
+      )}
       {children}
-    </S.Container>
+    </Box>
   );
 };
 

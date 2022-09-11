@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
 
@@ -16,9 +17,6 @@ export const Item = styled.button<ItemProps>`
   margin-bottom: -4px;
 
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 
   border: 0;
   font-weight: 500;
