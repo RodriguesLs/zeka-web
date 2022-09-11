@@ -23,5 +23,6 @@ export const Content = styled.div`
     margin-bottom: 1rem;
     color: var(--text-color);
     font-size: 1.5rem;
+    font-weight: bold;
   }
 `;

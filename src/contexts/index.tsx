@@ -1,7 +1,12 @@
 import { ReactNode } from 'react';
+
+import { ChakraProvider } from '@chakra-ui/react';
+
 import { AuthContextProvider } from './AuthContext';
 import { TitlePageProvider } from './TitlePageContext';
 import { ToastProvider } from './ToastContext';
+
+import chakraTheme from '@/styles/chakraTheme';
 
 interface AppProviderProps {
   children: ReactNode;
@@ -9,11 +14,13 @@ interface AppProviderProps {
 
 const AppProvider = ({ children }: AppProviderProps) => {
   return (
-    <AuthContextProvider>
-      <ToastProvider>
-        <TitlePageProvider>{children}</TitlePageProvider>
-      </ToastProvider>
-    </AuthContextProvider>
+    <ChakraProvider theme={chakraTheme}>
+      <AuthContextProvider>
+        <ToastProvider>
+          <TitlePageProvider>{children}</TitlePageProvider>
+        </ToastProvider>
+      </AuthContextProvider>
+    </ChakraProvider>
   );
 };
 

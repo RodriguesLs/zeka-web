@@ -1,21 +1,24 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { Badge } from '@chakra-ui/react';
+
 import { FiEdit } from 'react-icons/fi';
 
+import FilterLicense from '../FilterLicense';
 import { ILicense, FilterOptions } from '../../types';
 
-import formatDate from '@/utils/formatDate';
-
-import * as S from './styles';
+import { Table } from '@/components';
+import { formatDate } from '@/utils/formats';
 
 interface LicenseTableProps {
   data: ILicense[];
-  filterSelected: FilterOptions;
 }
 
-const LicensesTable = ({ data, filterSelected }: LicenseTableProps) => {
+const LicensesTable = ({ data }: LicenseTableProps) => {
+  const [selectedTypeLicense, setSelectedTypeLicense] = useState<FilterOptions>('all');
+
   const getLicensesFiltered = useCallback(
     (licenses: ILicense[]) => {
-      switch (filterSelected) {
+      switch (selectedTypeLicense) {
         case 'active':
           return licenses.filter((license) => license.status);
         case 'inactive':
@@ -24,46 +27,58 @@ const LicensesTable = ({ data, filterSelected }: LicenseTableProps) => {
           return licenses;
       }
     },
-    [data, filterSelected],
+    [data, selectedTypeLicense],
+  );
+
+  const licenses = useMemo(() => {
+    const licensesFilteredByStatus = getLicensesFiltered(data);
+
+    return licensesFilteredByStatus;
+  }, [data, getLicensesFiltered]);
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Descrição',
+        accessor: 'name',
+      },
+      {
+        Header: 'Data expiração',
+        accessor: 'expiration_date',
+        Cell: ({ value }) => formatDate(value),
+      },
+      {
+        Header: 'Total de uso',
+        accessor: 'total_uses',
+      },
+      {
+        Header: 'Status',
+        accessor: 'status',
+        Cell: ({ value: isActive }: any) => (
+          <Badge colorScheme={isActive ? 'green' : 'red'} borderRadius={15} px={2}>
+            {isActive ? 'Ativa' : 'Inativa'}
+          </Badge>
+        ),
+      },
+      {
+        Header: 'Ação',
+        accessor: 'actions',
+        Cell: () => (
+          <button>
+            <FiEdit />
+          </button>
+        ),
+      },
+    ],
+    [],
   );
 
   return (
-    <S.Container>
-      <thead>
-        <tr>
-          <th>Descrição</th>
-          <th>Data expiração</th>
-          <th>Total de uso</th>
-          <th>Status</th>
-          <th>Ação</th>
-        </tr>
-      </thead>
-      <tbody>
-        {getLicensesFiltered(data).map((license) => (
-          <LicenseRow key={license.id} license={license} />
-        ))}
-      </tbody>
-    </S.Container>
-  );
-};
-
-interface LicenseRowProps {
-  license: ILicense;
-}
-
-const LicenseRow = ({ license }: LicenseRowProps) => {
-  return (
-    <tr key={license.id}>
-      <td>{license.name}</td>
-      <td>{formatDate(license.expiration_date)}</td>
-      <td>{license.total_uses}</td>
-      <td>{license.status ? 'Ativo' : 'Inativo'}</td>
-      <td>
-        <button type='button'>
-          <FiEdit />
-        </button>
-      </td>
-    </tr>
+    <>
+      <FilterLicense typeSelected={selectedTypeLicense} onChangeType={setSelectedTypeLicense} />
+      <div style={{ margin: '1rem 0' }} />
+      <Table data={licenses} columns={columns} />
+    </>
   );
 };
 

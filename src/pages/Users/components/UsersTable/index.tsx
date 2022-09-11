@@ -1,18 +1,22 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
+import FilterUsers from '../FilterUsers';
+import SearchBox from '../SearchBox';
 import { IUser, FilterOptions } from '../../types';
 
-import * as S from './styles';
+import Table from '@/components/Table';
+import { formatCpf, formatPhoneNumber } from '@/utils/formats';
 
 interface UsersTableProps {
   data: IUser[];
-  filterSelected: FilterOptions;
-  nameTyped: string;
 }
 
-const UsersTable = ({ data, filterSelected, nameTyped }: UsersTableProps) => {
+const UsersTable = ({ data }: UsersTableProps) => {
+  const [nameFiltered, setNameFiltered] = useState('');
+  const [selectedTypeUser, setSelectedTypeUser] = useState<FilterOptions>('all');
+
   const getUsersFiltered = (users: IUser[]) => {
-    switch (filterSelected) {
+    switch (selectedTypeUser) {
       case 'active':
         return users.filter((user) => user.active);
       case 'inactive':
@@ -26,53 +30,60 @@ const UsersTable = ({ data, filterSelected, nameTyped }: UsersTableProps) => {
     return users.filter((user) => {
       const name = user.name.toLowerCase();
 
-      return name.includes(nameTyped.toLowerCase()) && user;
+      return name.includes(nameFiltered.toLowerCase()) && user;
     });
   };
 
   const users = useMemo(() => {
     const usersFilteredByStatus = getUsersFiltered(data);
 
-    if (nameTyped) return getUsersByName(data);
+    if (nameFiltered !== '') return getUsersByName(data);
 
     return usersFilteredByStatus;
-  }, [data, filterSelected, nameTyped]);
+  }, [data, selectedTypeUser, nameFiltered]);
 
-  return (
-    <S.Container>
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Matrícula</th>
-          <th>CPF</th>
-          <th>Gênero</th>
-          <th>E-mail</th>
-          <th>Telefone</th>
-        </tr>
-      </thead>
-      <tbody>
-        {users.map((user: IUser) => (
-          <UsersRow key={user.id} user={user} />
-        ))}
-      </tbody>
-    </S.Container>
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Nome',
+        accessor: 'name',
+      },
+      {
+        Header: 'Matrícula',
+        accessor: 'code',
+      },
+      {
+        Header: 'CPF',
+        accessor: 'cpf',
+        Cell: ({ value }) => formatCpf(value),
+      },
+      {
+        Header: 'Gênero',
+        accessor: 'gender',
+      },
+      {
+        Header: 'E-mail',
+        accessor: 'email',
+      },
+      {
+        Header: 'Telefone',
+        accessor: 'phone',
+        Cell: ({ value }) => formatPhoneNumber(value),
+      },
+    ],
+    [],
   );
-};
 
-interface UsersRowProps {
-  user: IUser;
-}
-
-const UsersRow = ({ user }: UsersRowProps) => {
   return (
-    <tr key={user.id}>
-      <td>{user.name}</td>
-      <td>{user.code}</td>
-      <td>{user.cpf}</td>
-      <td>{user.gender}</td>
-      <td>{user.email}</td>
-      <td>{user.phone}</td>
-    </tr>
+    <>
+      <FilterUsers typeSelected={selectedTypeUser} onChangeType={setSelectedTypeUser} />
+      <SearchBox
+        value={nameFiltered}
+        onChange={setNameFiltered}
+        containerStyle={{ margin: '1rem 0' }}
+      />
+      <Table data={users} columns={columns} />
+    </>
   );
 };
 

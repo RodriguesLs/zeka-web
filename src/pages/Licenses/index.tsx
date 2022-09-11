@@ -1,12 +1,11 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { FiPlus } from 'react-icons/fi';
 
-import { FilterLicense, LicensesTable } from './components';
+import { LicensesTable } from './components';
 import fetchLicenses from './services/fetchLicenses';
-import { FilterOptions } from './types';
 
+import { TableError, TableSkeleton } from '@/components/Table';
 import { Button } from '@/components';
 
 import * as S from './styles';
@@ -14,9 +13,7 @@ import * as S from './styles';
 const Licenses = () => {
   const navigate = useNavigate();
 
-  const [selectedTypeLicense, setSelectedTypeLicense] = useState<FilterOptions>('all');
-
-  const { data } = useQuery(['admin-licenses'], fetchLicenses);
+  const { data, error, isLoading } = useQuery(['admin-licenses'], fetchLicenses);
 
   return (
     <>
@@ -30,9 +27,10 @@ const Licenses = () => {
             Adquirir nova licença
           </Button>
         </div>
-        <FilterLicense typeSelected={selectedTypeLicense} onChangeType={setSelectedTypeLicense} />
       </S.HeaderContainer>
-      {data && <LicensesTable data={data} filterSelected={selectedTypeLicense} />}
+      {isLoading && <TableSkeleton />}
+      {error && <TableError keyCache='admin-users' />}
+      {data && <LicensesTable data={data} />}
     </>
   );
 };

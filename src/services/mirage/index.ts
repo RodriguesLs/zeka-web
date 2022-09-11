@@ -27,17 +27,17 @@ const makeServer = () => {
 
     routes() {
       this.namespace = '/mirage';
-      this.timing = 500;
+      this.timing = 2000;
 
       apiAuthHandlers(this);
 
-      this.get('/students', function (schema, request) {
+      this.get('/students', function (schema, _) {
         const students = this.serialize(schema.all('student')).students;
 
         return students;
       });
 
-      this.get('/licenses', function (schema, request) {
+      this.get('/licenses', function (schema, _) {
         const licenses = this.serialize(schema.all('license')).licenses;
 
         return licenses;

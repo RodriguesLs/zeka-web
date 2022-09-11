@@ -11,11 +11,11 @@ export default Factory.extend({
   gender() {
     return faker.name.gender(true);
   },
-  cpf(i: number) {
-    return i;
+  cpf() {
+    return faker.phone.number('###.###.###-##');
   },
-  code(i: number) {
-    return 'A' + i;
+  code() {
+    return faker.random.numeric(6);
   },
   email() {
     return faker.internet.email();
