@@ -1,61 +1,56 @@
-import { InputHTMLAttributes, useState, useEffect, useRef, useCallback, ReactNode } from 'react';
-import { FieldError } from 'react-hook-form';
+import { forwardRef, ForwardRefRenderFunction } from 'react';
+import {
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input as ChakraInput,
+  InputProps as ChakraInputProps,
+} from '@chakra-ui/react';
+import { FieldError, UseFormRegister } from 'react-hook-form';
+
 import ReactInputMask from 'react-input-mask';
 
-import * as S from './styles';
-
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends ChakraInputProps {
   containerStyle?: React.CSSProperties;
   error?: FieldError;
   label?: string;
   mask?: string;
   name: string;
-  register?: any;
+  register: UseFormRegister<any>;
 }
 
-const Input = ({ error, name, label, containerStyle, mask, register, ...rest }: InputProps) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const [isFilled, setIsFilled] = useState(false);
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (inputRef.current?.value) {
-      setIsFilled(true);
-    }
-  }, [inputRef.current]);
-
-  const handleInputBlur = useCallback(() => {
-    setIsFocused(false);
-    setIsFilled(!!inputRef.current?.value);
-  }, []);
-
-  const handleInputFocus = useCallback(() => {
-    setIsFocused(true);
-    inputRef.current?.focus();
-  }, []);
-
+const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
+  { name, error = null, label, mask, register, ...rest },
+  ref,
+) => {
   return (
-    <S.Wrapper style={containerStyle}>
-      {label && <label htmlFor={name}>{label}</label>}
-      <S.Container
-        isFocused={isFocused}
-        isFilled={isFilled}
-        isErrored={!!error}
-        onFocus={handleInputFocus}
-        onBlur={handleInputBlur}
-        ref={containerRef}
-      >
-        {mask ? (
-          <ReactInputMask mask={mask} ref={inputRef} {...register(name)} {...rest} />
-        ) : (
-          <input ref={inputRef} {...register(name)} {...rest} />
-        )}
-      </S.Container>
-      {!!error && <S.ErrorMessage>{error.message}</S.ErrorMessage>}
-    </S.Wrapper>
+    <FormControl isInvalid={!!error}>
+      {!!label && (
+        <FormLabel mb='0.25rem' htmlFor={name}>
+          {label}
+        </FormLabel>
+      )}
+      <ChakraInput
+        as={ReactInputMask}
+        id={name}
+        name={name}
+        ref={ref}
+        w='100%'
+        focusBorderColor='brand.500'
+        borderWidth={1}
+        borderColor='gray.300'
+        variant='outline'
+        _hover={{ borderColor: 'brand.500' }}
+        size='lg'
+        mask={mask}
+        {...register(name)}
+        {...rest}
+      />
+      {!!error && <FormErrorMessage>{error.message}</FormErrorMessage>}
+    </FormControl>
   );
 };
+
+const Input = forwardRef(InputBase);
 
 export default Input;

@@ -15,13 +15,13 @@ const Licenses = () => {
   const { data, error, isLoading } = useQuery(['admin-licenses'], fetchLicenses);
 
   return (
-    <Box width='100%'>
+    <Box w='100%'>
       <VStack mb='1rem' gap='1.5rem' alignItems='end'>
         <Button
           variant='primary'
           icon={FiPlus}
           onClick={() => navigate('/licencas/nova-licenca')}
-          style={{ width: '250px' }}
+          style={{ width: '250px'}}
         >
           Adquirir nova licença
         </Button>

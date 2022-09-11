@@ -21,7 +21,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => (
   <Container ref={ref} type='button' {...rest} isLoading={loading} variant={variant}>
     {Icon && <Icon />}
-    {loading ? <Spinner size='sm' /> : children}
+    {loading ? <Spinner size='sm' thickness='2px' /> : children}
   </Container>
 );
 

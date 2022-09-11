@@ -9,10 +9,8 @@ import CompanyStep from './Steps/CompanyStep';
 
 import { SignUpFormProvider } from '@/contexts/SignUpFormContext';
 
-import * as S from './styles';
-
 const SignUp = () => {
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
 
   const handleBackStep = useCallback(() => {
     if (step > 1) setStep((oldState) => oldState - 1);
@@ -24,8 +22,8 @@ const SignUp = () => {
 
   return (
     <SignUpFormProvider>
-      <VStack as='section' width='100%' height='100%'>
-        <VStack alignItems='baseline' width='100%' maxW='600px' gap='1.5rem'>
+      <VStack as='section' w='100%' h='100%'>
+        <VStack alignItems='baseline' w='100%' maxW='600px' gap='1.5rem'>
           <BackButton />
           <Heading>Crie sua conta agora mesmo!</Heading>
           <Steps currentStep={step} />
@@ -45,11 +43,11 @@ const BackButton = () => {
       to='/'
       display='flex'
       alignItems='center'
-      color='#31aeb9'
+      color='brand.500'
       fontSize='1.125rem'
       fontWeight='bold'
     >
-      <Icon as={FiArrowLeft} width='20px' height='20px' mr='0.5rem' />
+      <Icon as={FiArrowLeft} w='20px' h='20px' mr='0.5rem' />
       Voltar para login
     </Link>
   );
@@ -75,22 +73,22 @@ const Steps = ({ currentStep }: StepsProps) => {
     },
   ];
   return (
-    <HStack as='ul' gap='0.5rem' width='100%' pb='1rem'>
+    <HStack as='ul' listStyleType='none' gap='0.5rem' w='100%' pb='1rem'>
       {steps.map((step) => (
         <Box
           key={step.id}
-          width='100%'
+          w='100%'
           as='li'
           fontWeight='bold'
-          color={currentStep === step.id ? '#31aeb9' : '#808080'}
+          color={currentStep === step.id ? 'brand.500' : 'gray.500'}
         >
           {step.label}
           <Box
             marginTop='0.25rem'
-            width='100%'
-            height='6px'
+            w='100%'
+            h='6px'
             borderRadius='6px'
-            bg={currentStep === step.id ? '#31aeb9' : '#ccc'}
+            bg={currentStep === step.id ? 'brand.500' : 'gray.300'}
           />
         </Box>
       ))}
