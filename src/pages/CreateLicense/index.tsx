@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Input } from '@/components';
+import { Button, Input, Select } from '@/components';
 import useToast from '@/hooks/useToast';
 import apiClient from '@/services/apiClient';
 import { queryClient } from '@/services/queryClient';
@@ -16,6 +16,7 @@ interface LicenseFormData {
   name: string;
   expiration_date: Date;
   available_uses: number;
+  status: boolean | string;
 }
 
 const licenseFormSchema = yup.object().shape({
@@ -43,7 +44,12 @@ const CreateLicense = () => {
   });
 
   const addLicense = (data: LicenseFormData) => {
-    return apiClient.post('/licenses', { license: data });
+    return apiClient.post('/licenses', {
+      license: {
+        ...data,
+        status: data.status == '1' ? true : false,
+      },
+    });
   };
 
   const { mutateAsync } = useMutation(addLicense, {
@@ -61,7 +67,7 @@ const CreateLicense = () => {
         type: 'success',
       });
 
-      navigate(-1);
+      navigate('/licencas');
     } catch (e) {
       addToast({
         title: 'Opssss..',
@@ -112,6 +118,10 @@ const CreateLicense = () => {
             autoComplete='off'
             label='Quantidade para uso*'
           />
+          <Select name='status' label='Status' register={register} defaultValue='1'>
+            <option value='1'>Ativo</option>
+            <option value='0'>Inativo</option>
+          </Select>
           <Flex w='100%' mt='2rem' alignItems='center' gap='1rem'>
             <Button type='button' onClick={() => navigate(-1)}>
               Cancelar

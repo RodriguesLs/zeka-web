@@ -21,7 +21,7 @@ const Licenses = () => {
           variant='primary'
           icon={FiPlus}
           onClick={() => navigate('/licencas/nova-licenca')}
-          style={{ width: '250px'}}
+          style={{ width: '250px' }}
         >
           Adquirir nova licença
         </Button>
