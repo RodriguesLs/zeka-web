@@ -67,7 +67,6 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           register={register}
           mask='99999-999'
           autoComplete='off'
-          containerStyle={{ width: '200px' }}
         />
         <Input
           type='text'

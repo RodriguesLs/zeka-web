@@ -15,7 +15,7 @@ const DefaultLogged = () => {
                       "aside content"`}
       gridTemplateColumns={'auto 1fr'}
       gridTemplateRows={'64px 1fr'}
-      h='100vh'
+      minH='100vh'
       bg='background.layout'
     >
       <GridItem area='header'>

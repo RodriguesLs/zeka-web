@@ -15,7 +15,7 @@ interface SelectProps extends ChakraSelectProps {
 
 const Select = ({ children, label, name, register, ...rest }: SelectProps) => {
   return (
-    <FormControl w='100%'>
+    <FormControl w='100%' alignSelf='baseline'>
       {label && (
         <FormLabel mb='0.25rem' htmlFor={name}>
           {label}

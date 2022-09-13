@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
-import { VStack } from '@chakra-ui/react';
+import { IconButton, VStack } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { FiEdit } from 'react-icons/fi';
 
 import FilterUsers from '../FilterUsers';
 import SearchBox from '../SearchBox';
@@ -15,6 +17,8 @@ interface UsersTableProps {
 const UsersTable = ({ data }: UsersTableProps) => {
   const [nameFiltered, setNameFiltered] = useState('');
   const [selectedTypeUser, setSelectedTypeUser] = useState<FilterOptions>('all');
+
+  const navigate = useNavigate();
 
   const getUsersFiltered = (users: IUser[]) => {
     switch (selectedTypeUser) {
@@ -70,6 +74,19 @@ const UsersTable = ({ data }: UsersTableProps) => {
         Header: 'Telefone',
         accessor: 'phone',
         Cell: ({ value }) => formatPhoneNumber(value),
+      },
+      {
+        Header: 'Ação',
+        accessor: 'action',
+        Cell: ({ row }: any) => (
+          <IconButton
+            aria-label='edita usuário'
+            icon={<FiEdit />}
+            bg='none'
+            _hover={{ bg: 'none' }}
+            onClick={() => navigate(`./edita-usuario/${row.original.id}`)}
+          />
+        ),
       },
     ],
     [],

@@ -11,6 +11,7 @@ const OnboardingLayout = lazy(() => import('@/layouts/Onboarding'));
 
 // PAGES
 const CreateUpdateLicense = lazy(() => import('@/pages/CreateUpdateLicense'));
+const CreateUpdateUser = lazy(() => import('@/pages/CreateUpdateUser'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
 const Licenses = lazy(() => import('@/pages/Licenses'));
@@ -53,7 +54,17 @@ const privateRoutes = () => (
           element={<RouteWrapper title='Editar licença' component={CreateUpdateLicense} />}
         />
       </Route>
-      <Route path='usuarios' element={<RouteWrapper title='Usuários' component={Users} />} />
+      <Route path='usuarios'>
+        <Route index element={<RouteWrapper title='Usuários' component={Users} />} />
+        <Route
+          path='novo-usuario'
+          element={<RouteWrapper title='Novo usuário' component={CreateUpdateUser} />}
+        />
+        <Route
+          path='edita-usuario/:userId'
+          element={<RouteWrapper title='Editar usuário' component={CreateUpdateUser} />}
+        />
+      </Route>
     </Route>
   </Route>
 );

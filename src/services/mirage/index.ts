@@ -35,6 +35,29 @@ const makeServer = () => {
         return students;
       });
 
+      this.get('/students/:userId', function (schema, request) {
+        const { userId } = request.params;
+
+        const idFormatted = String(userId);
+
+        const { student: user } = this.serialize(schema.find('student', idFormatted));
+
+        return user;
+      });
+
+      this.post('/students', (schema, request) => {
+        const data = JSON.parse(request.requestBody);
+        const { data: student } = data;
+        schema.create('student', student);
+        return {};
+      });
+
+      this.put('/students/:userId', (_, request) => {
+        const data = JSON.parse(request.requestBody);
+
+        return data;
+      });
+
       this.get('/licenses', function (schema, _) {
         const licenses = this.serialize(schema.all('license')).licenses;
 

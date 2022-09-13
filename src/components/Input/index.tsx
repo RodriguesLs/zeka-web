@@ -24,7 +24,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   ref,
 ) => {
   return (
-    <FormControl isInvalid={!!error}>
+    <FormControl isInvalid={!!error} alignSelf='baseline'>
       {!!label && (
         <FormLabel mb='0.25rem' htmlFor={name}>
           {label}
