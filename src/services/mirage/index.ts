@@ -1,7 +1,5 @@
 import { ActiveModelSerializer, createServer, Model } from 'miragejs';
 
-import { ILicense } from '@/pages/Licenses/types';
-
 import apiAuthHandlers from './auth/server';
 import factoryLicenses from './factories/licenses';
 import factoryStudents from './factories/students';
@@ -12,7 +10,7 @@ const makeServer = () => {
       application: ActiveModelSerializer,
     },
     models: {
-      license: Model.extend<Partial<ILicense>>({}),
+      license: Model.extend<Partial<any>>({}),
       student: Model.extend<Partial<any>>({}),
     },
     factories: {
@@ -21,7 +19,7 @@ const makeServer = () => {
     },
 
     seeds(server) {
-      server.createList('license', 5);
+      server.createList('license', 12);
       server.createList('student', 15);
     },
 
@@ -43,8 +41,27 @@ const makeServer = () => {
         return licenses;
       });
 
-      this.post('/licenses', () => {
-        return [];
+      this.get('/licenses/:licenseId', function (schema, request) {
+        const { licenseId } = request.params;
+
+        const idFormatted = String(licenseId);
+
+        const { license } = this.serialize(schema.find('license', idFormatted));
+
+        return license;
+      });
+
+      this.post('/licenses', (schema, request) => {
+        const data = JSON.parse(request.requestBody);
+        const { license } = data;
+        schema.create('license', { ...license, total_uses: 0 });
+        return {};
+      });
+
+      this.put('/licenses/:licenseId', (_, request) => {
+        const data = JSON.parse(request.requestBody);
+
+        return data;
       });
 
       this.namespace = '';

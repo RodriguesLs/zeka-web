@@ -35,7 +35,7 @@ const Table = ({ columns, data, rowFn }: TableProps) => {
   return (
     <Box w='100%' h={[null, null, null, '400px', '400px', '700px']} overflowY='auto'>
       <ChakraTable {...getTableProps()}>
-        <Thead position='sticky' top='0' bg='#f1f2f3'>
+        <Thead position='sticky' top='0' zIndex={1} bg='#f1f2f3'>
           {headerGroups.map((headerGroup) => (
             <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
               {headerGroup.headers.map((column) => (

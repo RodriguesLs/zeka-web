@@ -1,16 +1,18 @@
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import { useForm } from 'react-hook-form';
 import { Box, Flex, VStack } from '@chakra-ui/react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useNavigate } from 'react-router-dom';
 
-import { Button, Input, Select } from '@/components';
+import { Button, Error, Input, Select, Spinner } from '@/components';
 import useToast from '@/hooks/useToast';
-import apiClient from '@/services/apiClient';
 import { queryClient } from '@/services/queryClient';
+import { createLicense, fetchLicenseById, updateLicense } from './services/apiHandlers';
 
-interface LicenseFormData {
+export interface LicenseFormData {
   id: number;
   code: string;
   name: string;
@@ -31,39 +33,63 @@ const licenseFormSchema = yup.object().shape({
     .required('Quantidade é obrigatória'),
 });
 
-const CreateLicense = () => {
+const CreateUpdateLicense = () => {
+  const { licenseId } = useParams();
+  const isCreateMode = !licenseId;
+
   const navigate = useNavigate();
   const { addToast } = useToast();
 
   const {
+    data: license,
+    error,
+    isLoading,
+  } = useQuery(
+    ['admin-licenses', licenseId],
+    async () => {
+      const { data } = await fetchLicenseById(licenseId);
+
+      return data;
+    },
+    {
+      enabled: !isCreateMode,
+      retry: 1,
+    },
+  );
+
+  const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<LicenseFormData>({
     resolver: yupResolver(licenseFormSchema),
   });
 
-  const addLicense = (data: LicenseFormData) => {
-    return apiClient.post('/licenses', {
-      license: {
-        ...data,
-        status: data.status == '1' ? true : false,
-      },
-    });
-  };
+  useEffect(() => {
+    if (!isCreateMode && license) {
+      const fields = ['code', 'name', 'expiration_date', 'available_uses'];
+      fields.forEach((field: any) => setValue(field, license[field]));
+      setValue('status', license.status == true ? '1' : '0');
+    }
+  }, [license]);
 
-  const { mutateAsync } = useMutation(addLicense, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['admin-licenses']);
+  const { mutateAsync } = useMutation(
+    (data: LicenseFormData) =>
+      isCreateMode ? createLicense(data) : updateLicense(licenseId, data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['admin-licenses']);
+      },
     },
-  });
+  );
 
   const onSubmit = async (formData: LicenseFormData) => {
     try {
       await mutateAsync(formData);
       addToast({
         title: 'Sucesso!',
-        description: 'Nova licença cadastrada com sucesso!',
+        description: `Licença ${isCreateMode ? 'cadastrada' : 'atualizada'} com sucesso!`,
         type: 'success',
       });
 
@@ -71,11 +97,24 @@ const CreateLicense = () => {
     } catch (e) {
       addToast({
         title: 'Opssss..',
-        description: 'Erro ao salvar nova licença, tente novamente!',
+        description: `Erro ao ${
+          isCreateMode ? 'salvar nova' : 'atualizar'
+        }  licença, tente novamente!`,
         type: 'error',
       });
     }
   };
+
+  if (!isCreateMode && isLoading)
+    return (
+      <Box w='100%' pt='10rem' display='grid' placeContent='center'>
+        <Spinner />
+      </Box>
+    );
+
+  if (error) {
+    return <Error onClick={() => navigate('../')} />;
+  }
 
   return (
     <Box as='section' w='100%'>
@@ -119,15 +158,15 @@ const CreateLicense = () => {
             label='Quantidade para uso*'
           />
           <Select name='status' label='Status' register={register} defaultValue='1'>
-            <option value='1'>Ativo</option>
-            <option value='0'>Inativo</option>
+            <option value='1'>Ativa</option>
+            <option value='0'>Inativa</option>
           </Select>
           <Flex w='100%' mt='2rem' alignItems='center' gap='1rem'>
             <Button type='button' onClick={() => navigate(-1)}>
               Cancelar
             </Button>
             <Button type='submit' variant='primary' disabled={isSubmitting}>
-              Salvar
+              {isCreateMode ? 'Salvar' : 'Atualizar'}
             </Button>
           </Flex>
         </VStack>
@@ -136,4 +175,4 @@ const CreateLicense = () => {
   );
 };
 
-export default CreateLicense;
+export default CreateUpdateLicense;

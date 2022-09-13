@@ -29,7 +29,7 @@ const Actions = ({ licenseId }: ActionsProps) => {
   return (
     <Popover>
       <PopoverTrigger>
-        <Button bg='none' w='24px' _hover={{ bg: 'none' }}>
+        <Button bg='none' w='24px' _hover={{ bg: 'none' }} zIndex={0}>
           <Icon as={FiEdit} />
         </Button>
       </PopoverTrigger>
