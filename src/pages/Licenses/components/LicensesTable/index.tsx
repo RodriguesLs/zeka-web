@@ -1,13 +1,12 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Badge, VStack } from '@chakra-ui/react';
 
-import { FiEdit } from 'react-icons/fi';
-
 import FilterLicense from '../FilterLicense';
 import { ILicense, FilterOptions } from '../../types';
 
 import { Table } from '@/components';
 import { formatDate } from '@/utils/formats';
+import Actions from './Actions';
 
 interface LicenseTableProps {
   data: ILicense[];
@@ -63,11 +62,7 @@ const LicensesTable = ({ data }: LicenseTableProps) => {
       {
         Header: 'Ação',
         accessor: 'actions',
-        Cell: () => (
-          <button>
-            <FiEdit />
-          </button>
-        ),
+        Cell: ({ row }: any) => <Actions licenseId={row.original.id} />,
       },
     ],
     [],
