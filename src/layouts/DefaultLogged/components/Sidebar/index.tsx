@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Heading, HStack, Image, Icon, Link, VStack } from '@chakra-ui/react';
 import { FiHome, FiKey, FiUser, FiChevronLeft } from 'react-icons/fi';
+import { GoOrganization } from 'react-icons/go';
 import { FaYoutube, FaLinkedin, FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
 
 import NavLink from './NavLink';
@@ -28,6 +29,8 @@ const Sidebar = () => {
       <VStack as='nav' w='100%' h='100%' px='0.5rem'>
         <NavLink to='/dashboard' icon={FiHome} title='Dashboard' />
         <NavLink to='/usuarios' icon={FiUser} title='Usuários' />
+        <NavLink to='/users-zeka' icon={FiUser} title='Usuários [Zeka]' />
+        <NavLink to='/empresas' icon={GoOrganization} title='Empresas' />
         <NavLink to='/licencas' icon={FiKey} title='Licenças' />
       </VStack>
       {!isMinimized && <ListSocial />}

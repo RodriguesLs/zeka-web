@@ -11,6 +11,7 @@ const OnboardingLayout = lazy(() => import('@/layouts/Onboarding'));
 
 // PAGES
 const CreateUpdateLicense = lazy(() => import('@/pages/CreateUpdateLicense'));
+const CreateUpdateOrganization = lazy(() => import('@/pages/CreateUpdateOrganization'));
 const CreateUpdateUser = lazy(() => import('@/pages/CreateUpdateUser'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
@@ -19,6 +20,7 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 const Signin = lazy(() => import('@/pages/Signin'));
 const Signup = lazy(() => import('@/pages/Signup'));
 const Users = lazy(() => import('@/pages/Users'));
+const Organizations = lazy(() => import('@/pages/Organizations'));
 
 const publicRoutes = () => (
   <Route element={<PublicRoutes />}>
@@ -63,6 +65,17 @@ const privateRoutes = () => (
         <Route
           path='edita-usuario/:userId'
           element={<RouteWrapper title='Editar usuário' component={CreateUpdateUser} />}
+        />
+      </Route>
+      <Route path='empresas'>
+        <Route index element={<RouteWrapper title='Empresas' component={Organizations} />} />
+        <Route
+          path='nova-empresa'
+          element={<RouteWrapper title='Nova empresa' component={CreateUpdateOrganization} />}
+        />
+        <Route
+          path='edita-empresa/:orgId'
+          element={<RouteWrapper title='Editar empresa' component={CreateUpdateOrganization} />}
         />
       </Route>
     </Route>

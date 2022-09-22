@@ -80,6 +80,7 @@ const CreateUpdateUser = () => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const { userId } = useParams();
+
   const isCreateMode = !userId;
 
   const navigate = useNavigate();

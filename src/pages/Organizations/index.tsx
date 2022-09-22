@@ -1,39 +1,36 @@
-import { FiPlus, FiUpload } from 'react-icons/fi';
+import { FiPlus } from 'react-icons/fi';
 import { useQuery } from '@tanstack/react-query';
 import { Box, HStack } from '@chakra-ui/react';
 
-import { UsersTable } from './components';
-import fetchUsers from './services/fetchUsers';
+import { OrganizationsTable } from './components';
+import fetchOrganizations from './services/fetchOrganizations';
 
 import { Button } from '@/components';
 import { TableError, TableSkeleton } from '@/components/Table';
 import { useNavigate } from 'react-router-dom';
 
-const Users = () => {
-  const { data, error, isLoading } = useQuery(['admin-users'], fetchUsers);
+const Organizations = () => {
+  const { data, error, isLoading } = useQuery(['organizations'], fetchOrganizations);
 
   const navigate = useNavigate();
 
   return (
     <Box width='100%'>
       <HStack width='100%' mb='1rem' gap='1rem' justifyContent='end'>
-        <Button variant='primary' icon={FiUpload} style={{ width: '250px' }}>
-          Importar usuários
-        </Button>
         <Button
           variant='primary'
           icon={FiPlus}
           style={{ width: '250px' }}
-          onClick={() => navigate('./novo-usuario')}
+          onClick={() => navigate('./nova-empresa')}
         >
-          Adicionar usuário
+          Adicionar empresa
         </Button>
       </HStack>
       {isLoading && <TableSkeleton />}
-      {error && <TableError keyCache='admin-users' />}
-      {data && <UsersTable data={data} />}
+      {error && <TableError keyCache='organizations' />}
+      {data && <OrganizationsTable data={data} />}
     </Box>
   );
 };
 
-export default Users;
+export default Organizations;
