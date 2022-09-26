@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import AppProvider from './contexts';
 import Loading from './pages/Loading';
@@ -12,6 +13,7 @@ const App = () => {
       <Suspense fallback={<Loading />}>
         <QueryClientProvider client={queryClient}>
           <Routes />
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </Suspense>
     </AppProvider>

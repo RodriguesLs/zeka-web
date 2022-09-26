@@ -83,6 +83,8 @@ const CreateUpdateUser = () => {
 
   const isCreateMode = !userId;
 
+  console.log('isCreateMode', isCreateMode);
+
   const navigate = useNavigate();
   const { addToast } = useToast();
 
@@ -116,34 +118,34 @@ const CreateUpdateUser = () => {
     if (!isCreateMode && user) reset(user);
   }, [isCreateMode, user]);
 
-  const { mutateAsync } = useMutation(
-    (data: UserFormData) => (isCreateMode ? createUser(data) : updateUser(userId, data)),
+  const { mutate } = useMutation(
+    (data: UserFormData) => isCreateMode ? createUser(data) : updateUser(userId, data),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['admin-users']);
+        queryClient.invalidateQueries(['admin-users', '1']);
+      },
+      onError: () => {
+        addToast({
+          title: 'Opssss..',
+          description: `Erro ao ${
+            isCreateMode ? 'salvar novo' : 'atualizar'
+          }  usuário, tente novamente!`,
+          type: 'error',
+        });
       },
     },
   );
 
-  const onSubmit = async (formData: UserFormData) => {
-    try {
-      await mutateAsync(formData);
-      addToast({
-        title: 'Sucesso!',
-        description: `Usuário ${isCreateMode ? 'cadastrado' : 'atualizado'} com sucesso!`,
-        type: 'success',
-      });
+  const onSubmit = (formData: UserFormData) => {
+    mutate(formData);
+    addToast({
+      title: 'Sucesso!',
+      description: `Usuário ${isCreateMode ? 'cadastrado' : 'atualizado'} com sucesso!`,
+      type: 'success',
+    });
 
-      navigate('/usuarios');
-    } catch (e) {
-      addToast({
-        title: 'Opssss..',
-        description: `Erro ao ${
-          isCreateMode ? 'salvar novo' : 'atualizar'
-        }  usuário, tente novamente!`,
-        type: 'error',
-      });
-    }
+    navigate('/usuarios');
   };
 
   if (!isCreateMode && isLoading)

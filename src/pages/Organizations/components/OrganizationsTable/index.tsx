@@ -20,26 +20,26 @@ const OrganizationsTable = ({ data }: UsersTableProps) => {
 
   const navigate = useNavigate();
 
-  const getUsersFiltered = (users: IUser[]) => {
+  const getUsersFiltered = (organizations: IUser[]) => {
     switch (selectedTypeUser) {
       case 'active':
-        return users.filter((user) => user.active);
+        return organizations.filter((organization) => organization.active);
       case 'inactive':
-        return users.filter((user) => !user.active);
+        return organizations.filter((organization) => !organization.active);
       default:
-        return users;
+        return organizations;
     }
   };
 
-  const getUsersByName = (users: IUser[]) => {
-    return users.filter((user) => {
-      const name = user.name.toLowerCase();
+  const getUsersByName = (organizations: IUser[]) => {
+    return organizations.filter((organization) => {
+      const name = organization.name.toLowerCase();
 
-      return name.includes(nameFiltered.toLowerCase()) && user;
+      return name.includes(nameFiltered.toLowerCase()) && organization;
     });
   };
 
-  const users = useMemo(() => {
+  const organizations = useMemo(() => {
     const usersFilteredByStatus = getUsersFiltered(data);
 
     if (nameFiltered !== '') return getUsersByName(data);
@@ -83,7 +83,7 @@ const OrganizationsTable = ({ data }: UsersTableProps) => {
     <VStack width='100%' gap='1rem' alignItems='start'>
       <FilterUsers typeSelected={selectedTypeUser} onChangeType={setSelectedTypeUser} />
       <SearchBox value={nameFiltered} onChange={setNameFiltered} />
-      <Table data={users} columns={columns} />
+      <Table data={organizations} columns={columns} />
     </VStack>
   );
 };

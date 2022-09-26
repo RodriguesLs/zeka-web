@@ -21,24 +21,24 @@ import * as yup from 'yup';
 import { Button, Error, Input, Select, Spinner } from '@/components';
 import useToast from '@/hooks/useToast';
 import { queryClient } from '@/services/queryClient';
-import { createOrganization, fetchOrganizationById, updateUser } from './services/apiHandlers';
+import { createOrganization, fetchOrganizationById, updateOrganization } from './services/apiHandlers';
+import apiClient from '@/services/apiClient';
 
-export interface UserFormData {
+export interface OrganizationFormData {
   logo: File;
   name: string;
   phone_number: number | string;
   cnpj: string | number;
   site: string;
-  operation_area_id: number;
+  operation_area_id: number | string;
   contact_person: string;
 }
 
-const userFormSchema = yup.object().shape({
-  name: yup.string().required('Nome é obrigatório'),
-  logo: yup.string(),
-  phone_number: yup.string().required('Telefone é obrigatório'),
+const organizationFormSchema = yup.object().shape({
+  name: yup.string(),
+  phone_number: yup.string(),
   cnpj: yup.string(),
-  address: yup.string(),
+  site: yup.string(),
 });
 
 const CreateUpdateOrganization = () => {
@@ -56,7 +56,7 @@ const CreateUpdateOrganization = () => {
     error,
     isLoading,
   } = useQuery(
-    ['admin-users', orgId],
+    ['organizations', orgId],
     async () => {
       const { data } = await fetchOrganizationById(orgId);
 
@@ -73,27 +73,29 @@ const CreateUpdateOrganization = () => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<UserFormData>({
-    resolver: yupResolver(userFormSchema),
+  } = useForm<OrganizationFormData>({
+    resolver: yupResolver(organizationFormSchema),
   });
 
   useEffect(() => {
+    console.log('use effect')
     if (!isCreateMode && user) reset(user);
   }, [isCreateMode, user]);
 
-  const { mutateAsync } = useMutation(
-    (data: UserFormData) => (isCreateMode ? createOrganization(data) : updateUser(orgId, data)),
+  const { mutate } = useMutation(
+    (data: any) => apiClient.put(`organizations/${orgId}`, { organization: { ...data } }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['admin-users']);
+        queryClient.invalidateQueries(['organizations']);
       },
+      onError: () => console.log('ERRO')
     },
   );
 
-  const onSubmit = async (formData: UserFormData) => {
+  const onSubmit = (formData: any) => {
     try {
-      console.log(formData);
-      await mutateAsync(formData);
+      console.log('data', formData);
+      mutate(formData);
       addToast({
         title: 'Sucesso!',
         description: `Usuário ${isCreateMode ? 'cadastrado' : 'atualizado'} com sucesso!`,
@@ -123,6 +125,7 @@ const CreateUpdateOrganization = () => {
     return <Error onClick={() => navigate('../')} />;
   }
 
+  console.log(errors);
   return (
     <Box as='section' w='100%'>
       <Box as='form' w='100%' maxWidth='1000px' onSubmit={handleSubmit(onSubmit)}>

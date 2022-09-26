@@ -12,7 +12,7 @@ export const createUser = (data: UserFormData) => {
 };
 
 export const updateUser = (userId: number | string, data: UserFormData) => {
-  return apiClient.put(`students/${userId}`, {
+  return apiClient.put(`students/${userId}?organization_id=1`, {
     data,
   });
 };
