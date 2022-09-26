@@ -144,31 +144,44 @@ const CreateUpdateUser = () => {
                     autoComplete='off'
                     label='Nome completo*'
                   />
-                  <Select name='role' label='Tipo' register={register} defaultValue='user'>
-                    <option value='admin'>Administrador</option>
-                    <option value='user'>User zeka</option>
-                  </Select>
+                  {
+                    isCreateMode &&
+                    <Select name='role' label='Tipo' register={register} defaultValue='user'>
+                      <option value='admin'>Administrador</option>
+                      <option value='user'>User zeka</option>
+                    </Select>
+                  }
+                  {
+                    !isCreateMode &&
+                    <Select name='active' label='Status' register={register} defaultValue='true'>
+                      <option value='true'>Ativo</option>
+                      <option value='false'>Inativo</option>
+                    </Select>
+                  }
                 </HStack>
-                <HStack w='100%'>
-                  <Input
-                    type='text'
-                    name='email'
-                    placeholder='Ex: a@a.com'
-                    error={errors.email}
-                    register={register}
-                    autoComplete='off'
-                    label='E-mail:*'
-                  />
-                  <Input
-                    type='text'
-                    name='password'
-                    placeholder='Ex: @Kldi24'
-                    error={errors.password}
-                    register={register}
-                    autoComplete='off'
-                    label='Password:*'
-                  />
-                </HStack>
+                {
+                  isCreateMode &&
+                  <HStack w='100%'>
+                    <Input
+                      type='text'
+                      name='email'
+                      placeholder='Ex: a@a.com'
+                      error={errors.email}
+                      register={register}
+                      autoComplete='off'
+                      label='E-mail:*'
+                    />
+                    <Input
+                      type='text'
+                      name='password'
+                      placeholder='Ex: @Kldi24'
+                      error={errors.password}
+                      register={register}
+                      autoComplete='off'
+                      label='Password:*'
+                    />
+                  </HStack>
+                }
                 <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
                   <Button type='button' onClick={() => navigate(-1)}>
                     Cancelar

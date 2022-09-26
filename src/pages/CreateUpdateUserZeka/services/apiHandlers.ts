@@ -12,8 +12,8 @@ export const createUser = (data: UserZekaFormData) => {
   });
 };
 
-export const updateUser = (userId: number | string, data: UserZekaFormData) => {
+export const updateUser = (userId: number | string, data: any) => {
   return apiClient.put(`admin_users/${userId}`, {
-    data,
+    admin_user: { name: data.name, active: data.active },
   });
 };
