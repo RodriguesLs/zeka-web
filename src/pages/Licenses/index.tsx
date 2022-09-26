@@ -23,7 +23,7 @@ const Licenses = () => {
           onClick={() => navigate('/licencas/nova-licenca')}
           style={{ width: '250px' }}
         >
-          Adquirir nova licença
+          Noava licença
         </Button>
       </VStack>
       {isLoading && <TableSkeleton />}

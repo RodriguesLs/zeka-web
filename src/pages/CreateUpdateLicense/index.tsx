@@ -157,9 +157,9 @@ const CreateUpdateLicense = () => {
             autoComplete='off'
             label='Quantidade para uso*'
           />
-          <Select name='status' label='Status' register={register} defaultValue='1'>
-            <option value='1'>Ativa</option>
-            <option value='0'>Inativa</option>
+          <Select name='status' label='Status' register={register} defaultValue='0'>
+            <option value='0'>Ativa</option>
+            <option value='1'>Inativa</option>
           </Select>
           <Flex w='100%' mt='2rem' alignItems='center' gap='1rem'>
             <Button type='button' onClick={() => navigate(-1)}>

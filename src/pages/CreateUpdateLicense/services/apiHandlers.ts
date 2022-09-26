@@ -18,7 +18,7 @@ export const updateLicense = (licenseId: number | string, data: LicenseFormData)
   return apiClient.put(`licenses/${licenseId}`, {
     license: {
       ...data,
-      status: String(data.status) == '1' ? true : false,
+      status: String(data.status) == '0' ? 'active' : 'inactive',
     },
   });
 };
