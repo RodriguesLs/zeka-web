@@ -23,14 +23,16 @@ const chartData = [
 
 const Chart = () => {
   return (
-    <ResponsiveContainer width='99%' aspect={3}>
-      <BarChart data={chartData}>
-        <XAxis dataKey='name' stroke='#31aeb9' />
-        <YAxis />
-        <CartesianGrid stroke='#ccc' strokeDasharray='1' />
-        <Bar dataKey='taxa' fill='#31aeb9' barSize={60} />
-      </BarChart>
-    </ResponsiveContainer>
+    <>
+      <ResponsiveContainer width='30%' aspect={1}>
+        <BarChart data={chartData}>
+          <XAxis dataKey='name' stroke='#31aeb9' />
+          <YAxis />
+          <CartesianGrid stroke='#ccc' strokeDasharray='1' />
+          <Bar dataKey='taxa' fill='#31aeb9' barSize={60} />
+        </BarChart>
+      </ResponsiveContainer>
+    </>
   );
 };
 

@@ -3,6 +3,7 @@ import { Heading, HStack, Image, Icon, Link, VStack } from '@chakra-ui/react';
 import { FiHome, FiKey, FiUser, FiChevronLeft } from 'react-icons/fi';
 import { GoOrganization } from 'react-icons/go';
 import { FaYoutube, FaLinkedin, FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
+import useAuth from '@/hooks/useAuth';
 
 import NavLink from './NavLink';
 import logoImg from '@/assets/img/logo.svg';
@@ -11,6 +12,7 @@ import * as S from './styles';
 
 const Sidebar = () => {
   const [isMinimized, setIsMinimized] = useState(false);
+  const { role } = useAuth();
 
   return (
     <S.Container isMinimized={isMinimized}>
@@ -27,11 +29,12 @@ const Sidebar = () => {
         visibility={isMinimized ? 'hidden' : 'visible'}
       />
       <VStack as='nav' w='100%' h='100%' px='0.5rem'>
-        <NavLink to='/dashboard' icon={FiHome} title='Dashboard' />
-        <NavLink to='/usuarios' icon={FiUser} title='Usuários' />
-        <NavLink to='/usuarios-zeka' icon={FiUser} title='Usuários [Zeka]' />
-        <NavLink to='/empresas' icon={GoOrganization} title='Empresas' />
-        <NavLink to='/licencas' icon={FiKey} title='Licenças' />
+        { role == 'admin' && <NavLink to='/dashboard' icon={FiHome} title='Dashboard' /> }
+        { role == 'admin' && <NavLink to='/usuarios' icon={FiUser} title='Usuários' /> }
+        { role == 'admin' && <NavLink to='/usuarios-zeka' icon={FiUser} title='Usuários [Zeka]' /> }
+        { role == 'admin' && <NavLink to='/empresas' icon={GoOrganization} title='Empresas' /> }
+        { role == 'admin' && <NavLink to='/licencas' icon={FiKey} title='Licenças' /> }
+        { role == 'user' && <NavLink to='/professores' icon={FiUser} title='Professores' /> }
       </VStack>
       {!isMinimized && <ListSocial />}
     </S.Container>

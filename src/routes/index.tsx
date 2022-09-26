@@ -23,6 +23,7 @@ const Signup = lazy(() => import('@/pages/Signup'));
 const Users = lazy(() => import('@/pages/Users'));
 const UsersZeka = lazy(() => import('@/pages/UsersZeka'));
 const Organizations = lazy(() => import('@/pages/Organizations'));
+const Teachers = lazy(() => import('@/pages/Teachers'));
 
 const publicRoutes = () => (
   <Route element={<PublicRoutes />}>
@@ -78,6 +79,17 @@ const privateRoutes = () => (
         <Route
           path='edita-usuario-zeka/:userId'
           element={<RouteWrapper title='Editar usuário zeka' component={CreateUpdateUserZeka} />}
+        />
+      </Route>
+      <Route path='professores'>
+        <Route index element={<RouteWrapper title='Professores' component={Teachers} />} />
+        <Route
+          path='novo-professor'
+          element={<RouteWrapper title='Novo professor' component={CreateUpdateUserZeka} />}
+        />
+        <Route
+          path='edita-professor/:teacherId'
+          element={<RouteWrapper title='Editar professor' component={CreateUpdateUserZeka} />}
         />
       </Route>
       <Route path='empresas'>
