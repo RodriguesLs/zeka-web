@@ -13,6 +13,7 @@ const OnboardingLayout = lazy(() => import('@/layouts/Onboarding'));
 const CreateUpdateLicense = lazy(() => import('@/pages/CreateUpdateLicense'));
 const CreateUpdateOrganization = lazy(() => import('@/pages/CreateUpdateOrganization'));
 const CreateUpdateUser = lazy(() => import('@/pages/CreateUpdateUser'));
+const CreateUpdateUserZeka = lazy(() => import('@/pages/CreateUpdateUserZeka'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
 const Licenses = lazy(() => import('@/pages/Licenses'));
@@ -20,6 +21,7 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 const Signin = lazy(() => import('@/pages/Signin'));
 const Signup = lazy(() => import('@/pages/Signup'));
 const Users = lazy(() => import('@/pages/Users'));
+const UsersZeka = lazy(() => import('@/pages/UsersZeka'));
 const Organizations = lazy(() => import('@/pages/Organizations'));
 
 const publicRoutes = () => (
@@ -65,6 +67,17 @@ const privateRoutes = () => (
         <Route
           path='edita-usuario/:userId'
           element={<RouteWrapper title='Editar usuário' component={CreateUpdateUser} />}
+        />
+      </Route>
+      <Route path='usuarios-zeka'>
+        <Route index element={<RouteWrapper title='Usuários Zeka' component={UsersZeka} />} />
+        <Route
+          path='novo-usuario-zeka'
+          element={<RouteWrapper title='Novo usuário zeka' component={CreateUpdateUserZeka} />}
+        />
+        <Route
+          path='edita-usuario-zeka/:userId'
+          element={<RouteWrapper title='Editar usuário zeka' component={CreateUpdateUserZeka} />}
         />
       </Route>
       <Route path='empresas'>

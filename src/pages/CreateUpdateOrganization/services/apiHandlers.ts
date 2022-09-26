@@ -1,5 +1,5 @@
 import apiClient from '@/services/apiClient';
-import { UserFormData } from '..';
+import { OrganizationFormData } from '..';
 
 export const fetchOrganizationById = (orgId: number | string) => {
   return apiClient.get(`organizations/${orgId}`);
@@ -11,7 +11,7 @@ export const createOrganization = (data: any) => {
   });
 };
 
-export const updateOrganization = (orgId: number | string, data: UserFormData) => {
+export const updateOrganization = (orgId: number | string, data: OrganizationFormData) => {
   console.log('ORGANIZATION', data);
   return apiClient.put(`organizations/${orgId}`, {
     data,

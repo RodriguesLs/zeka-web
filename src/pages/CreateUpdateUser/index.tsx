@@ -93,7 +93,7 @@ const CreateUpdateUser = () => {
     error,
     isLoading,
   } = useQuery(
-    ['admin-users', userId],
+    ['users', userId],
     async () => {
       const { data } = await fetchUserById(userId);
 
@@ -122,8 +122,8 @@ const CreateUpdateUser = () => {
     (data: UserFormData) => isCreateMode ? createUser(data) : updateUser(userId, data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['admin-users']);
-        queryClient.invalidateQueries(['admin-users', '1']);
+        queryClient.invalidateQueries(['users']);
+        queryClient.invalidateQueries(['users', '1']);
       },
       onError: () => {
         addToast({

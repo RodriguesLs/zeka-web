@@ -29,7 +29,7 @@ const Sidebar = () => {
       <VStack as='nav' w='100%' h='100%' px='0.5rem'>
         <NavLink to='/dashboard' icon={FiHome} title='Dashboard' />
         <NavLink to='/usuarios' icon={FiUser} title='Usuários' />
-        <NavLink to='/users-zeka' icon={FiUser} title='Usuários [Zeka]' />
+        <NavLink to='/usuarios-zeka' icon={FiUser} title='Usuários [Zeka]' />
         <NavLink to='/empresas' icon={GoOrganization} title='Empresas' />
         <NavLink to='/licencas' icon={FiKey} title='Licenças' />
       </VStack>
