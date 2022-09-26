@@ -45,8 +45,6 @@ const CreateUpdateUser = () => {
 
   const isCreateMode = !userId;
 
-  console.log('isCreateMode', isCreateMode);
-
   const navigate = useNavigate();
   const { addToast } = useToast();
 
@@ -55,7 +53,7 @@ const CreateUpdateUser = () => {
     error,
     isLoading,
   } = useQuery(
-    ['users', userId],
+    ['admin-users', userId],
     async () => {
       const { data } = await fetchUserById(userId);
 
@@ -84,8 +82,8 @@ const CreateUpdateUser = () => {
     (data: UserZekaFormData) => isCreateMode ? createUser(data) : updateUser(userId, data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['users']);
-        queryClient.invalidateQueries(['users', '1']);
+        queryClient.invalidateQueries(['admin-users']);
+        queryClient.invalidateQueries(['admin-users', '1']);
       },
       onError: () => {
         addToast({
@@ -107,7 +105,7 @@ const CreateUpdateUser = () => {
       type: 'success',
     });
 
-    navigate('/usuarios');
+    navigate('/usuarios-zeka');
   };
 
   if (!isCreateMode && isLoading)

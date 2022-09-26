@@ -7,7 +7,8 @@ export const fetchUserById = (userId: number | string) => {
 
 export const createUser = (data: UserZekaFormData) => {
   return apiClient.post('admin_users', {
-    data,
+    admin_user: { name: data.name, role: data.role, active: true },
+    user: { email: data.email, password: data.password }
   });
 };
 
