@@ -9,7 +9,7 @@ import { Button } from '@/components';
 import { TableError, TableSkeleton } from '@/components/Table';
 import { useNavigate } from 'react-router-dom';
 
-const Users = () => {
+const Teachers = () => {
   const { data, error, isLoading } = useQuery(['teachers'], fetchTeachers);
 
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const Users = () => {
           style={{ width: '250px' }}
           onClick={() => navigate('./novo-professor')}
         >
-          Adicionar usuário zeka
+          Novo professor
         </Button>
       </HStack>
       {isLoading && <TableSkeleton />}
@@ -33,4 +33,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Teachers;

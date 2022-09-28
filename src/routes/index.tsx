@@ -14,6 +14,7 @@ const CreateUpdateLicense = lazy(() => import('@/pages/CreateUpdateLicense'));
 const CreateUpdateOrganization = lazy(() => import('@/pages/CreateUpdateOrganization'));
 const CreateUpdateUser = lazy(() => import('@/pages/CreateUpdateUser'));
 const CreateUpdateUserZeka = lazy(() => import('@/pages/CreateUpdateUserZeka'));
+const CreateUpdateTeacher = lazy(() => import('@/pages/CreateUpdateTeacher'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
 const Licenses = lazy(() => import('@/pages/Licenses'));
@@ -85,11 +86,11 @@ const privateRoutes = () => (
         <Route index element={<RouteWrapper title='Professores' component={Teachers} />} />
         <Route
           path='novo-professor'
-          element={<RouteWrapper title='Novo professor' component={CreateUpdateUserZeka} />}
+          element={<RouteWrapper title='Novo professor' component={CreateUpdateTeacher} />}
         />
         <Route
           path='edita-professor/:teacherId'
-          element={<RouteWrapper title='Editar professor' component={CreateUpdateUserZeka} />}
+          element={<RouteWrapper title='Editar professor' component={CreateUpdateTeacher} />}
         />
       </Route>
       <Route path='empresas'>
@@ -101,6 +102,17 @@ const privateRoutes = () => (
         <Route
           path='edita-empresa/:orgId'
           element={<RouteWrapper title='Editar empresa' component={CreateUpdateOrganization} />}
+        />
+      </Route>
+      <Route path='atividades'>
+        <Route index element={<RouteWrapper title='Atividades' component={Organizations} />} />
+        <Route
+          path='nova-atividade'
+          element={<RouteWrapper title='Nova atividade' component={CreateUpdateOrganization} />}
+        />
+        <Route
+          path='edita-atividade/:activityId'
+          element={<RouteWrapper title='Editar atividade' component={CreateUpdateOrganization} />}
         />
       </Route>
     </Route>
