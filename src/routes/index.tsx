@@ -12,6 +12,7 @@ const OnboardingLayout = lazy(() => import('@/layouts/Onboarding'));
 // PAGES
 const CreateUpdateLicense = lazy(() => import('@/pages/CreateUpdateLicense'));
 const CreateUpdateOrganization = lazy(() => import('@/pages/CreateUpdateOrganization'));
+const CreateUpdateActivity = lazy(() => import('@/pages/CreateUpdateActivity'));
 const CreateUpdateUser = lazy(() => import('@/pages/CreateUpdateUser'));
 const CreateUpdateUserZeka = lazy(() => import('@/pages/CreateUpdateUserZeka'));
 const CreateUpdateTeacher = lazy(() => import('@/pages/CreateUpdateTeacher'));
@@ -24,6 +25,7 @@ const Signup = lazy(() => import('@/pages/Signup'));
 const Users = lazy(() => import('@/pages/Users'));
 const UsersZeka = lazy(() => import('@/pages/UsersZeka'));
 const Organizations = lazy(() => import('@/pages/Organizations'));
+const Activities = lazy(() => import('@/pages/Activities'));
 const Teachers = lazy(() => import('@/pages/Teachers'));
 
 const publicRoutes = () => (
@@ -105,14 +107,14 @@ const privateRoutes = () => (
         />
       </Route>
       <Route path='atividades'>
-        <Route index element={<RouteWrapper title='Atividades' component={Organizations} />} />
+        <Route index element={<RouteWrapper title='Atividades' component={Activities} />} />
         <Route
           path='nova-atividade'
-          element={<RouteWrapper title='Nova atividade' component={CreateUpdateOrganization} />}
+          element={<RouteWrapper title='Nova atividade' component={CreateUpdateActivity} />}
         />
         <Route
           path='edita-atividade/:activityId'
-          element={<RouteWrapper title='Editar atividade' component={CreateUpdateOrganization} />}
+          element={<RouteWrapper title='Editar atividade' component={CreateUpdateActivity} />}
         />
       </Route>
     </Route>
