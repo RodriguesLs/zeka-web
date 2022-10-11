@@ -14,6 +14,7 @@ interface ActivityTableProps {
 }
 
 const ActivitiesTable = ({ data }: ActivityTableProps) => {
+  const activities = data.map(a => ({ ...a, kind: (a.kind === 'simulate' ? 'Simulado' : 'Live') }));
   const [nameFiltered, setNameFiltered] = useState('');
   const [selectedTypeUser, setSelectedTypeUser] = useState<FilterOptions>('all');
 
@@ -85,7 +86,7 @@ const ActivitiesTable = ({ data }: ActivityTableProps) => {
     <VStack width='100%' gap='1rem' alignItems='start'>
       <FilterUsers typeSelected={selectedTypeUser} onChangeType={setSelectedTypeUser} />
       <SearchBox value={nameFiltered} onChange={setNameFiltered} />
-      <Table data={users} columns={columns} />
+      <Table data={activities} columns={columns} />
     </VStack>
   );
 };
