@@ -21,9 +21,9 @@ const OperationAreas = () => {
           variant='primary'
           icon={FiPlus}
           style={{ width: '250px' }}
-          onClick={() => navigate('./nova-operation-area')}
+          onClick={() => navigate('./novo-departamento')}
         >
-          Adicionar empresa
+          Novo departamento
         </Button>
       </HStack>
       {isLoading && <TableSkeleton />}

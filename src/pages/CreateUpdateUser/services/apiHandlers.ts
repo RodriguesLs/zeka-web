@@ -16,3 +16,5 @@ export const updateUser = (userId: number | string, data: UserFormData) => {
     student: data,
   });
 };
+
+export const fetchDepartments = () => apiClient.get('operation_areas');

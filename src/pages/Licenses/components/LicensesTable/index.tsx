@@ -44,7 +44,6 @@ const LicensesTable = ({ data }: LicenseTableProps) => {
       {
         Header: 'Data expiração',
         accessor: 'expiration_date',
-        Cell: ({ value }) => formatDate(value),
       },
       {
         Header: 'Total de uso',

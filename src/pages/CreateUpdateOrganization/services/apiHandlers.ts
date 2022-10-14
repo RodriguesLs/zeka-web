@@ -5,6 +5,10 @@ export const fetchOrganizationById = (orgId: number | string) => {
   return apiClient.get(`organizations/${orgId}`);
 };
 
+export const fetchOperationAreas = () => {
+  return apiClient.get('operation_areas');
+};
+
 export const createOrganization = (data: any) => {
   return apiClient.post('organizations', {
     organization: data,

@@ -1,14 +1,12 @@
 import { useMemo, useState } from 'react';
-import { IconButton, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { FiEdit } from 'react-icons/fi';
 
 import FilterUsers from '../FilterUsers';
 import SearchBox from '../SearchBox';
 import { IUser, FilterOptions } from '../../types';
 
 import Table from '@/components/Table';
-import { formatPhoneNumber } from '@/utils/formats';
 
 interface UsersTableProps {
   data: IUser[];
@@ -50,30 +48,8 @@ const OperationAreasTable = ({ data }: UsersTableProps) => {
   const columns = useMemo(
     () => [
       {
-        Header: 'Nome',
-        accessor: 'name',
-      },
-      {
-        Header: 'CNPJ',
-        accessor: 'cnpj',
-      },
-      {
-        Header: 'Telefone',
-        accessor: 'phone_number',
-        Cell: ({ value }) => (value ? formatPhoneNumber(value) : '-'),
-      },
-      {
-        Header: 'Ação',
-        accessor: 'action',
-        Cell: ({ row }: any) => (
-          <IconButton
-            aria-label='editar empresa'
-            icon={<FiEdit />}
-            bg='none'
-            _hover={{ bg: 'none' }}
-            onClick={() => navigate(`./edita-empresa/${row.original.id}`)}
-          />
-        ),
+        Header: 'Departamento',
+        accessor: 'description',
       },
     ],
     [],

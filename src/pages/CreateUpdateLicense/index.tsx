@@ -21,7 +21,7 @@ export interface LicenseFormData {
   id: number;
   code: string;
   name: string;
-  expiration_date: Date;
+  expiration_date: string;
   available_uses: number;
   status: boolean | string;
 }

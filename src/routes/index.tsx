@@ -29,6 +29,8 @@ const Organizations = lazy(() => import('@/pages/Organizations'));
 const Activities = lazy(() => import('@/pages/Activities'));
 const Teachers = lazy(() => import('@/pages/Teachers'));
 const OperationAreas = lazy(() => import('@/pages/OperationAreas'));
+const CreateUpdateOperationArea = lazy(() => import('@/pages/CreateUpdateOperationArea'));
+const ShowLicense = lazy(() => import('@/pages/ShowLicense'));
 
 const publicRoutes = () => (
   <Route element={<PublicRoutes />}>
@@ -62,6 +64,10 @@ const privateRoutes = () => (
         <Route
           path='edita-licenca/:licenseId'
           element={<RouteWrapper title='Editar licença' component={CreateUpdateLicense} />}
+        />
+        <Route
+          path='licenca'
+          element={<RouteWrapper title='Detalhes da licença' component={ShowLicense} />}
         />
         <Route
           path='atribuir-licenca'
@@ -113,10 +119,10 @@ const privateRoutes = () => (
         />
       </Route>
       <Route path='departamentos'>
-        <Route index element={<RouteWrapper title='Empresas' component={OperationAreas} />} />
+        <Route index element={<RouteWrapper title='Departamentos' component={OperationAreas} />} />
         <Route
           path='novo-departamento'
-          element={<RouteWrapper title='Novo departamento' component={CreateUpdateOrganization} />}
+          element={<RouteWrapper title='Novo departamento' component={CreateUpdateOperationArea} />}
         />
       </Route>
       <Route path='atividades'>

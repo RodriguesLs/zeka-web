@@ -21,7 +21,7 @@ import * as yup from 'yup';
 import { Button, Error, Input, Select, Spinner } from '@/components';
 import useToast from '@/hooks/useToast';
 import { queryClient } from '@/services/queryClient';
-import { createUser, fetchUserById, updateUser } from './services/apiHandlers';
+import { createUser, fetchUserById, updateUser, fetchDepartments } from './services/apiHandlers';
 
 interface AddressFormData {
   street: string;
@@ -43,9 +43,9 @@ export interface UserFormData {
   phone: number | string;
   cpf: string | number;
   // rg: string | number;
-  last_year_school: string | number;
-  job: string;
-  company_time: string | number;
+  last_school_year: string | number;
+  ocupation: string;
+  organization_time: string | number;
   department: string;
   address: AddressFormData;
 }
@@ -58,9 +58,9 @@ const userFormSchema = yup.object().shape({
   code: yup.string().required('Você deve informar a matrícula'),
   phone: yup.string().required('Telefone é obrigatório'),
   cpf: yup.string(),
-  last_year_school: yup.string(),
-  company_time: yup.string(),
-  job: yup.string(),
+  last_school_year: yup.string(),
+  organization_time: yup.string(),
+  ocupation: yup.string(),
   department: yup.string(),
   address: yup.object().shape({
     cep: yup
@@ -77,6 +77,7 @@ const userFormSchema = yup.object().shape({
 
 const CreateUpdateUser = () => {
   const [tabIndex, setTabIndex] = useState(0);
+  const [departments, setDepartments] = useState([]);
 
   const { userId } = useParams();
 
@@ -86,6 +87,12 @@ const CreateUpdateUser = () => {
 
   const navigate = useNavigate();
   const { addToast } = useToast();
+
+  const { data: departmentsResp } = useQuery(['departments'], async () => {
+    const { data } = await fetchDepartments();
+
+    return data;
+  });
 
   const {
     data: user,
@@ -115,7 +122,9 @@ const CreateUpdateUser = () => {
 
   useEffect(() => {
     if (!isCreateMode && user) reset(user);
-  }, [isCreateMode, user]);
+
+    setDepartments(departmentsResp);
+  }, [isCreateMode, user, departments]);
 
   const { mutate } = useMutation(
     (data: UserFormData) => isCreateMode ? createUser(data) : updateUser(userId, data),
@@ -254,18 +263,18 @@ const CreateUpdateUser = () => {
                 <HStack w='100%'>
                   <Input
                     type='text'
-                    name='last_year_school'
+                    name='last_school_year'
                     placeholder='Ex: 2022'
-                    error={errors.last_year_school}
+                    error={errors.last_school_year}
                     register={register}
                     autoComplete='off'
                     label='Último ano na escola:'
                   />
                   <Input
                     type='text'
-                    name='company_time'
+                    name='organization_time'
                     placeholder='Ex: 3 anos'
-                    error={errors.company_time}
+                    error={errors.organization_time}
                     register={register}
                     autoComplete='off'
                     label='Tempo na empresa:'
@@ -274,22 +283,20 @@ const CreateUpdateUser = () => {
                 <HStack w='100%'>
                   <Input
                     type='text'
-                    name='job'
+                    name='ocupation'
                     placeholder='Ex: Desenvolvedor de sistemas'
-                    error={errors.job}
+                    error={errors.ocupation}
                     register={register}
                     autoComplete='off'
                     label='Cargo:'
                   />
-                  <Input
-                    type='text'
-                    name='department'
-                    placeholder='Ex: TI'
-                    error={errors.department}
-                    register={register}
-                    autoComplete='off'
-                    label='Departamento:'
-                  />
+                  <Select name='department' label='Departamento' register={register}>
+                    {departments?.map((d: any) => (
+                      <option key={d.id} value={d.description}>
+                        {d.description}
+                      </option>
+                    ))}
+                  </Select>
                 </HStack>
                 <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
                   <Button type='button' onClick={() => navigate(-1)}>

@@ -18,13 +18,14 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { Button, Error, Input, Select, Spinner } from '@/components';
+import { Button, Error, Input, Spinner } from '@/components';
 import useToast from '@/hooks/useToast';
 import { queryClient } from '@/services/queryClient';
 import {
   createOrganization,
   fetchOrganizationById,
   updateOrganization,
+  fetchOperationAreas,
 } from './services/apiHandlers';
 import useAuth from '@/hooks/useAuth';
 
@@ -34,7 +35,7 @@ export interface OrganizationFormData {
   phone_number: number | string;
   cnpj: string | number;
   site: string;
-  operation_area_id: number | string;
+  department: string;
   contact_person: string;
 }
 
@@ -47,6 +48,7 @@ const organizationFormSchema = yup.object().shape({
 
 const CreateUpdateOrganization = () => {
   const [tabIndex, setTabIndex] = useState(0);
+  const [operationAreas, setOperationAreas] = useState([]);
 
   const { orgId } = useParams();
 
@@ -73,6 +75,12 @@ const CreateUpdateOrganization = () => {
     },
   );
 
+  // const { data: operationAreasResp } = useQuery(['opeeration-areas'], async () => {
+  //   const { data } = await fetchOperationAreas();
+
+  //   return data;
+  // });
+
   const {
     register,
     handleSubmit,
@@ -84,7 +92,8 @@ const CreateUpdateOrganization = () => {
 
   useEffect(() => {
     if (!isCreateMode && user) reset(user);
-  }, [isCreateMode, user]);
+    // setOperationAreas(operationAreasResp);
+  }, [isCreateMode, user, operationAreas]);
 
   const { mutate } = useMutation(
     (data: any) => (isCreateMode ? createOrganization(data) : updateOrganization(orgId, data)),
@@ -193,11 +202,15 @@ const CreateUpdateOrganization = () => {
                     autoComplete='off'
                     label='Site:'
                   />
-                  <Select name='operation_area_id' label='Departamento' register={register}>
-                    <option>Selecione</option>
-                    <option value='1'>TI</option>
-                    <option value='2'>Obras</option>
-                  </Select>
+                  <Input
+                    type='text'
+                    name='department'
+                    placeholder='Financeiro'
+                    error={errors.department}
+                    register={register}
+                    autoComplete='off'
+                    label='Área:'
+                  />
                 </HStack>
                 <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
                   <Button type='button' onClick={() => navigate(-1)}>

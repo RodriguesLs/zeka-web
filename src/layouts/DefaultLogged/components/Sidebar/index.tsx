@@ -45,8 +45,8 @@ const Sidebar = () => {
         { role === 'user' && <NavLink to='/professores' icon={FiUser} title='Professores' /> }
         { (role === 'teacher' || role === 'user') && <NavLink to='/atividades' icon={FiKey} title='Atividades' /> }
         { (role === 'teacher' || role === 'student') && <NavLink to='/' icon={FaRegMoneyBillAlt} title='Pagamentos' /> }
-        { (role === 'admin_school') && <NavLink to='/' icon={GoOrganization} title='Departamentos' /> }
-        { (role === 'admin_school') && <NavLink to='/' icon={FiKey} title='Licença' /> }
+        { (role === 'admin_school') && <NavLink to='/departamentos' icon={GoOrganization} title='Departamentos' /> }
+        { (role === 'admin_school') && <NavLink to='/licencas/licenca' icon={FiKey} title='Licença' /> }
       </VStack>
       {!isMinimized && <ListSocial />}
     </S.Container>
