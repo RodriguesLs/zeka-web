@@ -5,57 +5,41 @@ import { FiEdit } from 'react-icons/fi';
 
 import FilterUsers from '../FilterUsers';
 import SearchBox from '../SearchBox';
-import { IActivity, FilterOptions } from '../../types';
+import { IUser, FilterOptions } from '../../types';
 
 import Table from '@/components/Table';
+import { formatPhoneNumber } from '@/utils/formats';
 
-interface ActivityTableProps {
-  data: IActivity[];
+interface UsersTableProps {
+  data: IUser[];
 }
 
-const ActivitiesTable = ({ data }: ActivityTableProps) => {
+const OperationAreasTable = ({ data }: UsersTableProps) => {
   const [nameFiltered, setNameFiltered] = useState('');
   const [selectedTypeUser, setSelectedTypeUser] = useState<FilterOptions>('all');
 
   const navigate = useNavigate();
 
-  const getUsersFiltered = (users: IActivity[]) => {
-    const acts = users.map((a: any) => {
-      let kind;
-
-      switch (a.kind) {
-        case 'simulate':
-          kind = 'Simulado';
-          break;
-        case 'live':
-          kind = 'Live';
-          break;
-        default:
-          kind = 'Gincana';
-      }
-
-      return { ...a, kind };
-    });
-
+  const getUsersFiltered = (organizations: IUser[]) => {
     switch (selectedTypeUser) {
       case 'active':
-        return acts.filter((activity) => activity.active);
+        return organizations.filter((organization) => organization.active);
       case 'inactive':
-        return acts.filter((activity) => !activity.active);
+        return organizations.filter((organization) => !organization.active);
       default:
-        return acts;
+        return organizations;
     }
   };
 
-  const getUsersByName = (users: IActivity[]) => {
-    return users.filter((user) => {
-      const name = user.description.toLowerCase();
+  const getUsersByName = (organizations: IUser[]) => {
+    return organizations.filter((organization) => {
+      const name = organization.name.toLowerCase();
 
-      return name.includes(nameFiltered.toLowerCase()) && user;
+      return name.includes(nameFiltered.toLowerCase()) && organization;
     });
   };
 
-  const activities = useMemo(() => {
+  const organizations = useMemo(() => {
     const usersFilteredByStatus = getUsersFiltered(data);
 
     if (nameFiltered !== '') return getUsersByName(data);
@@ -66,31 +50,28 @@ const ActivitiesTable = ({ data }: ActivityTableProps) => {
   const columns = useMemo(
     () => [
       {
-        Header: 'Descrição',
-        accessor: 'description',
+        Header: 'Nome',
+        accessor: 'name',
       },
       {
-        Header: 'Tipo',
-        accessor: 'kind',
+        Header: 'CNPJ',
+        accessor: 'cnpj',
       },
       {
-        Header: 'Data',
-        accessor: 'date',
-      },
-      {
-        Header: 'Responsável',
-        accessor: 'teacher',
+        Header: 'Telefone',
+        accessor: 'phone_number',
+        Cell: ({ value }) => (value ? formatPhoneNumber(value) : '-'),
       },
       {
         Header: 'Ação',
         accessor: 'action',
         Cell: ({ row }: any) => (
           <IconButton
-            aria-label='edita atividade'
+            aria-label='editar empresa'
             icon={<FiEdit />}
             bg='none'
             _hover={{ bg: 'none' }}
-            onClick={() => navigate(`./edita-atividade/${row.original.id}`)}
+            onClick={() => navigate(`./edita-empresa/${row.original.id}`)}
           />
         ),
       },
@@ -102,9 +83,9 @@ const ActivitiesTable = ({ data }: ActivityTableProps) => {
     <VStack width='100%' gap='1rem' alignItems='start'>
       <FilterUsers typeSelected={selectedTypeUser} onChangeType={setSelectedTypeUser} />
       <SearchBox value={nameFiltered} onChange={setNameFiltered} />
-      <Table data={activities} columns={columns} />
+      <Table data={organizations} columns={columns} />
     </VStack>
   );
 };
 
-export default ActivitiesTable;
+export default OperationAreasTable;

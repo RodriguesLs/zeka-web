@@ -11,6 +11,8 @@ export const createActivity = (data: any) => {
   });
 };
 
+export const fetchTeachers = () => apiClient.get('teachers');
+
 export const updateActivity = (activityId: number | string, data: ActivityFormData) => {
   return apiClient.put(`activities/${activityId}`, {
     data,

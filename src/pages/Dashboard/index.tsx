@@ -4,14 +4,25 @@ import { Card } from '@/components';
 
 const Dashboard = () => {
   return (
-    <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
-      <Card title='Taxa de reprovação'>
-        <Chart />
-      </Card>
-      <Card title='Taxa de conclusão'>
-        <LineChart />
-      </Card>
-    </SimpleGrid>
+    <>
+      <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
+        <Card title='Taxa de reprovação'>
+          <Chart />
+        </Card>
+        <Card title='Taxa de conclusão'>
+          <LineChart />
+        </Card>
+      </SimpleGrid>
+      <br />
+      <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
+        <Card title='Taxa de reprovação'>
+          <Chart />
+        </Card>
+        <Card title='Taxa de conclusão'>
+          <LineChart />
+        </Card>
+      </SimpleGrid>
+    </>
   );
 };
 

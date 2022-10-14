@@ -21,8 +21,13 @@ import * as yup from 'yup';
 import { Button, Error, Input, Select, Spinner } from '@/components';
 import useToast from '@/hooks/useToast';
 import { queryClient } from '@/services/queryClient';
-import { createActivity, fetchActivityById, updateActivity} from './services/apiHandlers';
-import apiClient from '@/services/apiClient';
+import {
+  createActivity,
+  fetchActivityById,
+  updateActivity,
+  fetchTeachers
+} from './services/apiHandlers';
+import useAuth from '@/hooks/useAuth';
 
 export interface ActivityFormData {
   description: string;
@@ -40,13 +45,14 @@ const organizationFormSchema = yup.object().shape({
 
 const CreateUpdateActivity = () => {
   const [tabIndex, setTabIndex] = useState(0);
-
+  const [teachers, setTeachers] = useState([]);
   const { activityId } = useParams();
 
   const isCreateMode = !activityId;
 
   const navigate = useNavigate();
   const { addToast } = useToast();
+  const { role } = useAuth();
 
   const {
     data: user,
@@ -65,6 +71,8 @@ const CreateUpdateActivity = () => {
     },
   );
 
+  const { data: teachersResp }: any = useQuery(['teachers-select'], fetchTeachers);
+
   const {
     register,
     handleSubmit,
@@ -76,7 +84,8 @@ const CreateUpdateActivity = () => {
 
   useEffect(() => {
     if (!isCreateMode && user) reset(user);
-  }, [isCreateMode, user]);
+    setTeachers(teachersResp?.data);
+  }, [isCreateMode, user, teachersResp]);
 
   const { mutate } = useMutation(
     (data: any) => (isCreateMode ? createActivity(data) : updateActivity(activityId, data)),
@@ -170,8 +179,21 @@ const CreateUpdateActivity = () => {
                     <option>Selecione</option>
                     <option value='simulate'>Simulado</option>
                     <option value='live'>Live</option>
+                    <option value='challenge'>Gincana</option>
                   </Select>
                 </HStack>
+                {role !== 'teacher' && (
+                  <HStack w='100%'>
+                    <Select name='teacher_id' label='Professor' register={register}>
+                      <option>Selecione</option>
+                      {teachers?.map((t: any) => (
+                        <option key={t.id} value={t.id}>
+                          {t.name}
+                        </option>
+                      ))}
+                    </Select>
+                  </HStack>
+                )}
                 <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
                   <Button type='button' onClick={() => navigate(-1)}>
                     Cancelar

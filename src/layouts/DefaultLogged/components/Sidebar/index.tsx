@@ -2,7 +2,14 @@ import { useState } from 'react';
 import { Heading, HStack, Image, Icon, Link, VStack } from '@chakra-ui/react';
 import { FiHome, FiKey, FiUser, FiChevronLeft } from 'react-icons/fi';
 import { GoOrganization } from 'react-icons/go';
-import { FaYoutube, FaLinkedin, FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
+import {
+  FaYoutube,
+  FaLinkedin,
+  FaInstagram,
+  FaFacebook,
+  FaTwitter,
+  FaRegMoneyBillAlt,
+} from 'react-icons/fa';
 import useAuth from '@/hooks/useAuth';
 
 import NavLink from './NavLink';
@@ -33,9 +40,13 @@ const Sidebar = () => {
         { role === 'admin_school' && <NavLink to='/usuarios' icon={FiUser} title='Usuários' /> }
         { role === 'admin' && <NavLink to='/usuarios-zeka' icon={FiUser} title='Usuários [Zeka]' /> }
         { role === 'admin' && <NavLink to='/empresas' icon={GoOrganization} title='Empresas' /> }
+        { role === 'admin_school' && <NavLink to='/empresas/edita-empresa/768' icon={GoOrganization} title='Empresa' /> }
         { role === 'admin' && <NavLink to='/licencas' icon={FiKey} title='Licenças' /> }
         { role === 'user' && <NavLink to='/professores' icon={FiUser} title='Professores' /> }
-        { role === 'teacher' && <NavLink to='/atividades' icon={FiKey} title='Atividades' /> }
+        { (role === 'teacher' || role === 'user') && <NavLink to='/atividades' icon={FiKey} title='Atividades' /> }
+        { (role === 'teacher' || role === 'student') && <NavLink to='/' icon={FaRegMoneyBillAlt} title='Pagamentos' /> }
+        { (role === 'admin_school') && <NavLink to='/' icon={GoOrganization} title='Departamentos' /> }
+        { (role === 'admin_school') && <NavLink to='/' icon={FiKey} title='Licença' /> }
       </VStack>
       {!isMinimized && <ListSocial />}
     </S.Container>

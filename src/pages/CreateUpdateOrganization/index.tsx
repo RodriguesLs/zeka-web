@@ -198,7 +198,7 @@ const CreateUpdateOrganization = () => {
                 </HStack>
                 <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
                   <Button type='button' onClick={() => navigate(-1)}>
-                    Cancelar
+                    Voltar
                   </Button>
                   <Button type='submit' variant='primary' disabled={isSubmitting}>
                     Salvar

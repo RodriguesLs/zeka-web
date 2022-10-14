@@ -27,6 +27,7 @@ const UsersZeka = lazy(() => import('@/pages/UsersZeka'));
 const Organizations = lazy(() => import('@/pages/Organizations'));
 const Activities = lazy(() => import('@/pages/Activities'));
 const Teachers = lazy(() => import('@/pages/Teachers'));
+const OperationAreas = lazy(() => import('@/pages/OperationAreas'));
 
 const publicRoutes = () => (
   <Route element={<PublicRoutes />}>
@@ -104,6 +105,13 @@ const privateRoutes = () => (
         <Route
           path='edita-empresa/:orgId'
           element={<RouteWrapper title='Editar empresa' component={CreateUpdateOrganization} />}
+        />
+      </Route>
+      <Route path='departamentos'>
+        <Route index element={<RouteWrapper title='Empresas' component={OperationAreas} />} />
+        <Route
+          path='novo-departamento'
+          element={<RouteWrapper title='Novo departamento' component={CreateUpdateOrganization} />}
         />
       </Route>
       <Route path='atividades'>
