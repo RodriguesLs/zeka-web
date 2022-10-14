@@ -21,8 +21,12 @@ import * as yup from 'yup';
 import { Button, Error, Input, Select, Spinner } from '@/components';
 import useToast from '@/hooks/useToast';
 import { queryClient } from '@/services/queryClient';
-import { createOrganization, fetchOrganizationById, updateOrganization } from './services/apiHandlers';
-import apiClient from '@/services/apiClient';
+import {
+  createOrganization,
+  fetchOrganizationById,
+  updateOrganization,
+} from './services/apiHandlers';
+import useAuth from '@/hooks/useAuth';
 
 export interface OrganizationFormData {
   logo: File;
@@ -50,6 +54,7 @@ const CreateUpdateOrganization = () => {
 
   const navigate = useNavigate();
   const { addToast } = useToast();
+  const { role } = useAuth();
 
   const {
     data: user,
@@ -93,7 +98,6 @@ const CreateUpdateOrganization = () => {
 
   const onSubmit = (formData: any) => {
     try {
-      console.log('data', formData);
       mutate(formData);
       addToast({
         title: 'Sucesso!',
@@ -101,7 +105,7 @@ const CreateUpdateOrganization = () => {
         type: 'success',
       });
 
-      navigate('/empresas');
+      role === 'admin_school' ? navigate('/dashboard') : navigate('/empresas');
     } catch (e) {
       addToast({
         title: 'Opssss..',

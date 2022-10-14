@@ -7,10 +7,7 @@ export const fetchLicenseById = (licenseId: number | string) => {
 
 export const createLicense = (data: LicenseFormData) => {
   return apiClient.post('licenses', {
-    license: {
-      ...data,
-      status: String(data.status) == '1' ? true : false,
-    },
+    license: data,
   });
 };
 
@@ -18,9 +15,6 @@ export const fetchOrganizations = () => apiClient.get('organizations');
 
 export const updateLicense = (licenseId: number | string, data: LicenseFormData) => {
   return apiClient.put(`licenses/${licenseId}`, {
-    license: {
-      ...data,
-      status: String(data.status) == '0' ? 'active' : 'inactive',
-    },
+    license: data,
   });
 };

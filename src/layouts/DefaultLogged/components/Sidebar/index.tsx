@@ -19,7 +19,7 @@ import * as S from './styles';
 
 const Sidebar = () => {
   const [isMinimized, setIsMinimized] = useState(false);
-  const { role } = useAuth();
+  const { role, organizationId } = useAuth();
 
   return (
     <S.Container isMinimized={isMinimized}>
@@ -40,7 +40,7 @@ const Sidebar = () => {
         { role === 'admin_school' && <NavLink to='/usuarios' icon={FiUser} title='Usuários' /> }
         { role === 'admin' && <NavLink to='/usuarios-zeka' icon={FiUser} title='Usuários [Zeka]' /> }
         { role === 'admin' && <NavLink to='/empresas' icon={GoOrganization} title='Empresas' /> }
-        { role === 'admin_school' && <NavLink to='/empresas/edita-empresa/768' icon={GoOrganization} title='Empresa' /> }
+        { role === 'admin_school' && <NavLink to={`/empresas/edita-empresa/${organizationId}`} icon={GoOrganization} title='Empresa' /> }
         { role === 'admin' && <NavLink to='/licencas' icon={FiKey} title='Licenças' /> }
         { role === 'user' && <NavLink to='/professores' icon={FiUser} title='Professores' /> }
         { (role === 'teacher' || role === 'user') && <NavLink to='/atividades' icon={FiKey} title='Atividades' /> }

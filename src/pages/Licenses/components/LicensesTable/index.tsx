@@ -19,9 +19,9 @@ const LicensesTable = ({ data }: LicenseTableProps) => {
     (licenses: ILicense[]) => {
       switch (selectedTypeLicense) {
         case 'active':
-          return licenses.filter((license) => license.status);
+          return licenses.filter((license) => license.status === 'active');
         case 'inactive':
-          return licenses.filter((license) => !license.status);
+          return licenses.filter((license) => license.status === 'inactive');
         default:
           return licenses;
       }
@@ -54,7 +54,7 @@ const LicensesTable = ({ data }: LicenseTableProps) => {
         Header: 'Status',
         accessor: 'status',
         Cell: ({ value: isActive }: any) => (
-          <Badge colorScheme={isActive ? 'green' : 'red'} borderRadius={15} px={2}>
+          <Badge colorScheme={isActive == 'active' ? 'green' : 'red'} borderRadius={15} px={2}>
             {isActive == 'active' ? 'Ativa' : 'Inativa'}
           </Badge>
         ),

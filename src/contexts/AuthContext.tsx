@@ -24,6 +24,7 @@ export interface AuthContextData {
   user: User | null;
   token: string | null;
   role: string | null;
+  organizationId: number;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
 }
@@ -35,6 +36,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
   const [user, setUser] = useState(null);
   const [role, setRole] = useState('');
+  const [organizationId, setOrganizationId] = useState(0);
   const [token, setToken] = useState(() => {
     const token = localStorageService().getToken;
 
@@ -52,7 +54,8 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
         const { data } = await apiClient.get('/me');
 
         setUser(data);
-        setRole(data.role)
+        setRole(data.role);
+        setOrganizationId(data.organization_id);
       } catch (err) {
         throw new Error();
       }
@@ -65,13 +68,14 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
     try {
       const response = await apiClient.post('sessions', { email, password });
 
-      const { token, refreshToken, user, role } = response.data;
+      const { token, refreshToken, user, role, organization_id } = response.data;
 
       localStorageService().signIn({ token, refreshToken });
 
       setToken(token);
       setUser(user);
       setRole(role);
+      setOrganizationId(organization_id);
 
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
@@ -87,6 +91,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
     setToken('');
     setUser(null);
     setRole(null);
+    setOrganizationId(0);
   }, []);
 
   return (
@@ -95,6 +100,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
         token,
         user,
         role,
+        organizationId,
         signIn,
         signOut,
       }}

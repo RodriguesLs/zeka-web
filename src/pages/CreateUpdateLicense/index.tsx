@@ -77,9 +77,8 @@ const CreateUpdateLicense = () => {
 
   useEffect(() => {
     if (!isCreateMode && license) {
-      const fields = ['code', 'name', 'expiration_date', 'available_uses'];
+      const fields = ['code', 'name', 'expiration_date', 'available_uses', 'status'];
       fields.forEach((field: any) => setValue(field, license[field]));
-      setValue('status', license.status == true ? '1' : '0');
     }
     setOrganizations(organizationsResp?.data);
   }, [license, organizationsResp]);
@@ -171,8 +170,8 @@ const CreateUpdateLicense = () => {
               label='Quantidade para uso*'
             />
             <Select name='status' label='Status' register={register} defaultValue='0'>
-              <option value='0'>Ativa</option>
-              <option value='1'>Inativa</option>
+              <option value='active'>Ativa</option>
+              <option value='inactive'>Inativa</option>
             </Select>
           </HStack>
           <HStack w='100%'>
