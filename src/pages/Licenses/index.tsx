@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { VStack, Box } from '@chakra-ui/react';
+import { VStack, Box, HStack } from '@chakra-ui/react';
 import { FiPlus } from 'react-icons/fi';
 
 import { LicensesTable } from './components';
@@ -16,16 +16,24 @@ const Licenses = () => {
 
   return (
     <Box w='100%'>
-      <VStack mb='1rem' gap='1.5rem' alignItems='end'>
+      <HStack w='100%' flexDirection='row-reverse'>
         <Button
           variant='primary'
           icon={FiPlus}
           onClick={() => navigate('/licencas/nova-licenca')}
           style={{ width: '250px' }}
         >
-          Noava licença
+          Nova licença
         </Button>
-      </VStack>
+        <Button
+          variant='primary'
+          icon={FiPlus}
+          onClick={() => navigate('/licencas/atribuir-licenca')}
+          style={{ width: '300px', marginRight: '1em' }}
+        >
+          Atribuir licença a usuário
+        </Button>
+      </HStack>
       {isLoading && <TableSkeleton />}
       {error && <TableError keyCache='admin-licenses' />}
       {data && <LicensesTable data={data} />}

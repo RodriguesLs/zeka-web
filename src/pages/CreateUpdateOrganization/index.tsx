@@ -78,17 +78,16 @@ const CreateUpdateOrganization = () => {
   });
 
   useEffect(() => {
-    console.log('use effect')
     if (!isCreateMode && user) reset(user);
   }, [isCreateMode, user]);
 
   const { mutate } = useMutation(
-    (data: any) => apiClient.put(`organizations/${orgId}`, { organization: { ...data } }),
+    (data: any) => (isCreateMode ? createOrganization(data) : updateOrganization(orgId, data)),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['organizations']);
       },
-      onError: () => console.log('ERRO')
+      onError: () => console.log('ERRO'),
     },
   );
 

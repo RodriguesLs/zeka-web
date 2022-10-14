@@ -14,6 +14,8 @@ export const createLicense = (data: LicenseFormData) => {
   });
 };
 
+export const fetchOrganizations = () => apiClient.get('organizations');
+
 export const updateLicense = (licenseId: number | string, data: LicenseFormData) => {
   return apiClient.put(`licenses/${licenseId}`, {
     license: {

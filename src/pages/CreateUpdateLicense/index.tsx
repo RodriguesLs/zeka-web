@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useForm } from 'react-hook-form';
-import { Box, Flex, VStack } from '@chakra-ui/react';
+import { Box, Flex, HStack, VStack } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -10,7 +10,12 @@ import * as yup from 'yup';
 import { Button, Error, Input, Select, Spinner } from '@/components';
 import useToast from '@/hooks/useToast';
 import { queryClient } from '@/services/queryClient';
-import { createLicense, fetchLicenseById, updateLicense } from './services/apiHandlers';
+import {
+  createLicense,
+  fetchLicenseById,
+  updateLicense,
+  fetchOrganizations,
+} from './services/apiHandlers';
 
 export interface LicenseFormData {
   id: number;
@@ -40,6 +45,8 @@ const CreateUpdateLicense = () => {
   const navigate = useNavigate();
   const { addToast } = useToast();
 
+  const [organizations, setOrganizations] = useState([]);
+
   const {
     data: license,
     error,
@@ -57,6 +64,8 @@ const CreateUpdateLicense = () => {
     },
   );
 
+  const { data: organizationsResp }: any = useQuery(['organizations-select'], fetchOrganizations);
+
   const {
     register,
     handleSubmit,
@@ -72,7 +81,8 @@ const CreateUpdateLicense = () => {
       fields.forEach((field: any) => setValue(field, license[field]));
       setValue('status', license.status == true ? '1' : '0');
     }
-  }, [license]);
+    setOrganizations(organizationsResp?.data);
+  }, [license, organizationsResp]);
 
   const { mutateAsync } = useMutation(
     (data: LicenseFormData) =>
@@ -129,38 +139,56 @@ const CreateUpdateLicense = () => {
             autoComplete='off'
             label='Descrição*'
           />
-          <Input
-            type='text'
-            name='code'
-            placeholder='Ex: A1B2C3D4'
-            error={errors.code}
-            register={register}
-            autoComplete='off'
-            label='Código:*'
-          />
-          <Input
-            type='text'
-            name='expiration_date'
-            placeholder='Data de expiração*'
-            error={errors.expiration_date}
-            register={register}
-            autoComplete='off'
-            label='Data de expiração*'
-            mask='99/99/9999'
-          />
-          <Input
-            type='text'
-            name='available_uses'
-            placeholder='Ex: 20'
-            error={errors.available_uses}
-            register={register}
-            autoComplete='off'
-            label='Quantidade para uso*'
-          />
-          <Select name='status' label='Status' register={register} defaultValue='0'>
-            <option value='0'>Ativa</option>
-            <option value='1'>Inativa</option>
-          </Select>
+          <HStack w='100%'>
+            <Input
+              type='text'
+              name='code'
+              placeholder='Ex: A1B2C3D4'
+              error={errors.code}
+              register={register}
+              autoComplete='off'
+              label='Código:*'
+            />
+            <Input
+              type='text'
+              name='expiration_date'
+              placeholder='Data de expiração*'
+              error={errors.expiration_date}
+              register={register}
+              autoComplete='off'
+              label='Data de expiração*'
+              mask='99/99/9999'
+            />
+          </HStack>
+          <HStack w='100%'>
+            <Input
+              type='text'
+              name='available_uses'
+              placeholder='Ex: 20'
+              error={errors.available_uses}
+              register={register}
+              autoComplete='off'
+              label='Quantidade para uso*'
+            />
+            <Select name='status' label='Status' register={register} defaultValue='0'>
+              <option value='0'>Ativa</option>
+              <option value='1'>Inativa</option>
+            </Select>
+          </HStack>
+          <HStack w='100%'>
+            <Select name='organization_id' label='Empresa' register={register}>
+              <option value={null}>Selecione</option>
+              {organizations?.map((o: any) => (
+                <option key={o.id} value={o.id}>
+                  {o.name}
+                </option>
+              ))}
+            </Select>
+            {/* <Select name='student_id' label='Estudante' register={register}>
+              <option value='0'>Selectione</option>
+              <option value='1'>Inativa</option>
+            </Select> */}
+          </HStack>
           <Flex w='100%' mt='2rem' alignItems='center' gap='1rem'>
             <Button type='button' onClick={() => navigate(-1)}>
               Cancelar

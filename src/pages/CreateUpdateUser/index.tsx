@@ -42,7 +42,7 @@ export interface UserFormData {
   password: string;
   phone: number | string;
   cpf: string | number;
-  rg: string | number;
+  // rg: string | number;
   last_year_school: string | number;
   job: string;
   company_time: string | number;
@@ -58,7 +58,6 @@ const userFormSchema = yup.object().shape({
   code: yup.string().required('Você deve informar a matrícula'),
   phone: yup.string().required('Telefone é obrigatório'),
   cpf: yup.string(),
-  rg: yup.string(),
   last_year_school: yup.string(),
   company_time: yup.string(),
   job: yup.string(),
@@ -212,7 +211,7 @@ const CreateUpdateUser = () => {
                     label='CPF:'
                     mask='999.999.999-99'
                   />
-                  <Input
+                  {/* <Input
                     type='text'
                     name='rg'
                     placeholder='Ex: 9090909-0'
@@ -221,7 +220,7 @@ const CreateUpdateUser = () => {
                     autoComplete='off'
                     label='RG:'
                     mask='9999999-9'
-                  />
+                  /> */}
                 </HStack>
                 <HStack w='100%'>
                   <Input

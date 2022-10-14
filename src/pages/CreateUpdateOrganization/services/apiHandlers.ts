@@ -12,8 +12,7 @@ export const createOrganization = (data: any) => {
 };
 
 export const updateOrganization = (orgId: number | string, data: OrganizationFormData) => {
-  console.log('ORGANIZATION', data);
   return apiClient.put(`organizations/${orgId}`, {
-    data,
+    organization: data,
   });
 };

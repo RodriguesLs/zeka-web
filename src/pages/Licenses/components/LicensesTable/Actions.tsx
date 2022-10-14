@@ -40,8 +40,8 @@ const Actions = ({ licenseId }: ActionsProps) => {
             <CustomItem borderColor='transparent' onClick={handleNavigateToEditLicense}>
               Ver licença
             </CustomItem>
-            <CustomItem>Renovar</CustomItem>
-            <CustomItem onClick={handleNavigateToEditLicense}>Editar</CustomItem>
+            {/* <CustomItem>Renovar</CustomItem> */}
+            {/* <CustomItem onClick={handleNavigateToEditLicense}>Editar</CustomItem> */}
           </PopoverBody>
         </PopoverContent>
       </Portal>

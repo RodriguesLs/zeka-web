@@ -2,17 +2,17 @@ import apiClient from '@/services/apiClient';
 import { UserFormData } from '..';
 
 export const fetchUserById = (userId: number | string) => {
-  return apiClient.get(`students/${userId}?organization_id=1`);
+  return apiClient.get(`students/${userId}`);
 };
 
 export const createUser = (data: UserFormData) => {
   return apiClient.post('students', {
-    data,
+    student: data,
   });
 };
 
 export const updateUser = (userId: number | string, data: UserFormData) => {
-  return apiClient.put(`students/${userId}?organization_id=1`, {
-    data,
+  return apiClient.put(`students/${userId}`, {
+    student: data,
   });
 };

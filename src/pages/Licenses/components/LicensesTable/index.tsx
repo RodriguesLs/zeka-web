@@ -55,7 +55,7 @@ const LicensesTable = ({ data }: LicenseTableProps) => {
         accessor: 'status',
         Cell: ({ value: isActive }: any) => (
           <Badge colorScheme={isActive ? 'green' : 'red'} borderRadius={15} px={2}>
-            {isActive ? 'Ativa' : 'Inativa'}
+            {isActive == 'active' ? 'Ativa' : 'Inativa'}
           </Badge>
         ),
       },

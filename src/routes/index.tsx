@@ -11,6 +11,7 @@ const OnboardingLayout = lazy(() => import('@/layouts/Onboarding'));
 
 // PAGES
 const CreateUpdateLicense = lazy(() => import('@/pages/CreateUpdateLicense'));
+const RegisterLicense = lazy(() => import('@/pages/RegisterLicense'));
 const CreateUpdateOrganization = lazy(() => import('@/pages/CreateUpdateOrganization'));
 const CreateUpdateActivity = lazy(() => import('@/pages/CreateUpdateActivity'));
 const CreateUpdateUser = lazy(() => import('@/pages/CreateUpdateUser'));
@@ -61,6 +62,10 @@ const privateRoutes = () => (
         <Route
           path='edita-licenca/:licenseId'
           element={<RouteWrapper title='Editar licença' component={CreateUpdateLicense} />}
+        />
+        <Route
+          path='atribuir-licenca'
+          element={<RouteWrapper title='Atribuir licença' component={RegisterLicense} />}
         />
       </Route>
       <Route path='usuarios'>
