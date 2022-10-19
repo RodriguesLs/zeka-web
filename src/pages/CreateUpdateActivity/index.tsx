@@ -180,6 +180,14 @@ const CreateUpdateActivity = () => {
                     <option value='simulate'>Simulado</option>
                     <option value='live'>Live</option>
                     <option value='challenge'>Gincana</option>
+
+
+                    <option value='writting_core'>{`Escrever conteúdo (core)`} </option>
+                    <option value='writting'>Escrever conteúdo para sala de aula</option>
+                    <option value='blog'>Escrever para blog</option>
+                    <option value='essay_correction'>Correção de redação</option>
+                    <option value='group_orientation'>Orientação de grupo</option>
+                    <option value='teacher_trainer'>Formação de professores</option>
                   </Select>
                 </HStack>
                 {role !== 'teacher' && (

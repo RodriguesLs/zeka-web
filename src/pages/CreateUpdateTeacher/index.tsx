@@ -22,6 +22,7 @@ import { Button, Error, Input, Select, Spinner } from '@/components';
 import useToast from '@/hooks/useToast';
 import { queryClient } from '@/services/queryClient';
 import { createTeacher, fetchTeacherById, updateTeacher } from './services/apiHandlers';
+import { Levels } from '@/constants/level';
 
 export interface UserZekaFormData {
   id: number;
@@ -29,6 +30,10 @@ export interface UserZekaFormData {
   role: string;
   email: string;
   password: string;
+  document_number: string;
+  cellphone: string;
+  address: string;
+  discipline: string;
 }
 
 const userFormSchema = yup.object().shape({
@@ -36,6 +41,10 @@ const userFormSchema = yup.object().shape({
   role: yup.string(),
   email: yup.string(),
   password: yup.string(),
+  document_number: yup.string(),
+  cellphone: yup.string(),
+  address: yup.string(),
+  discipline: yup.string(), 
 });
 
 const CreateUpdateTeacher = () => {
@@ -173,6 +182,54 @@ const CreateUpdateTeacher = () => {
                       autoComplete='off'
                       label='Password:*'
                     />
+                  </HStack>
+                }
+                <HStack w='100%'>
+                  <Input
+                    type='text'
+                    name='document_number'
+                    placeholder='Ex: 999.999.999-99'
+                    error={errors.document_number}
+                    register={register}
+                    autoComplete='off'
+                    label='CPF/CNPJ:*'
+                  />
+                  <Input
+                    type='text'
+                    name='cellphone'
+                    placeholder='Ex: (11) 98888-8888'
+                    error={errors.cellphone}
+                    register={register}
+                    autoComplete='off'
+                    label='Telefone:*'
+                  />
+                </HStack>
+                <HStack w='100%'>
+                  <Input
+                    type='text'
+                    name='address'
+                    placeholder='Ex: Rua Minas Gerais, 200 - Vila Central, Araraquara'
+                    error={errors.address}
+                    register={register}
+                    autoComplete='off'
+                    label='Endereço completo:*'
+                  />
+                  <Input
+                    type='text'
+                    name='discipline'
+                    placeholder='Ex: História'
+                    error={errors.discipline}
+                    register={register}
+                    autoComplete='off'
+                    label='Disciplina:*'
+                  />
+                </HStack>
+                {
+                  !isCreateMode &&
+                  <HStack w='100%'>
+                    <Select name='level' label='Nível' register={register} defaultValue={1}>
+                      {Levels.map(l => <option key={l.number} value={l.number}>{l.alias}</option>)}
+                    </Select>
                   </HStack>
                 }
                 <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>

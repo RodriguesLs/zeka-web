@@ -36,17 +36,17 @@ const Sidebar = () => {
         visibility={isMinimized ? 'hidden' : 'visible'}
       />
       <VStack as='nav' w='100%' h='100%' px='0.5rem'>
-        { role === 'admin' && <NavLink to='/dashboard' icon={FiHome} title='Dashboard' /> }
-        { role === 'admin_school' && <NavLink to='/usuarios' icon={FiUser} title='Usuários' /> }
-        { role === 'admin' && <NavLink to='/usuarios-zeka' icon={FiUser} title='Usuários [Zeka]' /> }
-        { role === 'admin' && <NavLink to='/empresas' icon={GoOrganization} title='Empresas' /> }
-        { role === 'admin_school' && <NavLink to={`/empresas/edita-empresa/${organizationId}`} icon={GoOrganization} title='Empresa' /> }
-        { role === 'admin' && <NavLink to='/licencas' icon={FiKey} title='Licenças' /> }
+        { role === 'sysadmin' && <NavLink to='/dashboard' icon={FiHome} title='Dashboard' /> }
+        { role === 'admin_organization' && <NavLink to='/usuarios' icon={FiUser} title='Usuários' /> }
+        { role === 'sysadmin' && <NavLink to='/usuarios-zeka' icon={FiUser} title='Usuários [Zeka]' /> }
+        { role === 'sysadmin' && <NavLink to='/empresas' icon={GoOrganization} title='Empresas' /> }
+        { role === 'admin_organization' && <NavLink to={`/empresas/edita-empresa/${organizationId}`} icon={GoOrganization} title='Empresa' /> }
+        { role === 'sysadmin' && <NavLink to='/licencas' icon={FiKey} title='Licenças' /> }
         { role === 'user' && <NavLink to='/professores' icon={FiUser} title='Professores' /> }
         { (role === 'teacher' || role === 'user') && <NavLink to='/atividades' icon={FiKey} title='Atividades' /> }
         { (role === 'teacher' || role === 'student') && <NavLink to='/' icon={FaRegMoneyBillAlt} title='Pagamentos' /> }
-        { (role === 'admin_school') && <NavLink to='/departamentos' icon={GoOrganization} title='Departamentos' /> }
-        { (role === 'admin_school') && <NavLink to='/licencas/licenca' icon={FiKey} title='Licença' /> }
+        { (role === 'admin_organization') && <NavLink to='/departamentos' icon={GoOrganization} title='Departamentos' /> }
+        { (role === 'admin_organization') && <NavLink to='/licencas/licenca' icon={FiKey} title='Licença' /> }
       </VStack>
       {!isMinimized && <ListSocial />}
     </S.Container>
