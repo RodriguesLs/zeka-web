@@ -46,6 +46,7 @@ const organizationFormSchema = yup.object().shape({
 const CreateUpdateActivity = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [teachers, setTeachers] = useState([]);
+  const [isChallenge, setIsChallenge] = useState(false);
   const { activityId } = useParams();
 
   const isCreateMode = !activityId;
@@ -97,6 +98,12 @@ const CreateUpdateActivity = () => {
     },
   );
 
+  const actionRegister = (e: any) => {
+    if (e.target.value === 'challenge') return setIsChallenge(true);
+
+    setIsChallenge(false);
+  }
+
   const onSubmit = (formData: any) => {
     try {
       mutate(formData);
@@ -135,8 +142,14 @@ const CreateUpdateActivity = () => {
         <Tabs index={tabIndex} onChange={(index) => setTabIndex(index)}>
           <TabList>
             <Tab fontWeight='bold' _selected={{ color: 'brand.500' }}>
-              Informações cadastrais
+              Registrar atividade
             </Tab>
+            {
+              isChallenge &&
+              <Tab fontWeight='bold' _selected={{ color: 'brand.500' }}>
+                Informações adicionais
+              </Tab>
+            }
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -165,23 +178,37 @@ const CreateUpdateActivity = () => {
                   />
                 </HStack>
                 <HStack w='100%'>
-                  <Input
-                    type='text'
-                    name='date'
-                    placeholder='Ex.: 01/09/2029'
-                    error={errors.date}
-                    register={register}
-                    autoComplete='off'
-                    label='Data do evento:'
-                    mask='99/99/9999'
-                  />
-                  <Select name='kind' label='Tipo' register={register}>
+                  {
+                    !isChallenge &&
+                    <Input
+                      type='text'
+                      name='date'
+                      placeholder='Ex.: 01/09/2029'
+                      error={errors.date}
+                      register={register}
+                      autoComplete='off'
+                      label='Data do evento:'
+                      mask='99/99/9999'
+                    />
+                  }
+                  {
+                    isChallenge &&
+                    <Input
+                      type='text'
+                      name='initial_date'
+                      placeholder='Ex.: 01/09/2023'
+                      error={errors.date}
+                      register={register}
+                      autoComplete='off'
+                      label='Data de início:'
+                      mask='99/99/9999'
+                    />
+                  }
+                  <Select name='kind' label='Tipo' onChange={actionRegister} register={register}>
                     <option>Selecione</option>
                     <option value='simulate'>Simulado</option>
                     <option value='live'>Live</option>
                     <option value='challenge'>Gincana</option>
-
-
                     <option value='writting_core'>{`Escrever conteúdo (core)`} </option>
                     <option value='writting'>Escrever conteúdo para sala de aula</option>
                     <option value='blog'>Escrever para blog</option>
@@ -205,6 +232,76 @@ const CreateUpdateActivity = () => {
                 <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
                   <Button type='button' onClick={() => navigate(-1)}>
                     Cancelar
+                  </Button>
+                  {
+                    isChallenge &&
+                    <Button
+                      type='button'
+                      variant='primary'
+                      onClick={() => setTabIndex((oldState) => oldState + 1)}
+                    >
+                      Próximo
+                    </Button>
+                  }
+                  {
+                    !isChallenge &&
+                    <Button type='submit' variant='primary' disabled={isSubmitting}>
+                      Salvar
+                    </Button>
+                  }
+                </Flex>
+              </VStack>
+            </TabPanel>
+            <TabPanel>
+              <VStack gap='1rem' w='100%' alignItems='start'>
+                <Heading as='legend' size='md'>
+                  Informações adicionais
+                </Heading>
+                <HStack w='100%'>
+                  <Input
+                    type='text'
+                    label='Data de término'
+                    name='end_date'
+                    placeholder='Ex: 15/10/2023'
+                    register={register}
+                    mask='99/99/9999'
+                  />
+                  <Input
+                    type='text'
+                    label='Código'
+                    name='code'
+                    placeholder='Ex: A4DS578*'
+                    register={register}
+                  />
+                  <Input
+                    type='number'
+                    label='Limite de alunos'
+                    name='student_limit'
+                    placeholder='Ex: 10'
+                    register={register}
+                    autoComplete='off'
+                  />
+                </HStack>
+                <HStack w='100%'>
+                  <Input
+                    type='text'
+                    label='Nome da gincana'
+                    name='name'
+                    placeholder='Ex: Desafio das maçãs'
+                    register={register}
+                  />
+                  <Input
+                    type='text'
+                    label='Prêmio'
+                    name='award'
+                    placeholder='Ex: Uma bicicleta'
+                    register={register}
+                    autoComplete='off'
+                  />
+                </HStack>
+                <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
+                  <Button type='button' onClick={() => setTabIndex((oldState) => oldState - 1)}>
+                    Voltar
                   </Button>
                   <Button type='submit' variant='primary' disabled={isSubmitting}>
                     Salvar

@@ -5,15 +5,17 @@ export const fetchTeacherById = (userId: number | string) => {
   return apiClient.get(`teachers/${userId}`);
 };
 
-export const createTeacher = (data: UserZekaFormData) => {
+export const createTeacher = (
+    { name, discipline, address, cellphone, email, password, document_number, level }: any
+  ) => {
   return apiClient.post('teachers', {
-    teacher: { name: data.name },
-    user: { email: data.email, password: data.password }
+    teacher: { name, discipline, address, cellphone, document_number, level },
+    user: { email, password }
   });
 };
 
-export const updateTeacher = (userId: number | string, data: any) => {
+export const updateTeacher = (userId: number | string, { name, active, discipline, address, cellphone, level }: any) => {
   return apiClient.put(`teachers/${userId}`, {
-    teacher: { name: data.name, active: data.active },
+    teacher: { name, active, discipline, address, cellphone, level },
   });
 };
