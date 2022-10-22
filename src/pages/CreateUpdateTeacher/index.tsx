@@ -193,6 +193,8 @@ const CreateUpdateTeacher = () => {
                     register={register}
                     autoComplete='off'
                     label='CPF/CNPJ:*'
+                    mask='999.999.999-99'
+                    isDisabled={true}
                   />
                   <Input
                     type='text'

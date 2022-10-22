@@ -16,11 +16,12 @@ export interface InputProps extends ChakraInputProps {
   label?: string;
   mask?: string;
   name: string;
+  isDisabled?: boolean;
   register: UseFormRegister<any>;
 }
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
-  { name, error = null, label, mask, register, ...rest },
+  { name, error = null, label, mask, isDisabled, register, ...rest },
   ref,
 ) => {
   return (
@@ -43,6 +44,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         _hover={{ borderColor: 'brand.500' }}
         size='lg'
         mask={mask}
+        isDisabled={isDisabled}
         {...register(name)}
         {...rest}
       />
