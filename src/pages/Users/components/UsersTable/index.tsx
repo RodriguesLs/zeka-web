@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { IconButton, VStack } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiEdit } from 'react-icons/fi';
 
 import FilterUsers from '../FilterUsers';
@@ -79,13 +79,15 @@ const UsersTable = ({ data }: UsersTableProps) => {
         Header: 'Ação',
         accessor: 'action',
         Cell: ({ row }: any) => (
-          <IconButton
-            aria-label='edita usuário'
-            icon={<FiEdit />}
-            bg='none'
-            _hover={{ bg: 'none' }}
-            onClick={() => navigate(`./edita-usuario/${row.original.id}`)}
-          />
+          <>
+            <IconButton
+              aria-label='edita usuário'
+              icon={<FiEdit />}
+              bg='none'
+              _hover={{ bg: 'none' }}
+              onClick={() => navigate(`./edita-usuario/${row.original.id}`)}
+            />| <a href='https://zeka-api.herokuapp.com/users/forgot_password'>Resetar senha</a>
+          </>
         ),
       },
     ],
