@@ -83,8 +83,6 @@ const CreateUpdateUser = () => {
 
   const isCreateMode = !userId;
 
-  console.log('isCreateMode', isCreateMode);
-
   const navigate = useNavigate();
   const { addToast } = useToast();
 

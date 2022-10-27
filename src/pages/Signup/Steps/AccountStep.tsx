@@ -76,8 +76,6 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
         },
       });
 
-      console.log(signUpFormCompleted);
-
       addToast({
         title: 'Conta criada!',
         description: 'Deu tudo certo! Sua conta foi Zeka foi criada com sucesso.',

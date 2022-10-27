@@ -51,8 +51,6 @@ const OperationAreasTable = ({ data }: UsersTableProps) => {
   const onClickDelete = async (id: any) => {
     const response = await apiClient.delete(`operation_areas/${id}`);
 
-    console.log('success', response);
-
     queryClient.invalidateQueries(['operation_areas']);
   }
 
