@@ -122,7 +122,7 @@ const CreateUpdateUser = () => {
     if (!isCreateMode && user) reset(user);
 
     setDepartments(departmentsResp);
-  }, [isCreateMode, user, departments]);
+  }, [isCreateMode, user, departmentsResp]);
 
   const { mutate } = useMutation(
     (data: UserFormData) => isCreateMode ? createUser(data) : updateUser(userId, data),
@@ -130,6 +130,11 @@ const CreateUpdateUser = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(['users']);
         queryClient.invalidateQueries(['users', '1']);
+        addToast({
+          title: 'Sucesso!',
+          description: `Usuário ${isCreateMode ? 'cadastrado' : 'atualizado'} com sucesso!`,
+          type: 'success',
+        });
       },
       onError: () => {
         addToast({
@@ -145,11 +150,6 @@ const CreateUpdateUser = () => {
 
   const onSubmit = (formData: UserFormData) => {
     mutate(formData);
-    addToast({
-      title: 'Sucesso!',
-      description: `Usuário ${isCreateMode ? 'cadastrado' : 'atualizado'} com sucesso!`,
-      type: 'success',
-    });
 
     navigate('/usuarios');
   };
@@ -233,7 +233,7 @@ const CreateUpdateUser = () => {
                   <Input
                     type='text'
                     name='email'
-                    placeholder='Ex: a@a.com'
+                    placeholder='Ex: email@email.com'
                     error={errors.email}
                     register={register}
                     autoComplete='off'
@@ -242,7 +242,7 @@ const CreateUpdateUser = () => {
                   <Input
                     type='text'
                     name='phone'
-                    placeholder='Ex: (92) 99090-9090'
+                    placeholder='Ex: (16) 99090-9090'
                     error={errors.phone}
                     register={register}
                     autoComplete='off'
@@ -329,7 +329,7 @@ const CreateUpdateUser = () => {
                     type='text'
                     label='Endereço'
                     name='address.street'
-                    placeholder='Ex: Av. Fulano da Silva'
+                    placeholder='Ex: Av. João da Silva'
                     error={errors?.address?.street}
                     register={register}
                     autoComplete='off'
@@ -338,7 +338,7 @@ const CreateUpdateUser = () => {
                     type='text'
                     label='Complemento'
                     name='address.complement'
-                    placeholder='Ex: 2240'
+                    placeholder='Ex: fundos'
                     error={errors?.address?.complement}
                     register={register}
                     autoComplete='off'
@@ -349,7 +349,7 @@ const CreateUpdateUser = () => {
                     type='text'
                     label='Bairro'
                     name='address.district'
-                    placeholder='Ex: Fulano da Silva'
+                    placeholder='Ex: Centro'
                     error={errors?.address?.district}
                     register={register}
                     autoComplete='off'
@@ -367,7 +367,7 @@ const CreateUpdateUser = () => {
                     type='text'
                     label='UF'
                     name='address.uf'
-                    placeholder='Ex: AM'
+                    placeholder='Ex: SP'
                     error={errors?.address?.uf}
                     register={register}
                     autoComplete='off'
