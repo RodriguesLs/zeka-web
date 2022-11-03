@@ -5,7 +5,6 @@ import FilterLicense from '../FilterLicense';
 import { ILicense, FilterOptions } from '../../types';
 
 import { Table } from '@/components';
-import { formatDate } from '@/utils/formats';
 import Actions from './Actions';
 
 interface LicenseTableProps {

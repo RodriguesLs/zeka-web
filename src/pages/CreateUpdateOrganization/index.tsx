@@ -37,6 +37,10 @@ export interface OrganizationFormData {
   site: string;
   department: string;
   contact_person: string;
+  address: string;
+  employees_quantity: number;
+  email: string;
+  employees_without_high_school: number;
 }
 
 const organizationFormSchema = yup.object().shape({
@@ -74,12 +78,6 @@ const CreateUpdateOrganization = () => {
       retry: 1,
     },
   );
-
-  // const { data: operationAreasResp } = useQuery(['opeeration-areas'], async () => {
-  //   const { data } = await fetchOperationAreas();
-
-  //   return data;
-  // });
 
   const {
     register,
@@ -137,7 +135,6 @@ const CreateUpdateOrganization = () => {
     return <Error onClick={() => navigate('../')} />;
   }
 
-  console.log(errors);
   return (
     <Box as='section' w='100%'>
       <Box as='form' w='100%' maxWidth='1000px' onSubmit={handleSubmit(onSubmit)}>
@@ -210,6 +207,46 @@ const CreateUpdateOrganization = () => {
                     register={register}
                     autoComplete='off'
                     label='Área:'
+                  />
+                </HStack>
+                <HStack w='100%'>
+                  <Input
+                    type='text'
+                    name='email'
+                    placeholder='Ex: jose@carlos.com'
+                    error={errors.email}
+                    register={register}
+                    autoComplete='off'
+                    label='E-mail pessoa de contato:'
+                  />
+                  <Input
+                    type='number'
+                    name='employees_quantity'
+                    placeholder='Ex: 12'
+                    error={errors.employees_quantity}
+                    register={register}
+                    autoComplete='off'
+                    label='Quantidade de funcionários:'
+                  />
+                  <Input
+                    type='number'
+                    name='employees_without_high_school'
+                    placeholder='Ex: 3'
+                    error={errors.site}
+                    register={register}
+                    autoComplete='off'
+                    label='Funcionários sem ensino médio:'
+                  />
+                </HStack>
+                <HStack w='100%'>
+                  <Input
+                    type='text'
+                    name='address'
+                    placeholder='Ex: Rua Minas Gerais, 400 - Parque Industrial - Jaú/ SP'
+                    error={errors.email}
+                    register={register}
+                    autoComplete='off'
+                    label='Endereço completo:'
                   />
                 </HStack>
                 <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>

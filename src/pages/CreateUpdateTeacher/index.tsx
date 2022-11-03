@@ -193,6 +193,8 @@ const CreateUpdateTeacher = () => {
                     register={register}
                     autoComplete='off'
                     label='CPF/CNPJ:*'
+                    mask='999.999.999-99'
+                    isDisabled={!isCreateMode}
                   />
                   <Input
                     type='text'
@@ -201,6 +203,7 @@ const CreateUpdateTeacher = () => {
                     error={errors.cellphone}
                     register={register}
                     autoComplete='off'
+                    mask={'(99) 99999-9999'}
                     label='Telefone:*'
                   />
                 </HStack>

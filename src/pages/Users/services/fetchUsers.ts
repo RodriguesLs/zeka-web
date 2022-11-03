@@ -6,8 +6,18 @@ const fetchUsers = async (): Promise<any> => {
 
     return response.data;
   } catch (e) {
-    throw new Error();
+    throw new Error(e);
   }
 };
+
+export const insertInBatch = async (users): Promise<any> => {
+  try {
+    const response = await apiClient.post('/students/in_batch', { users });
+
+    return response.data;
+  } catch (err) {
+    throw new Error(err);
+  }
+} 
 
 export default fetchUsers;

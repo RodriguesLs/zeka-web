@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { VStack } from '@chakra-ui/react';
+import { IconButton, VStack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 import FilterUsers from '../FilterUsers';
@@ -7,6 +7,9 @@ import SearchBox from '../SearchBox';
 import { IUser, FilterOptions } from '../../types';
 
 import Table from '@/components/Table';
+import { RiDeleteBin4Line } from 'react-icons/ri';
+import apiClient from '@/services/apiClient';
+import { queryClient } from '@/services/queryClient';
 
 interface UsersTableProps {
   data: IUser[];
@@ -45,11 +48,30 @@ const OperationAreasTable = ({ data }: UsersTableProps) => {
     return usersFilteredByStatus;
   }, [data, selectedTypeUser, nameFiltered]);
 
+  const onClickDelete = async (id: any) => {
+    const response = await apiClient.delete(`operation_areas/${id}`);
+
+    queryClient.invalidateQueries(['operation_areas']);
+  }
+
   const columns = useMemo(
     () => [
       {
         Header: 'Departamento',
         accessor: 'description',
+      },
+      {
+        Header: 'Ação',
+        accessor: 'action',
+        Cell: ({ row }: any) => (
+          <IconButton
+            aria-label='remover departamento'
+            icon={<RiDeleteBin4Line />}
+            bg='none'
+            _hover={{ bg: 'none' }}
+            onClick={() => onClickDelete(row.original.id)}
+          />
+        ),
       },
     ],
     [],
