@@ -53,8 +53,16 @@ const TeachersTable = ({ data }: UsersZekaTableProps) => {
         accessor: 'name',
       },
       {
-        Header: 'E-mail',
-        accessor: 'email',
+        Header: 'Matérias',
+        accessor: 'discipline',
+      },
+      {
+        Header: 'Nível',
+        accessor: 'level',
+      },
+      {
+        Header: 'Telefone',
+        accessor: 'cellphone',
       },
       {
         Header: 'Ação',

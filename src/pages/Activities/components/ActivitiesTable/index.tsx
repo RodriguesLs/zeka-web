@@ -13,6 +13,18 @@ interface ActivityTableProps {
   data: IActivity[];
 }
 
+const KINDS = {
+  'simulate': 'Simulado',
+  'live': 'Live',
+  'challenge': 'Gincana',
+  'writting_core': 'Escrever conteúdo (core)',
+  'writting': 'Escrever conteúdo para sala de aula',
+  'blog': 'Escrever conteúdo para blog',
+  'essay_correction': 'Corrigir redação',
+  'teacher_trainer': 'Formação de professores',
+  'group_orientation': 'Orientação de grupo'
+}
+
 const ActivitiesTable = ({ data }: ActivityTableProps) => {
   const [nameFiltered, setNameFiltered] = useState('');
   const [selectedTypeUser, setSelectedTypeUser] = useState<FilterOptions>('all');
@@ -20,22 +32,7 @@ const ActivitiesTable = ({ data }: ActivityTableProps) => {
   const navigate = useNavigate();
 
   const getUsersFiltered = (users: IActivity[]) => {
-    const acts = users.map((a: any) => {
-      let kind;
-
-      switch (a.kind) {
-        case 'simulate':
-          kind = 'Simulado';
-          break;
-        case 'live':
-          kind = 'Live';
-          break;
-        default:
-          kind = 'Gincana';
-      }
-
-      return { ...a, kind };
-    });
+    const acts = users.map((a: any) => ({ ...a, kind: KINDS[a.kind] }));
 
     switch (selectedTypeUser) {
       case 'active':

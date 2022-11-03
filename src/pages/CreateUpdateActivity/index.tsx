@@ -158,6 +158,18 @@ const CreateUpdateActivity = () => {
                   {/* Informações cadastrais */}
                 </Heading>
                 <HStack as='fieldset' w='100%'>
+                  <Select name='kind' label='Tipo' onChange={actionRegister} register={register}>
+                    <option>Selecione</option>
+                    <option value='simulate'>Simulado</option>
+                    <option value='live'>Live</option>
+                    <option value='challenge'>Gincana</option>
+                    <option value='writting_core'>{`Escrever conteúdo (core)`} </option>
+                    <option value='writting'>Escrever conteúdo para sala de aula</option>
+                    <option value='blog'>Escrever para blog</option>
+                    <option value='essay_correction'>Correção de redação</option>
+                    <option value='group_orientation'>Orientação de grupo</option>
+                    <option value='teacher_trainer'>Formação de professores</option>
+                  </Select>
                   <Input
                     type='text'
                     name='description'
@@ -167,6 +179,8 @@ const CreateUpdateActivity = () => {
                     autoComplete='off'
                     label='Descrição'
                   />
+                </HStack>
+                <HStack w='100%'>
                   <Input
                     type='text'
                     name='address'
@@ -176,8 +190,6 @@ const CreateUpdateActivity = () => {
                     autoComplete='off'
                     label='Site/ endereço:'
                   />
-                </HStack>
-                <HStack w='100%'>
                   {
                     !isChallenge &&
                     <Input
@@ -204,18 +216,6 @@ const CreateUpdateActivity = () => {
                       mask='99/99/9999'
                     />
                   }
-                  <Select name='kind' label='Tipo' onChange={actionRegister} register={register}>
-                    <option>Selecione</option>
-                    <option value='simulate'>Simulado</option>
-                    <option value='live'>Live</option>
-                    <option value='challenge'>Gincana</option>
-                    <option value='writting_core'>{`Escrever conteúdo (core)`} </option>
-                    <option value='writting'>Escrever conteúdo para sala de aula</option>
-                    <option value='blog'>Escrever para blog</option>
-                    <option value='essay_correction'>Correção de redação</option>
-                    <option value='group_orientation'>Orientação de grupo</option>
-                    <option value='teacher_trainer'>Formação de professores</option>
-                  </Select>
                 </HStack>
                 {role !== 'teacher' && (
                   <HStack w='100%'>
