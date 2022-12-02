@@ -14,6 +14,8 @@ const CreateUpdateLicense = lazy(() => import('@/pages/CreateUpdateLicense'));
 const RegisterLicense = lazy(() => import('@/pages/RegisterLicense'));
 const CreateUpdateOrganization = lazy(() => import('@/pages/CreateUpdateOrganization'));
 const CreateUpdateActivity = lazy(() => import('@/pages/CreateUpdateActivity'));
+const CreateUpdateExceed = lazy(() => import('@/pages/CreateUpdateExceed'));
+const ExceedTeachers = lazy(() => import('@/pages/ExceedTeachers'));
 const CreateUpdateUser = lazy(() => import('@/pages/CreateUpdateUser'));
 const CreateUpdateUserZeka = lazy(() => import('@/pages/CreateUpdateUserZeka'));
 const CreateUpdateTeacher = lazy(() => import('@/pages/CreateUpdateTeacher'));
@@ -123,6 +125,13 @@ const privateRoutes = () => (
         <Route
           path='novo-departamento'
           element={<RouteWrapper title='Novo departamento' component={CreateUpdateOperationArea} />}
+        />
+      </Route>
+      <Route path='excedente'>
+        <Route index element={<RouteWrapper title='Excedente Professores' component={ExceedTeachers} />} />
+        <Route
+          path='novo-excedente'
+          element={<RouteWrapper title='Novo excedente' component={CreateUpdateExceed} />}
         />
       </Route>
       <Route path='atividades'>

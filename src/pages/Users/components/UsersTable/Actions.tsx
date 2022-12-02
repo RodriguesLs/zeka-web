@@ -24,7 +24,11 @@ interface ActionsProps {
 const Actions = ({ userId }: ActionsProps) => {
   const navigate = useNavigate();
 
-  const sendResetPassword = async () => await apiClient.get('users/forgot_password');
+  const sendResetPassword = async () => {
+    await apiClient.get('users/forgot_password');
+
+    navigate('/usuarios');
+  };
 
   const handleNavigateToEditLicense = useCallback(() => {
     navigate(`./edita-usuario/${userId}`);

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Heading, HStack, Image, Icon, Link, VStack } from '@chakra-ui/react';
 import { FiHome, FiKey, FiUser, FiChevronLeft } from 'react-icons/fi';
+import { GrMoney } from 'react-icons/gr';
 import { GoOrganization } from 'react-icons/go';
 import {
   FaYoutube,
@@ -39,6 +40,7 @@ const Sidebar = () => {
         { role === 'sysadmin' && <NavLink to='/dashboard' icon={FiHome} title='Dashboard' /> }
         { role === 'admin_organization' && <NavLink to='/usuarios' icon={FiUser} title='Usuários' /> }
         { role === 'sysadmin' && <NavLink to='/usuarios-zeka' icon={FiUser} title='Usuários [Zeka]' /> }
+        { role === 'sysadmin' && <NavLink to='/excedente' icon={GrMoney} title='Excedente professores' /> }
         { role === 'sysadmin' && <NavLink to='/empresas' icon={GoOrganization} title='Empresas' /> }
         { role === 'admin_organization' && <NavLink to={`/empresas/edita-empresa/${organizationId}`} icon={GoOrganization} title='Empresa' /> }
         { role === 'sysadmin' && <NavLink to='/licencas' icon={FiKey} title='Licenças' /> }

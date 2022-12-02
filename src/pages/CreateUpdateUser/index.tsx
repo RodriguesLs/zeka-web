@@ -295,6 +295,17 @@ const CreateUpdateUser = () => {
                       </option>
                     ))}
                   </Select>
+                  <Select name='status' label='Status' register={register}>
+                    <option value={'active'}>
+                      Ativo
+                    </option>
+                    <option value={'no_confirmed'}>
+                      Não confirmado
+                    </option>
+                    <option value={'inactive'}>
+                      Inativo
+                    </option>
+                  </Select>
                 </HStack>
                 <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
                   <Button type='button' onClick={() => navigate(-1)}>

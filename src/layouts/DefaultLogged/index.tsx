@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Grid, GridItem, Heading } from '@chakra-ui/react';
-
+// import amebaTurquesa from '@/assets/img/ameba_roxa.png';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 
@@ -24,7 +24,7 @@ const DefaultLogged = () => {
       <GridItem area='aside' h='100%'>
         <Sidebar />
       </GridItem>
-      <GridItem area='content' p='1.5rem'>
+      <GridItem backgroundImage={''} area='content' p='1.5rem'>
         <Heading fontSize='1.5rem' mb='2rem'>
           {title}
         </Heading>
