@@ -34,6 +34,7 @@ export interface ActivityFormData {
   kind: number;
   address: string;
   date: string;
+  unit_value: string;
 }
 
 const organizationFormSchema = yup.object().shape({
@@ -41,6 +42,7 @@ const organizationFormSchema = yup.object().shape({
   phone_number: yup.string(),
   cnpj: yup.string(),
   site: yup.string(),
+  unit_value: yup.string(),
 });
 
 const CreateUpdateActivity = () => {
@@ -170,6 +172,17 @@ const CreateUpdateActivity = () => {
                     <option value='group_orientation'>Orientação de grupo</option>
                     <option value='teacher_trainer'>Formação de professores</option>
                   </Select>
+                  <Input
+                    type='text'
+                    name='unit_price'
+                    placeholder='Ex: 150.00'
+                    error={errors.unit_value}
+                    register={register}
+                    autoComplete='off'
+                    label='Valor da atividade (R$)'
+                  />
+                </HStack>
+                <HStack as='fieldset' w='100%'>
                   <Input
                     type='text'
                     name='description'

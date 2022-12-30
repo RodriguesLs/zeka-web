@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { VStack, Box, HStack } from '@chakra-ui/react';
+import { Box, HStack } from '@chakra-ui/react';
 import { FiPlus } from 'react-icons/fi';
 
 import { LicensesTable } from './components';

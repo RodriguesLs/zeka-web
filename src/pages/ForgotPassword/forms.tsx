@@ -4,6 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { NewPasswordFormData, ForgotPasswordFormData } from './formConstants';
 import { Heading, VStack } from '@chakra-ui/react';
 import { Button, Input } from '@/components';
+import { useNavigate } from 'react-router-dom';
+import apiClient from '@/services/apiClient';
 
 const forgotPasswordFormSchema = yup.object().shape({
   email: yup.string().required('E-mail obrigatório').email('E-mail inválido'),
@@ -17,6 +19,7 @@ const newPasswordFormSchema = yup.object().shape({
     .required(),
 });
 
+
 export const NewPasswordForm: React.FC = () => {
   const {
     register,
@@ -26,7 +29,7 @@ export const NewPasswordForm: React.FC = () => {
     resolver: yupResolver(newPasswordFormSchema),
   });
 
-  const onSubmit = (data: NewPasswordFormData) => {
+  const onSubmit = async (data: NewPasswordFormData) => {
     console.log(data);
   };
 
@@ -58,13 +61,15 @@ export const NewPasswordForm: React.FC = () => {
         label='Confirme sua senha*'
       />
       <Button type='submit' variant='primary'>
-        Redefinir senha
+        Redefinir senha 2
       </Button>
     </VStack>
   );
 };
 
 export const ForgotPasswordForm: React.FC = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -73,8 +78,10 @@ export const ForgotPasswordForm: React.FC = () => {
     resolver: yupResolver(forgotPasswordFormSchema),
   });
 
-  const onSubmit = (data: ForgotPasswordFormData) => {
-    console.log(data);
+  const onSubmit = async (data: ForgotPasswordFormData) => {
+    await apiClient.get(`users/forgot_password?email=${data.email}`);
+
+    navigate('/');
   };
 
   return (
