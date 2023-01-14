@@ -6,7 +6,7 @@ name: Build and deploy Node.js app to Azure Web App - zeka-web
 on:
   push:
     branches:
-      - master
+      - production
   workflow_dispatch:
 
 jobs:
@@ -23,8 +23,8 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          yarn install
-          yarn build
+          npm install --legacy-peer-deps
+          npm run build
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
