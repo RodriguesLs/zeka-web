@@ -57,7 +57,7 @@ const Signin = () => {
         <Input
           type='password'
           name='password'
-          containerStyle={{ marginTop: '0.5rem' }}
+          // containerStyle={{ marginTop: '0.5rem' }}
           placeholder='Senha*'
           error={errors.password}
           register={register}

@@ -18,6 +18,7 @@ interface AccountStepFormData {
 
 interface AccountStepProps {
   onBackStep: () => void;
+  onNextStep: () => void;
 }
 
 const AccountStepFormSchema = yup.object().shape({
@@ -32,10 +33,8 @@ const AccountStepFormSchema = yup.object().shape({
     .oneOf([yup.ref('password'), null], 'As senhas não são iguais'),
 });
 
-const AccountStep = ({ onBackStep }: AccountStepProps) => {
-  const { signUpFormData } = useSignUpForm();
-  const { addToast } = useToast();
-  const navigate = useNavigate();
+const AccountStep = ({ onBackStep, onNextStep }: AccountStepProps) => {
+  const { handleUpdateSignupFormData, signUpFormData } = useSignUpForm();
 
   const {
     register,
@@ -47,48 +46,8 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
   });
 
   const onSubmit = async (formData: AccountStepFormData) => {
-    try {
-      const signUpFormCompleted = {
-        ...signUpFormData,
-        ...formData,
-      };
-
-      const data = new FormData();
-
-      data.append('companyName', signUpFormCompleted.companyName);
-      data.append('cnpj', signUpFormCompleted.cnpj);
-      data.append('responsible', signUpFormCompleted.responsible);
-      data.append('phoneNumber', signUpFormCompleted.phoneNumber);
-      data.append('imageProfile', signUpFormCompleted.imageProfile);
-      data.append('address.street', signUpFormCompleted.address.street);
-      data.append('address.city', signUpFormCompleted.address.city);
-      data.append('address.cep', signUpFormCompleted.address.cep);
-      data.append('address.uf', signUpFormCompleted.address.uf);
-      data.append('address.complement', signUpFormCompleted.address.complement);
-      data.append('address.district', signUpFormCompleted.address.district);
-      data.append('email', signUpFormCompleted.email);
-      data.append('password', signUpFormCompleted.password);
-      data.append('confirmPassword', signUpFormCompleted.confirmPassword);
-
-      await apiClient.post('/signup', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      addToast({
-        title: 'Conta criada!',
-        description: 'Deu tudo certo! Sua conta foi Zeka foi criada com sucesso.',
-        type: 'success',
-      });
-      navigate('/');
-    } catch (e) {
-      addToast({
-        title: 'Erro ao criar nova conta!',
-        description: 'Houve um erro ao tentar criar a sua nova conta, tente novamente!',
-        type: 'error',
-      });
-    }
+    handleUpdateSignupFormData(formData);
+    onNextStep();
   };
 
   return (
@@ -123,7 +82,7 @@ const AccountStep = ({ onBackStep }: AccountStepProps) => {
           Voltar
         </Button>
         <Button type='submit' variant='primary'>
-          Concluir
+          Avançar
         </Button>
       </HStack>
     </VStack>

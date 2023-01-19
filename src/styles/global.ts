@@ -10,4 +10,8 @@ export default createGlobalStyle`
     --gray-300: #ccc;
     --border-color: #e1e2e3;
   }
+
+  .styled-box {
+    font-size: 12px;
+  }
 `;

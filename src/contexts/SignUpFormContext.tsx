@@ -19,6 +19,11 @@ interface SignUpFormData {
   email: string;
   password: string;
   confirmPassword: string;
+  number: string;
+  holderName: string;
+  month: string;
+  year: string;
+  cvv: string;
 }
 
 interface SignUpFormContextData {

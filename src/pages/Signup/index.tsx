@@ -6,6 +6,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import AccountStep from './Steps/AccountStep';
 import AddressStep from './Steps/AddressStep';
 import CompanyStep from './Steps/CompanyStep';
+import PaymentStep from './Steps/PaymentStep';
 
 import { SignUpFormProvider } from '@/contexts/SignUpFormContext';
 
@@ -29,7 +30,8 @@ const SignUp = () => {
           <Steps currentStep={step} />
           {step === 1 && <CompanyStep onNextStep={handleNextStep} />}
           {step === 2 && <AddressStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
-          {step === 3 && <AccountStep onBackStep={handleBackStep} />}
+          {step === 3 && <AccountStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
+          {step === 4 && <PaymentStep onBackStep={handleBackStep} />}
         </VStack>
       </VStack>
     </SignUpFormProvider>
@@ -69,7 +71,11 @@ const Steps = ({ currentStep }: StepsProps) => {
     },
     {
       id: 3,
-      label: '3. Minha conta Zeka',
+      label: '3. Conta Zeka',
+    },
+    {
+      id: 4,
+      label: '4. Pagamento',
     },
   ];
   return (
@@ -81,6 +87,7 @@ const Steps = ({ currentStep }: StepsProps) => {
           as='li'
           fontWeight='bold'
           color={currentStep === step.id ? 'brand.500' : 'gray.500'}
+          className={'styled-box'}
         >
           {step.label}
           <Box
