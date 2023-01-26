@@ -12,6 +12,7 @@ interface ILicense {
   code: string;
   expiration_date: string;
   total_uses: number;
+  available_uses: number;
   status: string;
 }
 
@@ -27,7 +28,12 @@ const ShowLicense = () => {
   const { register } = useForm<any>();
 
   useEffect(() => {
-    if (licenseResp) setLicense(licenseResp);
+    console.log({ licenseResp })
+    if (licenseResp) {
+      setLicense(licenseResp)
+    } else {
+      fetchLicense().then((data: any) => setLicense(data));
+    }
   }, [license]);
 
   const onSubmit = async () => console.log('do nothing');
@@ -37,6 +43,7 @@ const ShowLicense = () => {
       <Box as='form' w='100%' maxWidth='700px' onSubmit={onSubmit}>
         <VStack gap='1rem'>
           <Input
+            isDisabled
             type='text'
             name='name'
             placeholder='Ex: Básico'
@@ -47,6 +54,7 @@ const ShowLicense = () => {
           />
           <HStack w='100%'>
             <Input
+              isDisabled
               type='text'
               name='code'
               placeholder='Ex: A1B2C3D4'
@@ -56,6 +64,7 @@ const ShowLicense = () => {
               value={license?.code}
             />
             <Input
+              isDisabled
               type='text'
               name='expiration_date'
               placeholder='Data de expiração*'
@@ -68,15 +77,26 @@ const ShowLicense = () => {
           </HStack>
           <HStack w='100%'>
             <Input
+              isDisabled
               type='text'
               name='available_uses'
               placeholder='Ex: 20'
               register={register}
               autoComplete='off'
-              label='Quantidade para uso*'
+              label='Quantidade disponível*'
+              value={license?.available_uses}
+            />
+            <Input
+              isDisabled
+              type='text'
+              name='total_uses'
+              placeholder='Ex: 20'
+              register={register}
+              autoComplete='off'
+              label='Quantidade total'
               value={license?.total_uses}
             />
-            <Select name='status' label='Status' register={register}>
+            <Select isDisabled name='status' label='Status' register={register}>
               <option value='active'>Ativa</option>
               <option value='inactive'>Inativa</option>
             </Select>

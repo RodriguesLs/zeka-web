@@ -35,6 +35,8 @@ export interface ActivityFormData {
   address: string;
   date: string;
   unit_value: string;
+  discipline: string;
+  topic: string;
 }
 
 const organizationFormSchema = yup.object().shape({
@@ -43,6 +45,8 @@ const organizationFormSchema = yup.object().shape({
   cnpj: yup.string(),
   site: yup.string(),
   unit_value: yup.string(),
+  discipline: yup.string(),
+  topic: yup.string()
 });
 
 const CreateUpdateActivity = () => {
@@ -175,7 +179,7 @@ const CreateUpdateActivity = () => {
                   <Input
                     type='text'
                     name='unit_price'
-                    placeholder='Ex: 150.00'
+                    placeholder='Ex: 150.00 (use pontos e vírgulas)'
                     error={errors.unit_value}
                     register={register}
                     autoComplete='off'
@@ -229,6 +233,26 @@ const CreateUpdateActivity = () => {
                       mask='99/99/9999'
                     />
                   }
+                </HStack>
+                <HStack w='100%'>
+                  <Input
+                    type='text'
+                    name='discipline'
+                    placeholder='Ex: História'
+                    error={errors.discipline}
+                    register={register}
+                    autoComplete='off'
+                    label='Disciplina/ Matéria:'
+                  />
+                  <Input
+                    type='text'
+                    name='topic'
+                    placeholder='Ex.: Brasil Colonial'
+                    error={errors.topic}
+                    register={register}
+                    autoComplete='off'
+                    label='Tema/ Assunto:'
+                  />
                 </HStack>
                 {role !== 'teacher' && (
                   <HStack w='100%'>

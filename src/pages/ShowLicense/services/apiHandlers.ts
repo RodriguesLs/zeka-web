@@ -1,3 +1,3 @@
 import apiClient from '@/services/apiClient';
 
-export const fetchLicense = () => apiClient.get(`licenses/my-license`);
+export const fetchLicense = async () => await apiClient.get(`licenses/my-license`);
