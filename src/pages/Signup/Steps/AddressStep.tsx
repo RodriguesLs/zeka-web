@@ -70,7 +70,7 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
         />
         <Input
           type='text'
-          label='Endereço*'
+          label='Logradouro*'
           name='address.street'
           placeholder='Ex: Av. Fulano da Silva'
           error={errors?.address?.street}
@@ -81,13 +81,24 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
       <HStack width='100%' gap='1rem' alignItems='baseline'>
         <Input
           type='text'
+          label='Número*'
+          name='address.complement'
+          placeholder='Ex: 2240'
+          error={errors?.address?.complement}
+          register={register}
+          autoComplete='off'
+        />
+        <Input
+          type='text'
           label='Bairro*'
           name='address.district'
-          placeholder='Ex: Fulano da Silva'
+          placeholder='Ex: Centro'
           error={errors?.address?.district}
           register={register}
           autoComplete='off'
         />
+      </HStack>
+      <HStack width='100%' gap='1rem' alignItems='baseline'>
         <Input
           type='text'
           label='Complemento*'

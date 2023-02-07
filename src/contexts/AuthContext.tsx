@@ -7,8 +7,9 @@ import localStorageService from '@/services/localStorageService';
 interface User {
   id: string;
   avatar_url: string;
-  name: string;
+  avatar_name: string;
   email: string;
+  token: string;
 }
 
 interface SignInCredentials {
@@ -22,6 +23,7 @@ interface AuthProviderProps {
 
 export interface AuthContextData {
   user: User | null;
+  student: any;
   token: string | null;
   role: string | null;
   organizationId: number;
@@ -79,7 +81,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-      navigate('/dashboard');
+      navigate('/welcome');
     } catch (e) {
       throw new Error();
     }

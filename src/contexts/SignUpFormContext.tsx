@@ -11,10 +11,14 @@ interface AddressFormData {
 
 interface SignUpFormData {
   imageProfile: File;
-  companyName: string;
-  cnpj: string;
-  responsible: string;
-  phoneNumber: string;
+  name?: string;
+  cpf?: string;
+  rg?: string;
+  instagram?: string;
+  companyName?: string;
+  cnpj?: string;
+  responsible?: string;
+  phoneNumber?: string;
   address: AddressFormData;
   email: string;
   password: string;

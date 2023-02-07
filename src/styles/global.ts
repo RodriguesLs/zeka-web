@@ -14,4 +14,20 @@ export default createGlobalStyle`
   .styled-box {
     font-size: 12px;
   }
+
+  .linkToTamboro {
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: var(--chakra-fonts-body);
+    margin-left: 1.25rem;
+    color: var(--text-complementary-color);
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 1.25rem;
+    }
+  }
 `;

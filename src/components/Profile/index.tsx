@@ -49,7 +49,7 @@ const Profile = () => {
 
   return (
     <>
-      <ProfileAvatar name={user?.name} menuIsOpen={menuIsOpen} onClick={handleToggleMenu} />
+      <ProfileAvatar name={user?.avatar_name} menuIsOpen={menuIsOpen} onClick={handleToggleMenu} />
       {menuIsOpen && (
         <VStack
           ref={menuRef}

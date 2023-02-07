@@ -8,6 +8,7 @@ import { Button, Input } from '@/components';
 import { useSignUpForm } from '@/contexts/SignUpFormContext';
 import useToast from '@/hooks/useToast';
 import apiClient from '@/services/apiClient';
+import apiZeka from '@/services/apiZeka';
 import { generateCardHash } from 'pagarme-card-hash';
 
 interface PaymentStepFormData {
@@ -47,22 +48,30 @@ const PaymentStep = ({ onBackStep }: PaymentStepProps) => {
         ...formData,
       };
 
-      const data = new FormData();
+      const { companyName, name, cnpj, phoneNumber, responsible, imageProfile, email, password } = signUpFormCompleted;
 
-      data.append('companyName', signUpFormCompleted.companyName);
-      data.append('cnpj', signUpFormCompleted.cnpj);
-      data.append('responsible', signUpFormCompleted.responsible);
-      data.append('phoneNumber', signUpFormCompleted.phoneNumber);
-      data.append('imageProfile', signUpFormCompleted.imageProfile);
-      data.append('address.street', signUpFormCompleted.address.street);
-      data.append('address.city', signUpFormCompleted.address.city);
-      data.append('address.cep', signUpFormCompleted.address.cep);
-      data.append('address.uf', signUpFormCompleted.address.uf);
-      data.append('address.complement', signUpFormCompleted.address.complement);
-      data.append('address.district', signUpFormCompleted.address.district);
-      data.append('email', signUpFormCompleted.email);
-      data.append('password', signUpFormCompleted.password);
-      data.append('confirmPassword', signUpFormCompleted.confirmPassword);
+      let data: any = {
+        customer: {
+          companyName,
+          name,
+          cnpj,
+          phoneNumber,
+          responsible,
+          imageProfile,
+          email,
+          password
+        },
+      };
+
+      // data.append('address.street', signUpFormCompleted.address.street);
+      // data.append('address.city', signUpFormCompleted.address.city);
+      // data.append('address.cep', signUpFormCompleted.address.cep);
+      // data.append('address.uf', signUpFormCompleted.address.uf);
+      // data.append('address.complement', signUpFormCompleted.address.complement);
+      // data.append('address.district', signUpFormCompleted.address.district);
+      // data.append('email', signUpFormCompleted.email);
+      // data.append('password', signUpFormCompleted.password);
+      // data.append('confirmPassword', signUpFormCompleted.confirmPassword);
 
       const {
         number,
@@ -72,21 +81,32 @@ const PaymentStep = ({ onBackStep }: PaymentStepProps) => {
         cvv
       } = signUpFormCompleted;
 
-      const hash = await generateCardHash(
+      const card_hash = await generateCardHash(
         {
           number,
           holderName,
           expirationDate: `${month}${year}`,
           cvv,
         },
-        'sk_test_8dZMKBVspNsL457j'
+        'pk_kzvxZjvFNlunxJ97'
         );
 
-      data.append('card_hash', hash);
+      const { data: { user } }: any = await apiZeka.post('/users', {
+        email: signUpFormCompleted.email,
+        fullName: signUpFormCompleted.name,
+        identifier: signUpFormCompleted.email,
+        password: signUpFormCompleted.password,
+        channels: [2,3]
+      });
 
-      await apiClient.post('/signup', { ...data, card_hash: hash, is_organization: true }, {
+      await apiClient.post('/signup', {
+        ...data,
+        guid: user?.guid,
+        token: user?.tokenLogin,
+        is_organization: true
+      }, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       });
 

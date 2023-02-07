@@ -1,16 +1,19 @@
 import { useCallback, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import { Box, Heading, HStack, Icon, Link, VStack } from '@chakra-ui/react';
 import { FiArrowLeft } from 'react-icons/fi';
 
 import AccountStep from './Steps/AccountStep';
 import AddressStep from './Steps/AddressStep';
 import CompanyStep from './Steps/CompanyStep';
+import StudentStep from './Steps/StudentStep';
 import PaymentStep from './Steps/PaymentStep';
 
 import { SignUpFormProvider } from '@/contexts/SignUpFormContext';
 
 const SignUp = () => {
+  const [searchParams] = useSearchParams();
+  const type = searchParams.get("type");
   const [step, setStep] = useState(1);
 
   const handleBackStep = useCallback(() => {
@@ -28,7 +31,8 @@ const SignUp = () => {
           <BackButton />
           <Heading>Crie sua conta agora mesmo!</Heading>
           <Steps currentStep={step} />
-          {step === 1 && <CompanyStep onNextStep={handleNextStep} />}
+          {step === 1 && type !== 'student' && <CompanyStep onNextStep={handleNextStep} />}
+          {step === 1 && type === 'student' && <StudentStep onNextStep={handleNextStep} />}
           {step === 2 && <AddressStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
           {step === 3 && <AccountStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
           {step === 4 && <PaymentStep onBackStep={handleBackStep} />}

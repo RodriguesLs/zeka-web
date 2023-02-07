@@ -7,13 +7,14 @@ import { NavLinkContainer } from './styles';
 interface NavLinkProps {
   icon?: React.ComponentType<IconBaseProps>;
   title: string;
-  to: string;
+  to: string | any;
+  target?: string;
 }
 
-const NavLink = ({ to, icon, title }: NavLinkProps) => {
+const NavLink = ({ to, icon, title, target }: NavLinkProps) => {
   return (
     <NavLinkContainer>
-      <RouterNavLink to={to} className={({ isActive }) => (isActive ? 'navLinkActive' : '')}>
+      <RouterNavLink to={to} target={target} className={({ isActive }) => (isActive ? 'navLinkActive' : '')}>
         {Icon && <Icon as={icon} w='24px' h='24px' />}
         <Text as='span' ml='1.25rem'>
           {title}

@@ -11,7 +11,7 @@ const PrivateRoutes = () => {
   return !isAuthenticated ? (
     <Outlet />
   ) : (
-    <Navigate to='/dashboard' state={{ from: location }} replace />
+    <Navigate to='/welcome' state={{ from: location }} replace />
   );
 };
 

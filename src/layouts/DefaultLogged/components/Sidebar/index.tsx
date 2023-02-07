@@ -3,6 +3,7 @@ import { Heading, HStack, Image, Icon, Link, VStack } from '@chakra-ui/react';
 import { FiHome, FiKey, FiUser, FiChevronLeft } from 'react-icons/fi';
 import { GrMoney } from 'react-icons/gr';
 import { GoOrganization } from 'react-icons/go';
+import { MdOutlineDirections } from 'react-icons/md';
 import {
   FaYoutube,
   FaLinkedin,
@@ -20,7 +21,8 @@ import * as S from './styles';
 
 const Sidebar = () => {
   const [isMinimized, setIsMinimized] = useState(false);
-  const { role, organizationId } = useAuth();
+  const { role, organizationId, user } = useAuth();
+  const API_TAMBORO = import.meta.env.VITE_API_TAMBORO_URL;
 
   return (
     <S.Container isMinimized={isMinimized}>
@@ -47,6 +49,18 @@ const Sidebar = () => {
         { role === 'user' && <NavLink to='/professores' icon={FiUser} title='Professores' /> }
         { (role === 'teacher' || role === 'user') && <NavLink to='/atividades' icon={FiKey} title='Atividades' /> }
         { (role === 'teacher' || role === 'student') && <NavLink to='/' icon={FaRegMoneyBillAlt} title='Pagamentos' /> }
+        { 
+          role === 'student' &&
+          <a
+            href={`${API_TAMBORO}/#/login?userName=${user.email}&token=${user?.student?.token}`}
+            className='linkToTamboro'
+            target="_blank"
+            title='Tamboro'
+          >
+            <Icon as={MdOutlineDirections} w='24px' h='24px' />
+            Tamboro
+          </a>
+        }
         { (role === 'admin_organization') && <NavLink to='/departamentos' icon={GoOrganization} title='Departamentos' /> }
         { (role === 'admin_organization') && <NavLink to='/licencas/licenca' icon={FiKey} title='Licença' /> }
       </VStack>

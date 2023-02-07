@@ -20,6 +20,7 @@ const CreateUpdateUser = lazy(() => import('@/pages/CreateUpdateUser'));
 const CreateUpdateUserZeka = lazy(() => import('@/pages/CreateUpdateUserZeka'));
 const CreateUpdateTeacher = lazy(() => import('@/pages/CreateUpdateTeacher'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
+const Welcome = lazy(() => import('@/pages/Welcome'));
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
 const Licenses = lazy(() => import('@/pages/Licenses'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
@@ -53,6 +54,7 @@ const publicRoutes = () => (
 const privateRoutes = () => (
   <Route element={<PrivateRoutes />}>
     <Route element={<DefaultLoggedLayout />}>
+      <Route path='/welcome' element={<RouteWrapper title='Bem-vindo!' component={Welcome} />} />
       <Route path='/dashboard' element={<RouteWrapper title='Dashboard' component={Dashboard} />} />
       <Route path='licencas'>
         <Route
