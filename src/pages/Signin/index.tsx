@@ -42,6 +42,8 @@ const Signin = () => {
     }
   };
 
+  console.log('version 5');
+
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>
       <Image src={logoImg} maxW='200px' mb='2rem' alt='logo zeka educação digital' />
