@@ -1,7 +1,16 @@
-import { BarChart, AreaChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer , Tooltip, Area } from 'recharts';
-import { Button, HStack, SimpleGrid } from '@chakra-ui/react';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer ,
+  PieChart,
+  Pie,
+} from 'recharts';
+import { Button, HStack, SimpleGrid, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { Card } from '@/components';
-import { StyledDiv, StyledTitle } from './dashboard.styled';
+import { StyledDiv, SummaryDiv, MainDiv, StyledTableGrid } from './dashboard.styled';
 import { useNavigate } from 'react-router-dom';
 import { parseExcelToJSON } from '@/services/xlsx/xlsxService';
 import insertInBatch from './services/insertInBatch';
@@ -10,9 +19,7 @@ import fetchData from './services/fetchData';
 
 const Dashboard = () => {
   const { data, error, isLoading } = useQuery(['admin-summary'], fetchData);
-  // console.log({data})
-  // console.log({error})
-  // console.log({isLoading})
+
   const handleClick = () => document.getElementById('file-csv').click();
   const handleChange = async (e) => {
     const file = e.target.files[0]
@@ -22,9 +29,7 @@ const Dashboard = () => {
     let finalI = 1000;
     let counter = 0;
 
-    while(counter < data.length) {
-    // console.log({ data: data.slice(initialI, finalI) });
-    // console.log({ date: data.slice(initialI, finalI)[0] });
+    while(counter < 1000) {
       await insertInBatch(data.slice(initialI, finalI));
 
       initialI = finalI;
@@ -51,7 +56,7 @@ const Dashboard = () => {
   }
 
   return (
-    <>
+    <MainDiv>
       <HStack width='100%' mb='1rem' gap='1rem' justifyContent='end'>
         {/* <a href='users.csv' style={styledLink} download='usuarios-exemplo.csv'>
           Download planilha de exemplo
@@ -62,19 +67,24 @@ const Dashboard = () => {
         </Button>
       </HStack>
       <StyledDiv>
-        <h1>Resumo dos totais</h1><br />
-
-        <StyledTitle><b>Número total de colaboradores:</b> {data?.total_employees}</StyledTitle>
-        <StyledTitle><b>Número de colaboradores que já iniciou:</b> {data?.total_employees_initialized} </StyledTitle>
-        <StyledTitle><b>Número de colaboradores que já finalizou:</b> {data?.total_employees_finished} </StyledTitle>
+        <SummaryDiv>Cadastros: <p>{data?.total_employees || 25}</p></SummaryDiv>
+        <SummaryDiv>Já acessaram: <p>{data?.total_employees_initialized || 9}</p></SummaryDiv>
+        <SummaryDiv>Nunca acessaram: <p>{data?.total_employees || 5}</p></SummaryDiv>
+        <SummaryDiv className="finish_one">Finalizaram pelo menos um: <p>{data?.total_employees_finished || 10}</p></SummaryDiv>
       </StyledDiv>
 
       <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
-        <Card title='Taxa de conclusão'>
-          <Chart />
+        <Card title='Taxa de finalização'>
+          <PieResumeChart pData={data}/>
         </Card>
+        <Card title='Taxa de finalização'>
+          <PieResumeChart pData={data}/>
+        </Card>
+      </SimpleGrid>
+      <br />
+      <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
         <Card title='Taxa de finalizados por dia'>
-          <LineChart />
+          <Chart />
         </Card>
       </SimpleGrid>
       <br />
@@ -82,21 +92,50 @@ const Dashboard = () => {
         <Card title='Taxa de conclusão por curso'>
           <ChartByCourse />
         </Card>
-        <Card title='Taxa de reprovação'>
-          <LineChart />
+      </SimpleGrid>
+      <br />
+      <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
+        <Card title='Proficiência em Ciências da Natureza'>
+          <ChartByCourseOnly />
+        </Card>
+        <Card title='Proficiência em Ciências humanas'>
+          <ChartByCourseOnly2 />
         </Card>
       </SimpleGrid>
-    </>
+      <br />
+      <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
+        <Card title='Proficiência em Português'>
+          <ChartByCourseOnly2 />
+        </Card>
+        <Card title='Proficiência em Matemática'>
+          <ChartByCourseOnly />
+        </Card>
+      </SimpleGrid>
+      <StyledTableGrid>
+        <h1>Cursos finalizados por aluno</h1>
+        <SimpleStripedTable />
+      </StyledTableGrid>
+      <StyledTableGrid>
+        <h1>Finalização de diagnóstico por aluno</h1>
+        <SimpleStripedTable2 />
+      </StyledTableGrid>
+    </MainDiv>
   );
 };
 
 const chartData = [
-  { name: 'Jan', taxa: 100 },
-  { name: 'Fev', taxa: 200 },
-  { name: 'Mar', taxa: 100 },
-  { name: 'Abr', taxa: 200 },
-  { name: 'Jun', taxa: 100 },
-  { name: 'Jul', taxa: 400 },
+  { name: '01 de fev', taxa: 100 },
+  { name: '02 de fev', taxa: 200 },
+  { name: '03 de fev', taxa: 100 },
+  { name: '04 de fev', taxa: 200 },
+  { name: '05 de fev', taxa: 100 },
+  { name: '06 de fev', taxa: 400 },
+  { name: '07 de fev', taxa: 100 },
+  { name: '08 de fev', taxa: 200 },
+  { name: '09 de fev', taxa: 100 },
+  { name: '10 de fev', taxa: 200 },
+  { name: '11 de fev', taxa: 100 },
+  { name: '12 de fev', taxa: 400 },
 ];
 
 const chartDataByCourse = [
@@ -108,44 +147,25 @@ const chartDataByCourse = [
   { name: 'Manutenção de máquinas 2', taxa: 100 },
 ];
 
-const areaData = [
+const chartDataByCourseOnly = [
+  { name: '7', taxa: 20 },
+  { name: '8', taxa: 23 },
+  { name: '9', taxa: 7 },
+  { name: '10', taxa: 2 },
+  { name: '5.5', taxa: 19 },
+  { name: '4', taxa: 3 },
+];
+
+const radialData = [
   {
-    name: '1',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
+    name: '35-39',
+    value: 100
   },
   {
-    name: '2',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: '3',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: '4',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: '5',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: '6',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-]
+    name: '35-39',
+    value: 350
+  }
+];
 
 const Chart = () => {
   return (
@@ -170,37 +190,124 @@ const ChartByCourse = () => {
           <XAxis dataKey='name' stroke='#31aeb9' />
           <YAxis />
           <CartesianGrid stroke='#ccc' strokeDasharray='1' />
-          <Bar dataKey='taxa' fill='#31aeb9' barSize={60} />
+          <Bar dataKey='taxa' fill='#0b64c5' barSize={150} />
         </BarChart>
       </ResponsiveContainer>
     </>
   );
 };
 
-const LineChart = () => {
+const ChartByCourseOnly = () => {
   return (
     <>
       <ResponsiveContainer width='100%' aspect={3}>
-        <AreaChart
-          width={500}
-          height={400}
-          data={areaData}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+        <BarChart data={chartDataByCourseOnly}>
+          <XAxis dataKey='name' stroke='#31aeb9' />
           <YAxis />
-          <Tooltip />
-          <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
-        </AreaChart>
+          <CartesianGrid stroke='#ccc' strokeDasharray='1' />
+          <Bar dataKey='taxa' fill='#Fbe926' barSize={60} />
+        </BarChart>
       </ResponsiveContainer>
     </>
   );
 };
+
+const ChartByCourseOnly2 = () => {
+  return (
+    <>
+      <ResponsiveContainer width='100%' aspect={3}>
+        <BarChart data={chartDataByCourseOnly}>
+          <XAxis dataKey='name' stroke='#31aeb9' />
+          <YAxis />
+          <CartesianGrid stroke='#ccc' strokeDasharray='1' />
+          <Bar dataKey='taxa' fill='#9a9a97' barSize={60} />
+        </BarChart>
+      </ResponsiveContainer>
+    </>
+  );
+};
+
+const PieResumeChart = ({ pData }) => {
+  // const pieData = pData?.map(p => ({ name: `${'lol'}`, value: p?.total_employees || 25 }));
+  return (
+    <ResponsiveContainer width={'100%'} aspect={3}>
+      <PieChart width={400} height={400}>
+          <Pie
+            dataKey="value"
+            startAngle={180}
+            endAngle={0}
+            data={radialData}
+            cx="50%"
+            cy="50%"
+            outerRadius={80}
+            fill="#8884d8"
+            label
+          />
+        </PieChart>
+    </ResponsiveContainer>
+  )
+}
+
+const SimpleStripedTable = () => (
+  <TableContainer>
+    <Table variant='striped' colorScheme='teal'>
+      <TableCaption>Table optional details</TableCaption>
+      <Thead>
+        <Tr>
+          <Th>Nome</Th>
+          <Th>Curso</Th>
+          <Th isNumeric>Quantidade</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        <Tr>
+          <Td>inches</Td>
+          <Td>millimetres (mm)</Td>
+          <Td isNumeric>25.4</Td>
+        </Tr>
+        <Tr>
+          <Td>inches</Td>
+          <Td>millimetres (mm)</Td>
+          <Td isNumeric>25.4</Td>
+        </Tr>
+      </Tbody>
+    </Table>
+  </TableContainer>
+);
+
+const SimpleStripedTable2 = () => (
+  <TableContainer>
+    <Table variant='simple'>
+      <Thead>
+        <Tr>
+          <Th>Nome</Th>
+          <Th>Curso</Th>
+          <Th>Data de finalização</Th>
+          <Th>Status</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        <Tr>
+          <Td>inches</Td>
+          <Td>millimetres (mm)</Td>
+          <Td></Td>
+          <Td>NÃO INICIADO</Td>
+        </Tr>
+        <Tr>
+          <Td>feet</Td>
+          <Td>centimetres (cm)</Td>
+          <Td></Td>
+          <Td>INICIADO</Td>
+        </Tr>
+        <Tr>
+          <Td>yards</Td>
+          <Td>metres (m)</Td>
+          <Td>07/02/2023</Td>
+          <Td>FINALIZADO</Td>
+        </Tr>
+      </Tbody>
+    </Table>
+  </TableContainer>
+);
 
 export default Dashboard;

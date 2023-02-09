@@ -10,6 +10,7 @@ interface User {
   avatar_name: string;
   email: string;
   token: string;
+  student: any;
 }
 
 interface SignInCredentials {
@@ -23,7 +24,6 @@ interface AuthProviderProps {
 
 export interface AuthContextData {
   user: User | null;
-  student: any;
   token: string | null;
   role: string | null;
   organizationId: number;

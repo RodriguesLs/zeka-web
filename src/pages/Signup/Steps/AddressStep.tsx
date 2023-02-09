@@ -13,6 +13,7 @@ interface Address {
   complement: string;
   city: string;
   uf: string;
+  number: string;
 }
 
 interface AddressStepFormData {
@@ -82,9 +83,9 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
         <Input
           type='text'
           label='Número*'
-          name='address.complement'
+          name='address.number'
           placeholder='Ex: 2240'
-          error={errors?.address?.complement}
+          error={errors?.address?.number}
           register={register}
           autoComplete='off'
         />
@@ -101,9 +102,9 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
       <HStack width='100%' gap='1rem' alignItems='baseline'>
         <Input
           type='text'
-          label='Complemento*'
+          label='Complemento'
           name='address.complement'
-          placeholder='Ex: 2240'
+          placeholder='Ex: ao lado da padaria'
           error={errors?.address?.complement}
           register={register}
           autoComplete='off'
@@ -123,7 +124,7 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
           type='text'
           label='UF*'
           name='address.uf'
-          placeholder='Ex: AM'
+          placeholder='Ex: SP'
           error={errors?.address?.uf}
           register={register}
           autoComplete='off'

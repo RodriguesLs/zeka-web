@@ -18,7 +18,7 @@ const DefaultLogged = () => {
       minH='100vh'
       bg='background.layout'
     >
-      <GridItem area='header'>
+      <GridItem area='header' w='100%'>
         <Header />
       </GridItem>
       <GridItem area='aside' h='100%'>

@@ -9,7 +9,7 @@ import { useSignUpForm } from '@/contexts/SignUpFormContext';
 import useToast from '@/hooks/useToast';
 import apiClient from '@/services/apiClient';
 import apiZeka from '@/services/apiZeka';
-import { generateCardHash } from 'pagarme-card-hash';
+import apiPagarme from '@/services/apiPagarme';
 
 interface PaymentStepFormData {
   number: string;
@@ -63,33 +63,71 @@ const PaymentStep = ({ onBackStep }: PaymentStepProps) => {
         },
       };
 
-      // data.append('address.street', signUpFormCompleted.address.street);
-      // data.append('address.city', signUpFormCompleted.address.city);
-      // data.append('address.cep', signUpFormCompleted.address.cep);
-      // data.append('address.uf', signUpFormCompleted.address.uf);
-      // data.append('address.complement', signUpFormCompleted.address.complement);
-      // data.append('address.district', signUpFormCompleted.address.district);
-      // data.append('email', signUpFormCompleted.email);
-      // data.append('password', signUpFormCompleted.password);
-      // data.append('confirmPassword', signUpFormCompleted.confirmPassword);
+      let paymentResponse: any;
+      try {
+        paymentResponse = await apiPagarme.post('/orders', {
+          customer: {
+            name: companyName || name,
+            email,
+            "document": "06208085357",
+            "type": "individual",
+            "document_type": "CPF",
+            "address": {
+                "line_1": "79, Rua Afonso Pena, Edson Queiroz",
+                "line_2": "casa",
+                "zip_code": "60834522",
+                "city": "Fortaleza",
+                "state": "CE",
+                "country": "BR"
+            },
+            "phones": {
+                "home_phone": {
+                    "country_code": "55",
+                    "area_code": "85",
+                    "number": "000000000"
+                },
+                "mobile_phone": {
+                    "country_code": "55",
+                    "area_code": "85",
+                    "number": "000000000"
+                }
+            },
+            "metadata": {
+                "company": "Pagar.me"
+            }
+          },
+          payments: [
+            {
+              payment_method: "credit_card",
+              credit_card: {
+                installments: 1,
+                statement_descriptor: "AVENGERS",
+                card: {
+                  number: "4242424242424242",
+                  holder_name: "Tony Stark",
+                  exp_month: 1,
+                  exp_year: 30,
+                  cvv: "353",
+                  billing_address: {
+                      line_1: "10880, Malibu Point, Malibu Central",
+                      zip_code: "90265",
+                      city: "Malibu",
+                      state: "CA",
+                      country: "US"
+                  }
+                }
+              }
+            }
+        ]});
+      } catch (e) {
+        return addToast({
+          title: 'Erro ao criar nova conta!',
+          description: 'Houve um erro no processo de pagamento, tente novamente!',
+          type: 'error',
+        });
+      }
 
-      const {
-        number,
-        holderName,
-        month,
-        year,
-        cvv
-      } = signUpFormCompleted;
-
-      const card_hash = await generateCardHash(
-        {
-          number,
-          holderName,
-          expirationDate: `${month}${year}`,
-          cvv,
-        },
-        'pk_kzvxZjvFNlunxJ97'
-        );
+      if (paymentResponse.status === 'failed') { console.log('ERRROR', paymentResponse) }
 
       const { data: { user } }: any = await apiZeka.post('/users', {
         email: signUpFormCompleted.email,
@@ -103,7 +141,9 @@ const PaymentStep = ({ onBackStep }: PaymentStepProps) => {
         ...data,
         guid: user?.guid,
         token: user?.tokenLogin,
-        is_organization: true
+        is_organization: true,
+        paymentId: paymentResponse.id,
+        paymentCode: paymentResponse.code
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -136,6 +176,7 @@ const PaymentStep = ({ onBackStep }: PaymentStepProps) => {
         error={errors.number}
         register={register}
         autoComplete='off'
+        mask='9999 9999 9999 9999'
       />
       <Input
         type='text'
@@ -151,19 +192,21 @@ const PaymentStep = ({ onBackStep }: PaymentStepProps) => {
           type='text'
           label='Mês de validade'
           name='month'
-          placeholder='Ex: 01/23'
+          placeholder='Ex: 01'
           error={errors.month}
           register={register}
           autoComplete='off'
+          mask='99'
         />
         <Input
           type='text'
           label='Ano de validade'
           name='year'
-          placeholder='Ex: 01/23'
+          placeholder='Ex: 24'
           error={errors.year}
           register={register}
           autoComplete='off'
+          mask='99'
         />
         <Input
           type='text'
@@ -173,6 +216,7 @@ const PaymentStep = ({ onBackStep }: PaymentStepProps) => {
           error={errors.cvv}
           register={register}
           autoComplete='off'
+          mask='999'
         />
       </HStack>
       <HStack width='100%' pt='2rem'>

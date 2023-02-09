@@ -71,7 +71,7 @@ const Signin = () => {
       </VStack>
       <Text pt='1rem'>
         Não tem uma conta ainda?{' '}
-        <Link as={RouterLink} to='cadastrar-me' color='brand.500'>
+        <Link as={RouterLink} to='cadastrar-me?type=student' color='brand.500'>
           Cadastre-se agora
         </Link>
       </Text>
