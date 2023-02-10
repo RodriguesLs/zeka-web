@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('version 5');
+  console.log('version 7, without payment call');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>
