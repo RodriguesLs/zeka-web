@@ -70,12 +70,11 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
     try {
       const response = await apiClient.post('sessions', { email, password });
 
-      const { token, refreshToken, user, role, organization_id } = response.data;
+      const { token, refreshToken, user, student, role, organization_id } = response.data;
 
       localStorageService().signIn({ token, refreshToken });
-
       setToken(token);
-      setUser(user);
+      setUser({ ...user, student });
       setRole(role);
       setOrganizationId(organization_id);
 

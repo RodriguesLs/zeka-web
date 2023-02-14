@@ -28,7 +28,6 @@ const ShowLicense = () => {
   const { register } = useForm<any>();
 
   useEffect(() => {
-    console.log({ licenseResp })
     if (licenseResp) {
       setLicense(licenseResp)
     } else {

@@ -39,6 +39,7 @@ const Sidebar = () => {
         visibility={isMinimized ? 'hidden' : 'visible'}
       />
       <VStack as='nav' w='100%' h='100%' px='0.5rem'>
+        <NavLink to='/welcome' icon={FiHome} title='Home' />
         { role === 'sysadmin' && <NavLink to='/dashboard' icon={FiHome} title='Dashboard' /> }
         { role === 'admin_organization' && <NavLink to='/usuarios' icon={FiUser} title='Usuários' /> }
         { role === 'sysadmin' && <NavLink to='/usuarios-zeka' icon={FiUser} title='Usuários [Zeka]' /> }
@@ -48,9 +49,9 @@ const Sidebar = () => {
         { role === 'sysadmin' && <NavLink to='/licencas' icon={FiKey} title='Licenças' /> }
         { role === 'user' && <NavLink to='/professores' icon={FiUser} title='Professores' /> }
         { (role === 'teacher' || role === 'user') && <NavLink to='/atividades' icon={FiKey} title='Atividades' /> }
-        { (role === 'teacher' || role === 'student') && <NavLink to='/' icon={FaRegMoneyBillAlt} title='Pagamentos' /> }
+        { (role === 'teacher' || role === 'student') && <NavLink to='/payment' icon={FaRegMoneyBillAlt} title='Pagamentos' /> }
         { 
-          role === 'student' &&
+          role === 'student' && user?.student?.status === 'active' &&
           <a
             href={`${API_TAMBORO}/#/login?userName=${user.email}&token=${user?.student?.token}`}
             className='linkToTamboro'
@@ -58,7 +59,7 @@ const Sidebar = () => {
             title='Tamboro'
           >
             <Icon as={MdOutlineDirections} w='24px' h='24px' />
-            Tamboro
+            Acesse o app zeka
           </a>
         }
         { (role === 'admin_organization') && <NavLink to='/departamentos' icon={GoOrganization} title='Departamentos' /> }

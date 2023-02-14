@@ -32,7 +32,7 @@ const Signin = () => {
 
   const onSubmit = async (formData: SignInFormData) => {
     try {
-      await signIn(formData);
+      const result = await signIn(formData);
     } catch (err) {
       addToast({
         title: 'Erro na autenticação',
@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('version 7, without payment call');
+  console.log('===> Version 9 ~ [with pagarme and register on zeka]');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>
