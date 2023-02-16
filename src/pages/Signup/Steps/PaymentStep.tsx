@@ -74,9 +74,11 @@ const PaymentStep = ({ onBackStep }: PaymentStepProps) => {
     } catch (e) {
       addToast({
         title: 'Erro ao criar nova conta!',
-        description: 'Houve um erro ao tentar criar a sua nova conta, tente novamente!',
+        description: e.response?.data?.error || 'Houve um erro ao tentar criar a sua nova conta, tente novamente!',
         type: 'error',
       });
+
+      setShowSpinner(false);
     }
   };
 
