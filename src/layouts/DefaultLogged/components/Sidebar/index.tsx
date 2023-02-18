@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Heading, HStack, Image, Icon, Link, VStack } from '@chakra-ui/react';
 import { FiHome, FiKey, FiUser, FiChevronLeft } from 'react-icons/fi';
 import { GrMoney } from 'react-icons/gr';
-import { GoOrganization } from 'react-icons/go';
+import { GoOrganization, GoDashboard } from 'react-icons/go';
 import { MdOutlineDirections } from 'react-icons/md';
 import {
   FaYoutube,
@@ -23,6 +23,7 @@ const Sidebar = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const { role, organizationId, user } = useAuth();
   const API_TAMBORO = import.meta.env.VITE_API_TAMBORO_URL;
+  const homeTitle = role === 'student' ? 'Eventos' : 'Home';
 
   return (
     <S.Container isMinimized={isMinimized}>
@@ -39,7 +40,8 @@ const Sidebar = () => {
         visibility={isMinimized ? 'hidden' : 'visible'}
       />
       <VStack as='nav' w='100%' h='100%' px='0.5rem'>
-        <NavLink to='/welcome' icon={FiHome} title='Home' />
+        <NavLink to='/welcome' icon={FiHome} title={homeTitle} />
+        { role === 'student' && <NavLink to='/user-dashboard' icon={GoDashboard} title='Dashboard' /> }
         { role === 'sysadmin' && <NavLink to='/dashboard' icon={FiHome} title='Dashboard' /> }
         { role === 'admin_organization' && <NavLink to='/usuarios' icon={FiUser} title='Usuários' /> }
         { role === 'sysadmin' && <NavLink to='/usuarios-zeka' icon={FiUser} title='Usuários [Zeka]' /> }
@@ -50,7 +52,7 @@ const Sidebar = () => {
         { role === 'user' && <NavLink to='/professores' icon={FiUser} title='Professores' /> }
         { (role === 'teacher' || role === 'user') && <NavLink to='/atividades' icon={FiKey} title='Atividades' /> }
         { (role === 'teacher' || role === 'student') && <NavLink to='/payment' icon={FaRegMoneyBillAlt} title='Pagamentos' /> }
-        { 
+        {
           role === 'student' && user?.student?.status === 'active' &&
           <a
             href={`${API_TAMBORO}/#/login?userName=${user.email}&token=${user?.student?.token}`}

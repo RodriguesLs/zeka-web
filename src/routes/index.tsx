@@ -20,6 +20,7 @@ const CreateUpdateUser = lazy(() => import('@/pages/CreateUpdateUser'));
 const CreateUpdateUserZeka = lazy(() => import('@/pages/CreateUpdateUserZeka'));
 const CreateUpdateTeacher = lazy(() => import('@/pages/CreateUpdateTeacher'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
+const UserDashboard = lazy(async () => import('@/pages/UserDashboard'));
 const Welcome = lazy(() => import('@/pages/Welcome'));
 const Payment = lazy(() => import('@/pages/Payment'));
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
@@ -57,6 +58,7 @@ const privateRoutes = () => (
     <Route element={<DefaultLoggedLayout />}>
       <Route path='/welcome' element={<RouteWrapper title='Bem-vindo!' component={Welcome} />} />
       <Route path='/payment' element={<RouteWrapper title='Status do pagamento' component={Payment} />} />
+      <Route path='/user-dashboard' element={<RouteWrapper title='Dashboard' component={UserDashboard} />} />
       <Route path='/dashboard' element={<RouteWrapper title='Dashboard' component={Dashboard} />} />
       <Route path='licencas'>
         <Route

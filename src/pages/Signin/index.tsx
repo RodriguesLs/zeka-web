@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('===> Version 9 ~ [with pagarme and register on zeka]');
+  console.log('===> Version 11 ~ [test-pagarme]');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>

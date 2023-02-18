@@ -10,7 +10,13 @@ interface User {
   avatar_name: string;
   email: string;
   token: string;
-  student: any;
+  student: Student;
+}
+
+interface Student {
+  guid: string;
+  token: string;
+  status: string;
 }
 
 interface SignInCredentials {
