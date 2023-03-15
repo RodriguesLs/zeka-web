@@ -2,6 +2,8 @@ import useAuth from '@/hooks/useAuth';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from 'moment';
+import localStorageService from '@/services/localStorageService';
+
 
 const Welcome = () => {
   moment.updateLocale('pt', {
@@ -135,9 +137,18 @@ const Welcome = () => {
     }
   ]
 
+  if (!user) {
+    localStorageService().signOut();
+
+    // setToken('');
+    // setUser(null);
+    // setRole(null);
+    // setOrganizationId(0);
+  }
+
   return (
     <>
-      <h1>Seja bem-vindo a ZEKA, {user.avatar_name || user.email.split('@')[0]}</h1>
+      <h1>Seja bem-vindo a ZEKA, {user?.avatar_name || user?.email?.split('@')[0]}</h1>
       {
         role === 'student' &&
         <Calendar

@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import {
   BarChart,
   Bar,
@@ -13,36 +14,15 @@ import { Card } from '@/components';
 import { StyledDiv, SummaryDiv, MainDiv, StyledTableGrid } from './dashboard.styled';
 import { useNavigate } from 'react-router-dom';
 import { parseExcelToJSON } from '@/services/xlsx/xlsxService';
-import insertInBatch from './services/insertInBatch';
 import { useQuery } from '@tanstack/react-query';
-import fetchData from './services/fetchData';
+import fetchData, { downloadCSV } from './services/fetchData';
+import { CSVLink } from 'react-csv'
 
 const Dashboard = () => {
+  const [transactionData, setTransactionData] = useState([]);
+  const csvLink = useRef<HTMLDivElement | any>(null);
   const { data, error, isLoading } = useQuery(['admin-summary'], fetchData);
-
-  const handleClick = () => document.getElementById('file-csv').click();
-  const handleChange = async (e) => {
-    const file = e.target.files[0]
-    const data: any = await parseExcelToJSON(file);
-
-    let initialI = 0;
-    let finalI = 1000;
-    let counter = 0;
-
-    while(counter < 1000) {
-      await insertInBatch(data.slice(initialI, finalI));
-
-      initialI = finalI;
-      counter = finalI;
-      finalI += 1000;
-    }
-
-    // await insertInBatch(data);
-
-    // queryClient.invalidateQueries(['users']);
-  }
-
-  // const navigate = useNavigate();
+  const handleChange = async (e) => {}
 
   const styledLink: any = {
     backgroundColor: '#31aeb9',
@@ -55,22 +35,37 @@ const Dashboard = () => {
     fontFamily: 'Inter',
   }
 
+  const getTransactionData = async () => {
+    const data: any = await downloadCSV();
+    debugger;
+    setTransactionData(data);
+
+    csvLink.current.link.click();
+  }
+
   return (
     <MainDiv>
       <HStack width='100%' mb='1rem' gap='1rem' justifyContent='end'>
         {/* <a href='users.csv' style={styledLink} download='usuarios-exemplo.csv'>
           Download planilha de exemplo
-        </a> */}
-        <input type="file" id="file-csv" onChange={handleChange} style={{display: 'none'}}/> 
-        <Button variant='primary' style={styledLink} onClick={handleClick}>
-          Importar dados manualmente
+        </a>
+        <input type="file" id="file-csv" onChange={handleChange} style={{display: 'none'}}/>  */}
+        <Button variant='primary' style={styledLink} onClick={getTransactionData}>
+          Download relatório
         </Button>
+        <CSVLink
+          data={transactionData}
+          filename='transactions.csv'
+          className='hidden'
+          ref={csvLink}
+          target='_blank'
+        />
       </HStack>
       <StyledDiv>
-        <SummaryDiv>Cadastros: <p>{data?.total_employees || 25}</p></SummaryDiv>
-        <SummaryDiv>Já acessaram: <p>{data?.total_employees_initialized || 9}</p></SummaryDiv>
-        <SummaryDiv>Nunca acessaram: <p>{data?.total_employees || 5}</p></SummaryDiv>
-        <SummaryDiv className="finish_one">Finalizaram pelo menos um: <p>{data?.total_employees_finished || 10}</p></SummaryDiv>
+        <SummaryDiv>Cadastros: <p>{data?.total_employees}</p></SummaryDiv>
+        <SummaryDiv>Já acessaram: <p>{data?.total_employees_initialized}</p></SummaryDiv>
+        <SummaryDiv>Nunca acessaram: <p>{data?.total_employees_not_initialized}</p></SummaryDiv>
+        <SummaryDiv className="finish_one">Finalizaram pelo menos um: <p>{data?.total_employees_finished}</p></SummaryDiv>
       </StyledDiv>
 
       <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
@@ -229,6 +224,16 @@ const ChartByCourseOnly2 = () => {
 
 const PieResumeChart = ({ pData }) => {
   // const pieData = pData?.map(p => ({ name: `${'lol'}`, value: p?.total_employees || 25 }));
+  const radialData2 = [
+    {
+      name: 'finilized',
+      value: pData?.total_employees_finished
+    },
+    {
+      name: 'total',
+      value: pData?.total_employees
+    }
+  ]
   return (
     <ResponsiveContainer width={'100%'} aspect={3}>
       <PieChart width={400} height={400}>
@@ -236,7 +241,7 @@ const PieResumeChart = ({ pData }) => {
             dataKey="value"
             startAngle={180}
             endAngle={0}
-            data={radialData}
+            data={radialData2}
             cx="50%"
             cy="50%"
             outerRadius={80}

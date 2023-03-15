@@ -5,16 +5,16 @@ import { useQuery } from '@tanstack/react-query';
 import Spinner from '@/components/Spinner';
 
 const UserDashboard = () => {
-  const { data, isLoading } = useQuery(['student-summary-guid'], fetchData);
+  const { data: { history }, isLoading } = useQuery(['student-summary-guid'], fetchData);
 
   if (isLoading) return <Spinner />
 
-  console.log({ data });
+  const orderedHistory = history.sort((a, b) => (a.progress > b.progress) ? 1 : -1);
 
   return (
     <>
       <MainDiv>
-        {data?.history?.map((h: any) => (
+        {orderedHistory.map((h: any) => (
           <>
             <p><b>{ h.course.toUpperCase() }</b></p>
             <ProgressBar key={h.progress} progress={h.progress} />
