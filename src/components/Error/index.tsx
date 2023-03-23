@@ -7,12 +7,14 @@ interface ErrorProps {
   title?: string;
   description?: string;
   onClick?: () => void;
+  buttonText?: string;
 }
 
 const Error = ({
   title = 'Oooops!',
   description = 'Ocorreu um erro, tente novamente...',
   onClick,
+  buttonText = 'Tente novamente',
 }: ErrorProps) => {
   return (
     <VStack w='100%' h='500px' p='3rem'>
@@ -21,7 +23,7 @@ const Error = ({
         {title}
       </Heading>
       <Text color='gray.500'>{description}</Text>
-      <Button onClick={onClick}>Tentar novamente</Button>
+      <Button onClick={onClick}>{buttonText}</Button>
     </VStack>
   );
 };

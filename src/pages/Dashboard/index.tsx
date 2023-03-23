@@ -9,7 +9,7 @@ import {
   PieChart,
   Pie,
 } from 'recharts';
-import { Button, HStack, SimpleGrid, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Button, HStack, SimpleGrid, Spinner, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { Card } from '@/components';
 import { StyledDiv, SummaryDiv, MainDiv, StyledTableGrid } from './dashboard.styled';
 import { useNavigate } from 'react-router-dom';
@@ -17,12 +17,14 @@ import { parseExcelToJSON } from '@/services/xlsx/xlsxService';
 import { useQuery } from '@tanstack/react-query';
 import fetchData, { downloadCSV } from './services/fetchData';
 import { CSVLink } from 'react-csv'
+import { Error } from '@/components';
 
 const Dashboard = () => {
   const [transactionData, setTransactionData] = useState([]);
   const csvLink = useRef<HTMLDivElement | any>(null);
   const { data, error, isLoading } = useQuery(['admin-summary'], fetchData);
   const handleChange = async (e) => {}
+  const navigate = useNavigate();
 
   const styledLink: any = {
     backgroundColor: '#31aeb9',
@@ -37,10 +39,22 @@ const Dashboard = () => {
 
   const getTransactionData = async () => {
     const data: any = await downloadCSV();
-    debugger;
+
     setTransactionData(data);
 
     csvLink.current.link.click();
+  }
+
+  if (isLoading) {
+    return (
+      <Box w='100%' pt='10rem' display='grid' placeContent='center'>
+        <Spinner />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return <Error buttonText='Voltar para página inicial' description='A Zeka.edu está fora do ar.' onClick={() => navigate('/')}/>;
   }
 
   return (
