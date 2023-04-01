@@ -32,15 +32,20 @@ import useAuth from '@/hooks/useAuth';
 export interface OrganizationFormData {
   logo: File;
   name: string;
+  oficial_name: string;
   phone_number: number | string;
   cnpj: string | number;
   site: string;
   department: string;
-  contact_person: string;
   address: string;
-  employees_quantity: number;
-  email: string;
-  employees_without_high_school: number;
+  contact_person_1: string;
+  contact_person_2: string;
+  email_contact_person_1: string;
+  email_contact_person_2: string;
+  phone_contact_person_1: string;
+  phone_contact_person_2: string;
+  total_uses: number;
+  available_uses: number;
 }
 
 const organizationFormSchema = yup.object().shape({
@@ -53,7 +58,6 @@ const organizationFormSchema = yup.object().shape({
 const CreateUpdateOrganization = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [operationAreas, setOperationAreas] = useState([]);
-
   const { orgId } = useParams();
 
   const isCreateMode = !orgId;
@@ -153,12 +157,21 @@ const CreateUpdateOrganization = () => {
                 <HStack as='fieldset' w='100%'>
                   <Input
                     type='text'
+                    name='oficial_name'
+                    placeholder='Ex: Empresa Silva LTDA'
+                    error={errors.oficial_name}
+                    register={register}
+                    autoComplete='off'
+                    label='Razão Social'
+                  />
+                  <Input
+                    type='text'
                     name='name'
                     placeholder='Ex: Coca-cola'
                     error={errors.name}
                     register={register}
                     autoComplete='off'
-                    label='Nome'
+                    label='Nome Fantasia'
                   />
                   <Input
                     type='text'
@@ -174,24 +187,6 @@ const CreateUpdateOrganization = () => {
                 <HStack w='100%'>
                   <Input
                     type='text'
-                    name='contact_person'
-                    placeholder='Ex: José Carlos'
-                    error={errors.contact_person}
-                    register={register}
-                    autoComplete='off'
-                    label='Pessoa de contato:'
-                  />
-                  <Input
-                    type='text'
-                    name='phone_number'
-                    placeholder='Ex: (99) 99999-9999'
-                    error={errors.phone_number}
-                    register={register}
-                    autoComplete='off'
-                    label='Telefone:'
-                  />
-                  <Input
-                    type='text'
                     name='site'
                     placeholder='Ex: www.empresax.com.br'
                     error={errors.site}
@@ -201,52 +196,101 @@ const CreateUpdateOrganization = () => {
                   />
                   <Input
                     type='text'
+                    name='address'
+                    placeholder='Ex: Rua Minas Gerais, 400 - Pq. Industrial - Jaú/ SP'
+                    error={errors.address}
+                    register={register}
+                    autoComplete='off'
+                    label='Endereço completo:'
+                  />
+                </HStack>
+                <HStack w='100%'>
+                  <Input
+                    type='text'
                     name='department'
                     placeholder='Financeiro'
                     error={errors.department}
                     register={register}
                     autoComplete='off'
-                    label='Área:'
-                  />
-                </HStack>
-                <HStack w='100%'>
-                  <Input
-                    type='text'
-                    name='email'
-                    placeholder='Ex: jose@carlos.com'
-                    error={errors.email}
-                    register={register}
-                    autoComplete='off'
-                    label='E-mail pessoa de contato:'
+                    label='Segmento de atuação da empresa:'
                   />
                   <Input
                     type='number'
-                    name='employees_quantity'
+                    name='license.total_uses'
                     placeholder='Ex: 12'
-                    error={errors.employees_quantity}
+                    error={errors.total_uses}
                     register={register}
                     autoComplete='off'
-                    label='Quantidade de funcionários:'
+                    label='Quantidade de licenças disponíveis:'
                   />
                   <Input
                     type='number'
-                    name='employees_without_high_school'
-                    placeholder='Ex: 3'
-                    error={errors.site}
+                    name='available_uses'
+                    placeholder='Ex: 9'
+                    error={errors.available_uses}
                     register={register}
                     autoComplete='off'
-                    label='Funcionários sem ensino médio:'
+                    label='Quantidade de licenças ativas:'
                   />
                 </HStack>
                 <HStack w='100%'>
                   <Input
                     type='text'
-                    name='address'
-                    placeholder='Ex: Rua Minas Gerais, 400 - Parque Industrial - Jaú/ SP'
-                    error={errors.email}
+                    name='contact_person_1'
+                    placeholder='Ex: José Carlos'
+                    error={errors.contact_person_1}
                     register={register}
                     autoComplete='off'
-                    label='Endereço completo:'
+                    label='Ponto focal principal:'
+                  />
+                  <Input
+                    type='text'
+                    name='email_contact_person_1'
+                    placeholder='Ex: jose@carlos.com'
+                    error={errors.email_contact_person_1}
+                    register={register}
+                    autoComplete='off'
+                    label='E-mail do ponto focal principal:'
+                  />
+                  <Input
+                    type='text'
+                    name='phone_contact_person_1'
+                    placeholder='Ex: (99) 99999-9999'
+                    error={errors.phone_contact_person_1}
+                    register={register}
+                    autoComplete='off'
+                    label='Telefone ponto focal principal:'
+                    mask={'(99) 99999-9999'}
+                  />
+                </HStack>
+                <HStack w='100%'>
+                  <Input
+                    type='text'
+                    name='contact_person_2'
+                    placeholder='Ex: José Carlos'
+                    error={errors.contact_person_2}
+                    register={register}
+                    autoComplete='off'
+                    label='Ponto focal backup:'
+                  />
+                  <Input
+                    type='text'
+                    name='email_contact_person_2'
+                    placeholder='Ex: jose@carlos.com'
+                    error={errors.email_contact_person_2}
+                    register={register}
+                    autoComplete='off'
+                    label='E-mail do ponto focal backup:'
+                  />
+                  <Input
+                    type='text'
+                    name='phone_contact_person_2'
+                    placeholder='Ex: (99) 99999-9999'
+                    error={errors.phone_contact_person_2}
+                    register={register}
+                    autoComplete='off'
+                    label='Telefone ponto focal backup:'
+                    mask={'(##) #####-####'}
                   />
                 </HStack>
                 <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>

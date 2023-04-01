@@ -1,8 +1,10 @@
 import apiClient from '@/services/apiClient';
 import { OrganizationFormData } from '..';
 
-export const fetchOrganizationById = (orgId: number | string) => {
-  return apiClient.get(`organizations/${orgId}`);
+export const fetchOrganizationById = async (orgId: number | string) => {
+  const organization = await apiClient.get(`organizations/${orgId}`);
+  debugger;
+  return organization;
 };
 
 export const fetchOperationAreas = () => {

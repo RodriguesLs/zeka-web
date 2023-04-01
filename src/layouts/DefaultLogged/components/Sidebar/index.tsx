@@ -48,7 +48,7 @@ const Sidebar = () => {
         { role === 'sysadmin' && <NavLink to='/excedente' icon={GrMoney} title='Excedente professores' /> }
         { role === 'sysadmin' && <NavLink to='/empresas' icon={GoOrganization} title='Empresas' /> }
         { role === 'admin_organization' && <NavLink to={`/empresas/edita-empresa/${organizationId}`} icon={GoOrganization} title='Empresa' /> }
-        { role === 'sysadmin' && <NavLink to='/licencas' icon={FiKey} title='Licenças' /> }
+        {/* { role === 'sysadmin' && <NavLink to='/licencas' icon={FiKey} title='Licenças' /> } */}
         { role === 'user' && <NavLink to='/professores' icon={FiUser} title='Professores' /> }
         { (role === 'teacher' || role === 'user') && <NavLink to='/atividades' icon={FiKey} title='Atividades' /> }
         { (role === 'teacher' || role === 'student') && <NavLink to='/payment' icon={FaRegMoneyBillAlt} title='Pagamentos' /> }
