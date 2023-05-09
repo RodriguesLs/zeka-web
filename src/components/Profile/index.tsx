@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import { IconBaseProps } from 'react-icons';
-
+import NavLink from '@/layouts/DefaultLogged/components/Sidebar/NavLink';
 import Button from '../Button';
 import useAuth from '@/hooks/useAuth';
 
@@ -64,9 +64,11 @@ const Profile = () => {
           borderColor='gray.300'
           borderRadius='6px'
         >
-          <VStack w='100%' p='1rem' gap='1rem'>
-            <MenuItem label='Meu perfil' icon={FiUser} href='/' />
-            <MenuItem label='Assinatura' icon={FiUnlock} href='/' />
+          <VStack w='100%'>
+            {/* <MenuItem label='Meu perfil' icon={FiUser}> */}
+            <NavLink to={`/meu-perfil/${user.id}`} icon={FiUser} title='Meu Perfil' />
+            <NavLink to='/assinatura' icon={FiUnlock} title='Assinatura' />
+            {/* <MenuItem label='Assinatura' icon={FiUnlock} href='/' /> */}
           </VStack>
           <Box
             as='button'

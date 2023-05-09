@@ -36,6 +36,7 @@ const Teachers = lazy(() => import('@/pages/Teachers'));
 const OperationAreas = lazy(() => import('@/pages/OperationAreas'));
 const CreateUpdateOperationArea = lazy(() => import('@/pages/CreateUpdateOperationArea'));
 const ShowLicense = lazy(() => import('@/pages/ShowLicense'));
+const UpdateProfile = lazy(() => import('@/pages/UpdateProfile'));
 
 const publicRoutes = () => (
   <Route element={<PublicRoutes />}>
@@ -60,6 +61,7 @@ const privateRoutes = () => (
       <Route path='/payment' element={<RouteWrapper title='Status do pagamento' component={Payment} />} />
       <Route path='/user-dashboard' element={<RouteWrapper title='Dashboard' component={UserDashboard} />} />
       <Route path='/dashboard' element={<RouteWrapper title='Dashboard' component={Dashboard} />} />
+      <Route path='/meu-perfil/:userId' element={<RouteWrapper title='Editar perfil' component={UpdateProfile} />} />
       <Route path='licencas'>
         <Route
           index

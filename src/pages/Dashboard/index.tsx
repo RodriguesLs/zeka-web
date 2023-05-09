@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import {
   BarChart,
   Bar,
@@ -9,11 +9,24 @@ import {
   PieChart,
   Pie,
 } from 'recharts';
-import { Box, Button, HStack, SimpleGrid, Spinner, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  HStack,
+  SimpleGrid,
+  Spinner,
+  Table,
+  TableCaption,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
 import { Card } from '@/components';
 import { StyledDiv, SummaryDiv, MainDiv, StyledTableGrid } from './dashboard.styled';
 import { useNavigate } from 'react-router-dom';
-import { parseExcelToJSON } from '@/services/xlsx/xlsxService';
 import { useQuery } from '@tanstack/react-query';
 import fetchData, { downloadCSV } from './services/fetchData';
 import { CSVLink } from 'react-csv'
@@ -23,7 +36,7 @@ const Dashboard = () => {
   const [transactionData, setTransactionData] = useState([]);
   const csvLink = useRef<HTMLDivElement | any>(null);
   const { data, error, isLoading } = useQuery(['admin-summary'], fetchData);
-  const handleChange = async (e) => {}
+  const handleChange = async (e) => {};
   const navigate = useNavigate();
 
   const styledLink: any = {
@@ -35,15 +48,19 @@ const Dashboard = () => {
     fontWeight: '500',
     textTransform: 'uppercase',
     fontFamily: 'Inter',
-  }
+  };
 
   const getTransactionData = async () => {
     const data: any = await downloadCSV();
 
     setTransactionData(data);
+  };
 
-    csvLink.current.link.click();
-  }
+  useEffect(() => {
+    if (transactionData) {
+      setTimeout(() => csvLink.current.link.click());
+    }
+  }, [transactionData]);
 
   if (isLoading) {
     return (
