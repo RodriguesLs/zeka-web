@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useState, useContext, useEffect } from 'react';
+import React, { createContext, useCallback, useState, useContext } from 'react';
 
 interface AddressFormData {
   street: string;
@@ -28,6 +28,16 @@ interface SignUpFormData {
   month: string;
   year: string;
   cvv: string;
+  social_name: string;
+  gender: string;
+  range_age: string;
+  ethnic_group: string;
+  deficient: string;
+  accessibility: string;
+  born_state: string;
+  finish_goal: string;
+  accept_terms: boolean;
+  accept_whatsapp: boolean;
 }
 
 interface SignUpFormContextData {

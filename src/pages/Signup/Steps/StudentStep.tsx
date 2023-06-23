@@ -19,6 +19,7 @@ interface StudentStepFormData {
   phoneNumber: string | number;
   rg: string | number;
   instagram: string;
+  social_name: string;
 }
 
 interface StudentStepProps {
@@ -112,7 +113,7 @@ const StudentStep = ({ onNextStep }: StudentStepProps) => {
           register={register}
           autoComplete='off'
           mask='99.999.999-9'
-        />    
+        />
         <Input
           type='text'
           label='CPF*'

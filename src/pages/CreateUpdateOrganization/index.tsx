@@ -175,6 +175,14 @@ const CreateUpdateOrganization = () => {
                   />
                   <Input
                     type='text'
+                    name='slug'
+                    placeholder='Ex: coca ou coca_cola'
+                    register={register}
+                    autoComplete='off'
+                    label='Apelido'
+                  />
+                  <Input
+                    type='text'
                     name='cnpj'
                     placeholder='Ex: 00.000.000/0000-00'
                     error={errors.cnpj}

@@ -1,6 +1,6 @@
 import { FiPlus, FiUpload } from 'react-icons/fi';
 import { useQuery } from '@tanstack/react-query';
-import { Box, HStack } from '@chakra-ui/react';
+import { Box, HStack, Spinner } from '@chakra-ui/react';
 
 import { UsersTable } from './components';
 import fetchUsers, { insertInBatch } from './services/fetchUsers';
@@ -12,21 +12,22 @@ import { parseExcelToJSON } from '@/services/xlsx/xlsxService';
 import { queryClient } from '@/services/queryClient';
 
 const Users = () => {
+  let loading: boolean;
   const { data, error, isLoading } = useQuery(['users'], fetchUsers);
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    document.getElementById('file-csv').click()
-  }
+  const handleClick = () => document.getElementById('file-csv').click();
 
   const handleChange = async (e) => {
-    const file = e.target.files[0]
+    const file = e.target.files[0];
     const data: any = await parseExcelToJSON(file);
 
+    loading = true;
     await insertInBatch(data);
+    loading = false;
 
     queryClient.invalidateQueries(['users']);
-  }
+  };
 
   const styledLink: any = {
     backgroundColor: '#31aeb9',
@@ -37,6 +38,14 @@ const Users = () => {
     fontWeight: '500',
     textTransform: 'uppercase',
     fontFamily: 'Inter',
+  };
+
+  if (loading) {
+    return (
+      <Box w='100%' pt='10rem' display='grid' placeContent='center'>
+        <Spinner />
+      </Box>
+    );
   }
 
   return (

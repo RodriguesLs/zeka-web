@@ -18,6 +18,6 @@ export const insertInBatch = async (users): Promise<any> => {
   } catch (err) {
     throw new Error(err);
   }
-} 
+};
 
 export default fetchUsers;

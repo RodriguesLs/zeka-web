@@ -7,6 +7,7 @@ import AccountStep from './Steps/AccountStep';
 import AddressStep from './Steps/AddressStep';
 import CompanyStep from './Steps/CompanyStep';
 import StudentStep from './Steps/StudentStep';
+import SocialStep from './Steps/SocialStep';
 import PaymentStep from './Steps/PaymentStep';
 
 import { SignUpFormProvider } from '@/contexts/SignUpFormContext';
@@ -33,9 +34,13 @@ const SignUp = () => {
           <Steps currentStep={step} />
           {step === 1 && type !== 'student' && <CompanyStep onNextStep={handleNextStep} />}
           {step === 1 && type === 'student' && <StudentStep onNextStep={handleNextStep} />}
-          {step === 2 && <AddressStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
-          {step === 3 && <AccountStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
-          {step === 4 && <PaymentStep onBackStep={handleBackStep} />}
+          {step === 2 && type === 'student' && <SocialStep onNextStep={handleNextStep} />}
+          {step === 2 && type !== 'student' && <AddressStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
+          {step === 3 && type === 'student' && <AddressStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
+          {step === 3 && type !== 'student' && <AccountStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
+          {step === 4 && type === 'student' && <AccountStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
+          {step === 4 && type !== 'student' && <PaymentStep onBackStep={handleBackStep} />}
+          {step === 5 && type === 'student' && <PaymentStep onBackStep={handleBackStep} />}
         </VStack>
       </VStack>
     </SignUpFormProvider>
@@ -64,45 +69,55 @@ interface StepsProps {
 }
 
 const Steps = ({ currentStep }: StepsProps) => {
+  const [searchParams] = useSearchParams();
+  const type = searchParams.get("type");
+  const isStudent = type === 'student';
+
   const steps = [
     {
       id: 1,
-      label: '1. Dados da empresa',
+      label: isStudent ? '1. Dados pessoais' : '1. Dados da empresa',
     },
     {
-      id: 2,
-      label: '  2. Endereço',
+      id: isStudent ? 2 : null,
+      label: isStudent ? '2. Dados sociais' : null,
     },
     {
-      id: 3,
-      label: '3. Conta Zeka',
+      id: isStudent ? 3 : 2,
+      label: `${isStudent ? '3' : '2'}. Endereço`,
     },
     {
-      id: 4,
-      label: '4. Pagamento',
+      id: isStudent ? 4 : 3,
+      label: `${isStudent ? '4' : '3'}. Conta Zeka`,
+    },
+    {
+      id: isStudent ? 5 : 4,
+      label: `${isStudent ? '5' : '4'}. Pagamento`,
     },
   ];
   return (
     <HStack as='ul' listStyleType='none' gap='0.5rem' w='100%' pb='1rem'>
-      {steps.map((step) => (
-        <Box
-          key={step.id}
-          w='100%'
-          as='li'
-          fontWeight='bold'
-          color={currentStep === step.id ? 'brand.500' : 'gray.500'}
-          className={'styled-box'}
-        >
-          {step.label}
-          <Box
-            marginTop='0.25rem'
-            w='100%'
-            h='6px'
-            borderRadius='6px'
-            bg={currentStep === step.id ? 'brand.500' : 'gray.300'}
-          />
-        </Box>
-      ))}
+      {steps.map((step) =>
+          step.id !== null && (
+            <Box
+              key={step.id}
+              w='100%'
+              as='li'
+              fontWeight='bold'
+              color={currentStep === step.id ? 'brand.500' : 'gray.500'}
+              className={'styled-box'}
+            >
+              {step.label}
+              <Box
+                marginTop='0.25rem'
+                w='100%'
+                h='6px'
+                borderRadius='6px'
+                bg={currentStep === step.id ? 'brand.500' : 'gray.300'}
+              />
+            </Box>
+          ),
+      )}
     </HStack>
   );
 };

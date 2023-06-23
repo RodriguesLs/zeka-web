@@ -1,3 +1,3 @@
-email,password,name,code,cpf,gender,phone,last_school_year,ocupation,organization_time,department
-teste3@testel.com,123456,Teste test,154545,45454454544,M,,,,,TI
-aluno2@aluno.com,123456,Aluno aluno,123456,5457457545,F,,,,,Obras
+email,password,name,cpf,gender,phone,last_school_year,ocupation,organization_time,department,is_test_user
+teste3@testel.com,Teste test,154545,45454454544,M,,,,,TI,1
+aluno2@aluno.com,Aluno aluno,123456,5457457545,F,,,,,Obras,0
