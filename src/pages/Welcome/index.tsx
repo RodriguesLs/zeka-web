@@ -4,7 +4,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from 'moment';
 import localStorageService from '@/services/localStorageService';
 
-
 const Welcome = () => {
   moment.updateLocale('pt', {
     months: [

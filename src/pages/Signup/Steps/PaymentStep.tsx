@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Button, Input, Spinner } from '@/components';
 import { useSignUpForm } from '@/contexts/SignUpFormContext';
 import useToast from '@/hooks/useToast';
-import apiClient from '@/services/apiClient';
+import paymentApi from '@/services/paymentApi';
 
 interface PaymentStepFormData {
   number: string;
@@ -47,20 +47,16 @@ const PaymentStep = ({ onBackStep }: PaymentStepProps) => {
         ...formData,
       };
 
-      let data: any = {
+      const data: any = {
         customer: {
-          ...signUpFormCompleted
+          ...signUpFormCompleted,
         },
+        is_organization: true,
       };
 
       setShowSpinner(true);
 
-      await apiClient.post('/signup', {
-        ...data,
-        is_organization: true,
-      }, {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      await paymentApi.post('/', data, { headers: { 'Content-Type': 'application/json' } });
 
       addToast({
         title: 'Conta criada!',

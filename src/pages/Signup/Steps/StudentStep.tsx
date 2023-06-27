@@ -20,6 +20,7 @@ interface StudentStepFormData {
   rg: string | number;
   instagram: string;
   social_name: string;
+  areaCode: string | number;
 }
 
 interface StudentStepProps {
@@ -32,6 +33,7 @@ const studentStepFormSchema = yup.object().shape({
   //   .string()
   //   .matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, 'Você deve preencher o CPF corretamente')
   //   .required('CNPJ da sua empresa é obrigatório'),
+  areaCode: yup.string(),
   phoneNumber: yup
     .string()
     //.matches(/^\(?([0-9]{2})\)?([0-9]{4,5})-?([0-9]{4})$/, 'Você deve preencher corretamente')
@@ -128,13 +130,24 @@ const StudentStep = ({ onNextStep }: StudentStepProps) => {
       <HStack width='100%' gap='1rem' alignItems='baseline'>
         <Input
           type='text'
-          label='Telefone*'
+          label='Código de Área*'
+          name='areaCode'
+          placeholder='Ex: (99)'
+          error={errors.areaCode}
+          register={register}
+          autoComplete='off'
+          mask='(99)'
+          size='lg'
+        />
+        <Input
+          type='text'
+          label='Celular*'
           name='phoneNumber'
-          placeholder='Ex: (99) 99999-9999'
+          placeholder='Ex: 99999-9999'
           error={errors.phoneNumber}
           register={register}
           autoComplete='off'
-          mask='(99) 99999-9999'
+          mask='99999-9999'
         />
         <Input
           type='text'
