@@ -60,7 +60,7 @@ const privateRoutes = () => (
       <Route path='/welcome' element={<RouteWrapper title='Bem-vindo!' component={Welcome} />} />
       <Route path='/payment' element={<RouteWrapper title='Status do pagamento' component={Payment} />} />
       <Route path='/user-dashboard' element={<RouteWrapper title='Dashboard' component={UserDashboard} />} />
-      <Route path='/dashboard' element={<RouteWrapper title='Dashboard' component={Dashboard} />} />
+      <Route path='/dashboard' element={<RouteWrapper title='Planilha Farol' component={Dashboard} />} />
       <Route path='/meu-perfil/:userId' element={<RouteWrapper title='Editar perfil' component={UpdateProfile} />} />
       <Route path='licencas'>
         <Route

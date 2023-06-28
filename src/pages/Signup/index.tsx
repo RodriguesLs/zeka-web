@@ -1,11 +1,10 @@
 import { useCallback, useState } from 'react';
-import { Link as RouterLink, useSearchParams } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Box, Heading, HStack, Icon, Link, VStack } from '@chakra-ui/react';
 import { FiArrowLeft } from 'react-icons/fi';
 
 import AccountStep from './Steps/AccountStep';
 import AddressStep from './Steps/AddressStep';
-import CompanyStep from './Steps/CompanyStep';
 import StudentStep from './Steps/StudentStep';
 import SocialStep from './Steps/SocialStep';
 import PaymentStep from './Steps/PaymentStep';
@@ -13,8 +12,6 @@ import PaymentStep from './Steps/PaymentStep';
 import { SignUpFormProvider } from '@/contexts/SignUpFormContext';
 
 const SignUp = () => {
-  const [searchParams] = useSearchParams();
-  const type = searchParams.get("type");
   const [step, setStep] = useState(1);
 
   const handleBackStep = useCallback(() => {
@@ -32,15 +29,11 @@ const SignUp = () => {
           <BackButton />
           <Heading>Crie sua conta agora mesmo!</Heading>
           <Steps currentStep={step} />
-          {step === 1 && type !== 'student' && <CompanyStep onNextStep={handleNextStep} />}
-          {step === 1 && type === 'student' && <StudentStep onNextStep={handleNextStep} />}
-          {step === 2 && type === 'student' && <SocialStep onNextStep={handleNextStep} />}
-          {step === 2 && type !== 'student' && <AddressStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
-          {step === 3 && type === 'student' && <AddressStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
-          {step === 3 && type !== 'student' && <AccountStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
-          {step === 4 && type === 'student' && <AccountStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
-          {step === 4 && type !== 'student' && <PaymentStep onBackStep={handleBackStep} />}
-          {step === 5 && type === 'student' && <PaymentStep onBackStep={handleBackStep} />}
+          {step === 1 && <StudentStep onNextStep={handleNextStep} />}
+          {step === 2 && <SocialStep onNextStep={handleNextStep} />}
+          {step === 3 && <AddressStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
+          {step === 4 && <AccountStep onBackStep={handleBackStep} onNextStep={handleNextStep} />}
+          {step === 5 && <PaymentStep onBackStep={handleBackStep} />}
         </VStack>
       </VStack>
     </SignUpFormProvider>
@@ -69,32 +62,14 @@ interface StepsProps {
 }
 
 const Steps = ({ currentStep }: StepsProps) => {
-  const [searchParams] = useSearchParams();
-  const type = searchParams.get("type");
-  const isStudent = type === 'student';
-
   const steps = [
-    {
-      id: 1,
-      label: isStudent ? '1. Dados pessoais' : '1. Dados da empresa',
-    },
-    {
-      id: isStudent ? 2 : null,
-      label: isStudent ? '2. Dados sociais' : null,
-    },
-    {
-      id: isStudent ? 3 : 2,
-      label: `${isStudent ? '3' : '2'}. Endereço`,
-    },
-    {
-      id: isStudent ? 4 : 3,
-      label: `${isStudent ? '4' : '3'}. Conta Zeka`,
-    },
-    {
-      id: isStudent ? 5 : 4,
-      label: `${isStudent ? '5' : '4'}. Pagamento`,
-    },
+    { id: 1, label: '1. Dados pessoais' },
+    { id: 2, label: '2. Dados sociais' },
+    { id: 3, label: '3. Endereço' },
+    { id: 4, label: '4. Conta Zeka' },
+    { id: 5, label: '5. Pagamento' },
   ];
+
   return (
     <HStack as='ul' listStyleType='none' gap='0.5rem' w='100%' pb='1rem'>
       {steps.map((step) =>

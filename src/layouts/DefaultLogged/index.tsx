@@ -6,9 +6,9 @@ import Sidebar from './components/Sidebar';
 
 import { useTitlePage } from '@/contexts/TitlePageContext';
 
-import Zendesk from 'react-zendesk';
+// import Zendesk from 'react-zendesk';
 
-const ZENDESK_KEY = import.meta.env.VITE_API_ZENDESK_KEY;
+// const ZENDESK_KEY = import.meta.env.VITE_API_ZENDESK_KEY;
 
 const DefaultLogged = () => {
   const { title } = useTitlePage();
@@ -36,7 +36,7 @@ const DefaultLogged = () => {
           <Outlet />
         </GridItem>
       </Grid>
-      <Zendesk defer zendeskKey={ZENDESK_KEY} />
+      {/* <Zendesk defer zendeskKey={ZENDESK_KEY} /> */}
     </>
   );
 };
