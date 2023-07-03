@@ -73,6 +73,25 @@ const Sidebar = () => {
   );
 };
 
+const linksMidia = [
+  {
+    href: 'https://www.facebook.com/zeka.edu/',
+    icon: FaFacebook,
+  },
+  {
+    href: 'https://www.instagram.com/zekaedu/',
+    icon: FaInstagram,
+  },
+  {
+    href: 'https://br.linkedin.com/company/zeka-edu',
+    icon: FaLinkedin,
+  },
+  {
+    href: 'https://www.youtube.com/@zekaedu-educacaodigital2992',
+    icon: FaYoutube,
+  },
+];
+
 const ListSocial = () => {
   return (
     <VStack gap='1rem'>
@@ -80,21 +99,11 @@ const ListSocial = () => {
         ZEKA na mídia
       </Heading>
       <HStack w='100%' gap='0.25rem' listStyleType='none' color='gray.500'>
-        <Link href='https://facebook.com' target='_blank' _hover={{ color: 'brand.500' }}>
-          <Icon as={FaFacebook} h='22px' w='22px' />
-        </Link>
-        <Link href='https://instagram.com' target='_blank' _hover={{ color: 'brand.500' }}>
-          <Icon as={FaInstagram} h='22px' w='22px' />
-        </Link>
-        <Link href='https://linkedin.com' target='_blank' _hover={{ color: 'brand.500' }}>
-          <Icon as={FaLinkedin} h='22px' w='22px' />
-        </Link>
-        <Link href='https://twitter.com' target='_blank' _hover={{ color: 'brand.500' }}>
-          <Icon as={FaTwitter} h='22px' w='22px' />
-        </Link>
-        <Link href='https://youtube.com' target='_blank' _hover={{ color: 'brand.500' }}>
-          <Icon as={FaYoutube} h='22px' w='22px' />
-        </Link>
+        {linksMidia.map((lm) => (
+          <Link key={lm.href} href={lm.href} target='blank' _hover={{ color: 'brand.500' }}>
+            <Icon as={lm.icon} h='22px' w='22px' />
+          </Link>
+        ))}
       </HStack>
     </VStack>
   );

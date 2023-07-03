@@ -1,8 +1,9 @@
 import useAuth from '@/hooks/useAuth';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
-import "react-big-calendar/lib/css/react-big-calendar.css";
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import localStorageService from '@/services/localStorageService';
+import { StyledDiv, StyledP } from './welcome.styled';
 
 const Welcome = () => {
   moment.updateLocale('pt', {
@@ -145,27 +146,42 @@ const Welcome = () => {
     // setOrganizationId(0);
   }
 
+  const realName = user?.avatar_name || user?.email?.split('@')[0];
+
+  const StyledNonStudent = () => {
+    return (
+      <StyledDiv>
+        <StyledP>Em caso de dúvidas, entre em contato com suporte@zekaedu.com.br</StyledP>
+      </StyledDiv>
+    );
+  };
+
   return (
     <>
-      <h1>Seja bem-vindo a ZEKA, {user?.avatar_name || user?.email?.split('@')[0]}</h1>
-      {
-        role === 'student' &&
-        <Calendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 500 }}
-          messages={{
-            next: "Prox",
-            previous: "Ant",
-            today: "Hoje",
-            month: "Mês",
-            week: "Semana",
-            day: "Dia"
-          }}
-      />
-      }
+      <h1>
+        Seja bem-vindo a ZEKA, <b>{realName}</b>
+      </h1>
+      {role !== 'student' && <StyledNonStudent />}
+      {role === 'student' && (
+        <>
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor='start'
+            endAccessor='end'
+            style={{ height: 500 }}
+            messages={{
+              next: 'Prox',
+              previous: 'Ant',
+              today: 'Hoje',
+              month: 'Mês',
+              week: 'Semana',
+              day: 'Dia',
+            }}
+          />
+          <StyledP>Em caso de dúvidas, entre em contato com suporte@zekaedu.com.br</StyledP>
+        </>
+      )}
     </>
   );
 };

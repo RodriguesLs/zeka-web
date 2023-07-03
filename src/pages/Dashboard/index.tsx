@@ -248,7 +248,7 @@ const getColor = (length, index) => {
 
 const YAxisLeftTick = ({ y, payload: { value } }) => {
   return (
-    <text x={0} y={y} textAnchor="start" verticalAnchor="middle" scaleToFit>
+    <text x={0} y={y} textAnchor='start'>
       {value}
     </text>
   );
