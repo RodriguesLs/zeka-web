@@ -1,18 +1,23 @@
-import { useRef, useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
   CartesianGrid,
-  ResponsiveContainer ,
+  ResponsiveContainer,
+  Cell,
   PieChart,
   Pie,
+  ComposedChart,
+  Legend,
+  Area,
+  Line,
+  Scatter,
+  Tooltip,
 } from 'recharts';
 import {
   Box,
-  Button,
-  HStack,
   SimpleGrid,
   Spinner,
   Table,
@@ -28,39 +33,13 @@ import { Card } from '@/components';
 import { StyledDiv, SummaryDiv, MainDiv, StyledTableGrid } from './dashboard.styled';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import fetchData, { downloadCSV } from './services/fetchData';
-import { CSVLink } from 'react-csv'
+import fetchData from './services/fetchData';
 import { Error } from '@/components';
 
 const Dashboard = () => {
-  const [transactionData, setTransactionData] = useState([]);
-  const csvLink = useRef<HTMLDivElement | any>(null);
   const { data, error, isLoading } = useQuery(['admin-summary'], fetchData);
   const handleChange = async (e) => {};
   const navigate = useNavigate();
-
-  const styledLink: any = {
-    backgroundColor: '#31aeb9',
-    padding: '10px 20px',
-    borderRadius: '5px',
-    color: '#fff',
-    fontSize: '0.875rem',
-    fontWeight: '500',
-    textTransform: 'uppercase',
-    fontFamily: 'Inter',
-  };
-
-  const getTransactionData = async () => {
-    const data: any = await downloadCSV();
-
-    setTransactionData(data);
-  };
-
-  useEffect(() => {
-    if (transactionData) {
-      setTimeout(() => csvLink.current.link.click());
-    }
-  }, [transactionData]);
 
   if (isLoading) {
     return (
@@ -76,35 +55,53 @@ const Dashboard = () => {
 
   return (
     <MainDiv>
-      <HStack width='100%' mb='1rem' gap='1rem' justifyContent='end'>
-        {/* <a href='users.csv' style={styledLink} download='usuarios-exemplo.csv'>
-          Download planilha de exemplo
-        </a>
-        <input type="file" id="file-csv" onChange={handleChange} style={{display: 'none'}}/>  */}
-        <Button variant='primary' style={styledLink} onClick={getTransactionData}>
-          Download relatório
-        </Button>
-        <CSVLink
-          data={transactionData}
-          filename='transactions.csv'
-          className='hidden'
-          ref={csvLink}
-          target='_blank'
-        />
-      </HStack>
       <StyledDiv>
-        <SummaryDiv>Cadastros: <p>{data?.total_employees}</p></SummaryDiv>
+        <SummaryDiv>Dias para a prova: <p>{data?.total_employees}</p></SummaryDiv>
+        <SummaryDiv>Alunos: <p>{data?.total_employees}</p></SummaryDiv>
         <SummaryDiv>Já acessaram: <p>{data?.total_employees_initialized}</p></SummaryDiv>
-        <SummaryDiv>Nunca acessaram: <p>{data?.total_employees_not_initialized}</p></SummaryDiv>
-        <SummaryDiv className="finish_one">Finalizaram pelo menos um: <p>{data?.total_employees_finished}</p></SummaryDiv>
+        <SummaryDiv>Finalizaram os diagnósticos: <p>{data?.total_employees_not_initialized}</p></SummaryDiv>
+        <SummaryDiv className="finish_one">Finalizaram uma trilha: <p>{data?.total_employees_finished}</p></SummaryDiv>
+        <SummaryDiv className="finish_one">Iniciaram uma trilha: <p>{data?.total_employees_finished}</p></SummaryDiv>
+        <SummaryDiv className="finish_one">Nunca acessaram: <p>{data?.total_employees_finished}</p></SummaryDiv>
       </StyledDiv>
 
       <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
-        <Card title='Taxa de finalização'>
-          <PieResumeChart pData={data}/>
+        <Card title=''>
+          <ChartResults />
         </Card>
-        <Card title='Taxa de finalização'>
-          <PieResumeChart pData={data}/>
+        <Card title=''>
+          <SimpleBarChart dataNewChart={dataNewChart} xKey='name' yKey='pv' />
+        </Card>
+      </SimpleGrid>
+
+      <br />
+      <h1>Diagnósticos</h1>
+      <hr />
+      <br />
+      <StyledDiv>
+        <SummaryDiv>
+          Dias para a prova: <p>{data?.total_employees}</p>
+        </SummaryDiv>
+        <SummaryDiv>Alunos: <p>{data?.total_employees}</p></SummaryDiv>
+        <SummaryDiv>Já acessaram: <p>{data?.total_employees_initialized}</p></SummaryDiv>
+        <SummaryDiv>Finalizaram os diagnósticos: <p>{data?.total_employees_not_initialized}</p></SummaryDiv>
+        <SummaryDiv className='finish_one'>Finalizaram uma trilha: <p>{data?.total_employees_finished}</p></SummaryDiv>
+        <SummaryDiv className='finish_one'>Iniciaram uma trilha: <p>{data?.total_employees_finished}</p></SummaryDiv>
+        <SummaryDiv className='finish_one'>Nunca acessaram: <p>{data?.total_employees_finished}</p></SummaryDiv>
+      </StyledDiv>
+
+      <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
+        <Card title=''>
+          <PieChart2 data={dataPieChart} />
+        </Card>
+        <Card title=''>
+          <SimpleBarChart dataNewChart={dataNewChart} xKey='name' yKey='pv' />
+        </Card>
+      </SimpleGrid>
+      <br />
+      <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
+        <Card title='Taxa de finalizados por dia'>
+          <WeekDiagnostic data={dataWeek} />
         </Card>
       </SimpleGrid>
       <br />
@@ -164,6 +161,13 @@ const chartData = [
   { name: '12 de fev', taxa: 400 },
 ];
 
+const chartDataResults = [
+  { name: 'Alunos', taxa: 130 },
+  { name: 'Já acesseram', taxa: 120 },
+  { name: 'Fin. diagnóstico', taxa: 80 },
+  { name: 'Fin. uma trilha', taxa: 50 },
+];
+
 const chartDataByCourse = [
   { name: 'Recursos humanos', taxa: 100 },
   { name: 'Integração e tecnologia', taxa: 200 },
@@ -182,16 +186,27 @@ const chartDataByCourseOnly = [
   { name: '4', taxa: 3 },
 ];
 
-const radialData = [
-  {
-    name: '35-39',
-    value: 100
-  },
-  {
-    name: '35-39',
-    value: 350
-  }
+const dataNewChart = [
+  { name: "Page A", pv: 240 },
+  { name: "B", pv: 2210 },
+  { name: "C", pv: 2300 },
+  { name: "Page D", pv: 2000 },
+  { name: "Zero", pv: 0 },
+  { name: "Hi", pv: 123 },
+  { name: "Bye", pv: 2091 }
 ];
+
+const blues = [
+  ["#457AA6"],
+  ["#457AA6", "#E3EBF2"],
+  ["#264F73", "#457AA6", "#E3EBF2"],
+  ["#264F73", "#457AA6", "#A2BBD2", "#E3EBF2"],
+  ["#1A334A", "#264F73", "#457AA6", "#A2BBD2", "#E3EBF2"]
+];
+
+let ctx;
+
+const BAR_AXIS_SPACE = 10;
 
 const Chart = () => {
   return (
@@ -205,6 +220,99 @@ const Chart = () => {
         </BarChart>
       </ResponsiveContainer>
     </>
+  );
+};
+
+const ChartResults = () => {
+  return (
+    <>
+      <ResponsiveContainer width='100%' aspect={3}>
+        <BarChart data={chartDataResults}>
+          <XAxis dataKey='name' stroke='#31aeb9' />
+          <YAxis />
+          <CartesianGrid stroke='#ccc' strokeDasharray='1' />
+          <Bar dataKey='taxa' fill='#31aeb9' barSize={60} />
+        </BarChart>
+      </ResponsiveContainer>
+    </>
+  );
+};
+
+const getColor = (length, index) => {
+  if (length <= blues.length) {
+    return blues[length - 1][index];
+  }
+
+  return blues[blues.length - 1][index % blues.length];
+};
+
+const YAxisLeftTick = ({ y, payload: { value } }) => {
+  return (
+    <text x={0} y={y} textAnchor="start" verticalAnchor="middle" scaleToFit>
+      {value}
+    </text>
+  );
+};
+
+const measureText14HelveticaNeue = (text: string) => {
+  if (!ctx) {
+    ctx = document.createElement('canvas').getContext('2d');
+    ctx.font = "14px 'Helvetica Neue";
+  }
+
+  return ctx.measureText(text).width;
+};
+
+const SimpleBarChart = ({ dataNewChart, yKey, xKey }) => {
+  const maxTextWidth = useMemo(
+    () =>
+      dataNewChart.reduce((acc, cur) => {
+        const value = cur[yKey];
+        const width = measureText14HelveticaNeue(value.toLocaleString());
+        if (width > acc) {
+          return width;
+        }
+        return acc;
+      }, 0),
+    [dataNewChart, yKey]
+  );
+
+  return (
+    <ResponsiveContainer width={"100%"} height={50 * dataNewChart.length} debounce={50}>
+      <BarChart
+        data={dataNewChart}
+        layout="vertical"
+        margin={{ left: 10, right: maxTextWidth + (BAR_AXIS_SPACE - 8) }}
+      >
+        <XAxis hide axisLine={false} type="number" />
+        <YAxis
+          yAxisId={0}
+          dataKey={xKey}
+          type="category"
+          axisLine={false}
+          tickLine={false}
+          tick={YAxisLeftTick}
+        />
+        <YAxis
+          orientation="right"
+          yAxisId={1}
+          dataKey={yKey}
+          type="category"
+          axisLine={false}
+          tickLine={false}
+          tickFormatter={value => value.toLocaleString()}
+          mirror
+          tick={{
+            transform: `translate(${maxTextWidth + BAR_AXIS_SPACE}, 0)`
+          }}
+        />
+        <Bar dataKey={yKey} minPointSize={2} barSize={32}>
+          {dataNewChart.map((d, idx) => {
+            return <Cell key={d[xKey]} fill={getColor(dataNewChart.length, idx)} />;
+          })}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
   );
 };
 
@@ -252,37 +360,6 @@ const ChartByCourseOnly2 = () => {
     </>
   );
 };
-
-const PieResumeChart = ({ pData }) => {
-  // const pieData = pData?.map(p => ({ name: `${'lol'}`, value: p?.total_employees || 25 }));
-  const radialData2 = [
-    {
-      name: 'finilized',
-      value: pData?.total_employees_finished
-    },
-    {
-      name: 'total',
-      value: pData?.total_employees
-    }
-  ]
-  return (
-    <ResponsiveContainer width={'100%'} aspect={3}>
-      <PieChart width={400} height={400}>
-          <Pie
-            dataKey="value"
-            startAngle={180}
-            endAngle={0}
-            data={radialData2}
-            cx="50%"
-            cy="50%"
-            outerRadius={80}
-            fill="#8884d8"
-            label
-          />
-        </PieChart>
-    </ResponsiveContainer>
-  )
-}
 
 const SimpleStripedTable = () => (
   <TableContainer>
@@ -345,5 +422,104 @@ const SimpleStripedTable2 = () => (
     </Table>
   </TableContainer>
 );
+
+const dataPieChart = [
+  { name: 'Group A', value: 400 },
+  { name: 'Group B', value: 300 },
+];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+const PieChart2 = ({ data }) => {
+  return (
+    <ResponsiveContainer height={'100%'} width={'100%'}>
+      <PieChart width={800} height={400}>
+        <Pie
+          data={data}
+          cx='50%'
+          cy='50%'
+          innerRadius={60}
+          outerRadius={80}
+          fill="#8884d8"
+          paddingAngle={5}
+          dataKey="value"
+          label
+        >
+          {/* {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))} */}
+        </Pie>
+      </PieChart>
+    </ResponsiveContainer>
+  );
+};
+
+const dataWeek = [
+  {
+    name: 'Page A',
+    uv: 590,
+    pv: 800,
+    amt: 1400,
+    cnt: 490,
+  },
+  {
+    name: 'Page B',
+    uv: 868,
+    pv: 967,
+    amt: 1506,
+    cnt: 590,
+  },
+  {
+    name: 'Page C',
+    uv: 1397,
+    pv: 1098,
+    amt: 989,
+    cnt: 350,
+  },
+  {
+    name: 'Page D',
+    uv: 1480,
+    pv: 1200,
+    amt: 1228,
+    cnt: 480,
+  },
+  {
+    name: 'Page E',
+    uv: 1520,
+    pv: 1108,
+    amt: 1100,
+    cnt: 460,
+  },
+  {
+    name: 'Page F',
+    uv: 1400,
+    pv: 680,
+    amt: 1700,
+    cnt: 380,
+  },
+];
+
+const WeekDiagnostic = ({ data }: any) => {
+  return (
+    <ComposedChart
+      width={1000}
+      height={400}
+      data={data}
+      margin={{
+        top: 20,
+        right: 20,
+        bottom: 20,
+        left: 20,
+      }}
+    >
+      <CartesianGrid stroke='#f5f5f5' />
+      <XAxis dataKey='name' scale='band' />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Bar dataKey='uv' barSize={20} fill='#413ea0' />
+      <Line type='monotone' dataKey='uv' stroke='#ff7300' />
+    </ComposedChart>
+  );
+};
 
 export default Dashboard;

@@ -33,15 +33,19 @@ export const SummaryDiv = styled.div`
   align-items: center;
   width: 30%;
   height: 100%;
-  margin: 10px;
-  font-size: 1em;
+  border-radius: 10px;
+  margin-left: 1em;
+  font-size: 2em;
   font-weight: bold;
-  background-color: #9FC5E8;
-  color: #000;
-  padding: 10px;
-  text-align: center;
+  background-color: orange;
+  color: #FFF;
+
   p {
-    font-size: 40px;
+    font-size: 54px;
+  }
+
+  &.finish_one {
+    font-size: 20px !important;
   }
 `;
 

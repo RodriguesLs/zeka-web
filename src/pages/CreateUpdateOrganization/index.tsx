@@ -116,7 +116,7 @@ const CreateUpdateOrganization = () => {
         type: 'success',
       });
 
-      role === 'admin_school' ? navigate('/dashboard') : navigate('/empresas');
+      role === 'admin_school' ? navigate('/farol-plan') : navigate('/empresas');
     } catch (e) {
       addToast({
         title: 'Opssss..',

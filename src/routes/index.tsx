@@ -20,6 +20,7 @@ const CreateUpdateUser = lazy(() => import('@/pages/CreateUpdateUser'));
 const CreateUpdateUserZeka = lazy(() => import('@/pages/CreateUpdateUserZeka'));
 const CreateUpdateTeacher = lazy(() => import('@/pages/CreateUpdateTeacher'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
+const FarolPlan = lazy(() => import('@/pages/FarolPlan'));
 const UserDashboard = lazy(async () => import('@/pages/UserDashboard'));
 const Welcome = lazy(() => import('@/pages/Welcome'));
 const Payment = lazy(() => import('@/pages/Payment'));
@@ -60,7 +61,8 @@ const privateRoutes = () => (
       <Route path='/welcome' element={<RouteWrapper title='Bem-vindo!' component={Welcome} />} />
       <Route path='/payment' element={<RouteWrapper title='Status do pagamento' component={Payment} />} />
       <Route path='/user-dashboard' element={<RouteWrapper title='Dashboard' component={UserDashboard} />} />
-      <Route path='/dashboard' element={<RouteWrapper title='Planilha Farol' component={Dashboard} />} />
+      <Route path='/farol-plan' element={<RouteWrapper title='Planilha Farol' component={FarolPlan} />} />
+      <Route path='/dashboard' element={<RouteWrapper title='Dashboard' component={Dashboard} />} />
       <Route path='/meu-perfil/:userId' element={<RouteWrapper title='Editar perfil' component={UpdateProfile} />} />
       <Route path='licencas'>
         <Route

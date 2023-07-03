@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('===> Version 11 ~ [test-pagarme]');
+  console.log('===> Version 12 [28.06] ~ [pagarme key test - without zendesk]');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>
