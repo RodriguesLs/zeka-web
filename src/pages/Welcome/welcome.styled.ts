@@ -1,17 +1,18 @@
 import styled from 'styled-components';
-import img from '../../assets/img/ameba_turqueza.png';
+import img from '../../assets/img/ameba_new.png';
 
 export const StyledDiv = styled.div`
   padding: 25px;
   background-image: url(${img});
-  background-repeat: repeat;
-  background-size: contain;
+  background-repeat: no-repeat;
+  background-size: cover;
   margin-bottom: 1em;
   width: 100%;
   height: 75vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: space-between;
+  align-items: flex-end;
   // border: 1px solid red;
 
   h1 {
@@ -32,11 +33,13 @@ export const StyledTitle = styled.div`
 `;
 
 export const StyledP = styled.p`
+  // margin-bottom: 10em;
+  align-self: flex-end;
   color: black;
   font-size: 1em;
   font-weight: 500;
-  border: 1px solid blue;
-  margin-top: 5em;
+  // border: 1px solid blue;
+  // margin-top: 5em;
   background-color: rgba(255, 255, 255, 0.7);
   padding: 10px;
   width: 35%;

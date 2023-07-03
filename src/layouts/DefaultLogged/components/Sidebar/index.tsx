@@ -9,7 +9,6 @@ import {
   FaLinkedin,
   FaInstagram,
   FaFacebook,
-  FaTwitter,
   FaRegMoneyBillAlt,
 } from 'react-icons/fa';
 import useAuth from '@/hooks/useAuth';
