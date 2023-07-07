@@ -105,12 +105,12 @@ const Dashboard = () => {
         </Card>
       </SimpleGrid>
       <br />
-      <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
+      {/* <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
         <Card title='Taxa de finalizados por dia'>
           <Chart />
         </Card>
       </SimpleGrid>
-      <br />
+      <br /> */}
       <SimpleGrid as='section' width='100%' gap='1rem' minChildWidth='320px' alignItems='flex-start'>
         <Card title='Taxa de conclusão por curso'>
           <ChartByCourse />
@@ -135,7 +135,8 @@ const Dashboard = () => {
         </Card>
       </SimpleGrid>
       <StyledTableGrid>
-        <h1>Cursos finalizados por aluno</h1>
+        <h1>Trilhas</h1>
+        <hr />
         <SimpleStripedTable />
       </StyledTableGrid>
       <StyledTableGrid>
@@ -187,13 +188,11 @@ const chartDataByCourseOnly = [
 ];
 
 const dataNewChart = [
-  { name: "Page A", pv: 240 },
-  { name: "B", pv: 2210 },
-  { name: "C", pv: 2300 },
-  { name: "Page D", pv: 2000 },
-  { name: "Zero", pv: 0 },
-  { name: "Hi", pv: 123 },
-  { name: "Bye", pv: 2091 }
+  { name: "Maria da Silva", pv: 12 },
+  { name: "Joaquim Suzuki", pv: 10 },
+  { name: "Enéas Oliveira", pv: 5 },
+  { name: "Dirceu Alonso", pv: 3 },
+  { name: "Ananias Rosa", pv: 0 },
 ];
 
 const blues = [
@@ -278,41 +277,44 @@ const SimpleBarChart = ({ dataNewChart, yKey, xKey }) => {
   );
 
   return (
-    <ResponsiveContainer width={"100%"} height={50 * dataNewChart.length} debounce={50}>
-      <BarChart
-        data={dataNewChart}
-        layout="vertical"
-        margin={{ left: 10, right: maxTextWidth + (BAR_AXIS_SPACE - 8) }}
-      >
-        <XAxis hide axisLine={false} type="number" />
-        <YAxis
-          yAxisId={0}
-          dataKey={xKey}
-          type="category"
-          axisLine={false}
-          tickLine={false}
-          tick={YAxisLeftTick}
-        />
-        <YAxis
-          orientation="right"
-          yAxisId={1}
-          dataKey={yKey}
-          type="category"
-          axisLine={false}
-          tickLine={false}
-          tickFormatter={value => value.toLocaleString()}
-          mirror
-          tick={{
-            transform: `translate(${maxTextWidth + BAR_AXIS_SPACE}, 0)`
-          }}
-        />
-        <Bar dataKey={yKey} minPointSize={2} barSize={32}>
-          {dataNewChart.map((d, idx) => {
-            return <Cell key={d[xKey]} fill={getColor(dataNewChart.length, idx)} />;
-          })}
-        </Bar>
-      </BarChart>
-    </ResponsiveContainer>
+    <>
+      <h1>Teste</h1>
+      <ResponsiveContainer width={"100%"} height={50 * dataNewChart.length} debounce={50}>
+        <BarChart
+          data={dataNewChart}
+          layout="vertical"
+          margin={{ left: 10, right: maxTextWidth + (BAR_AXIS_SPACE - 8) }}
+        >
+          <XAxis hide axisLine={false} type="number" />
+          <YAxis
+            yAxisId={0}
+            dataKey={xKey}
+            type="category"
+            axisLine={false}
+            tickLine={false}
+            tick={YAxisLeftTick}
+          />
+          <YAxis
+            orientation="right"
+            yAxisId={1}
+            dataKey={yKey}
+            type="category"
+            axisLine={false}
+            tickLine={false}
+            tickFormatter={value => value.toLocaleString()}
+            mirror
+            tick={{
+              transform: `translate(${maxTextWidth + BAR_AXIS_SPACE}, 0)`
+            }}
+          />
+          <Bar dataKey={yKey} minPointSize={2} barSize={32}>
+            {dataNewChart.map((d, idx) => {
+              return <Cell key={d[xKey]} fill={getColor(dataNewChart.length, idx)} />;
+            })}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </>
   );
 };
 
@@ -364,24 +366,45 @@ const ChartByCourseOnly2 = () => {
 const SimpleStripedTable = () => (
   <TableContainer>
     <Table variant='striped' colorScheme='teal'>
-      <TableCaption>Table optional details</TableCaption>
+      {/* <TableCaption>Table optional details</TableCaption> */}
       <Thead>
         <Tr>
-          <Th>Nome</Th>
-          <Th>Curso</Th>
-          <Th isNumeric>Quantidade</Th>
+          <Th>Alunos que:</Th>
+          <Th>Geral</Th>
+          <Th>Ciências da Natureza</Th>
+          <Th isNumeric>Ciências Humanas</Th>
+          <Th isNumeric>Português</Th>
+          <Th isNumeric>Redação</Th>
+          <Th isNumeric>Matemática</Th>
         </Tr>
       </Thead>
       <Tbody>
         <Tr>
-          <Td>inches</Td>
-          <Td>millimetres (mm)</Td>
-          <Td isNumeric>25.4</Td>
+          <Td>Iniciaram pelo menos uma trilha</Td>
+          <Td isNumeric>10</Td>
+          <Td isNumeric>15</Td>
+          <Td isNumeric>25</Td>
+          <Td isNumeric>25</Td>
+          <Td isNumeric>25</Td>
+          <Td isNumeric>25</Td>
         </Tr>
         <Tr>
-          <Td>inches</Td>
-          <Td>millimetres (mm)</Td>
-          <Td isNumeric>25.4</Td>
+          <Td>Finalizaram pelo menos uma trilha</Td>
+          <Td isNumeric>15</Td>
+          <Td isNumeric>40</Td>
+          <Td isNumeric>22</Td>
+          <Td isNumeric>22</Td>
+          <Td isNumeric>22</Td>
+          <Td isNumeric>22</Td>
+        </Tr>
+        <Tr>
+          <Td>Finalizaram todas as trilhas</Td>
+          <Td isNumeric>15</Td>
+          <Td isNumeric>40</Td>
+          <Td isNumeric>22</Td>
+          <Td isNumeric>22</Td>
+          <Td isNumeric>22</Td>
+          <Td isNumeric>22</Td>
         </Tr>
       </Tbody>
     </Table>
@@ -427,6 +450,7 @@ const dataPieChart = [
   { name: 'Group A', value: 400 },
   { name: 'Group B', value: 300 },
 ];
+
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const PieChart2 = ({ data }) => {

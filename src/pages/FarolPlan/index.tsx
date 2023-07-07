@@ -10,7 +10,7 @@ import { Error } from '@/components';
 const FarolPlan = () => {
   const [transactionData, setTransactionData] = useState([]);
   const csvLink = useRef<HTMLDivElement | any>(null);
-  const { data, error, isLoading } = useQuery(['admin-summary'], fetchData);
+  const { data, error, isLoading } = useQuery(['admin-summary'], downloadCSV);
   const navigate = useNavigate();
 
   const styledLink: any = {
@@ -24,17 +24,20 @@ const FarolPlan = () => {
     fontFamily: 'Inter',
   };
 
-  const getTransactionData = async () => {
-    const data: any = await downloadCSV();
+  const onClick = async () => {
+    if (transactionData?.length > 0) return csvLink?.current?.link?.click();
+    if (data?.length > 0) {
+      await setTransactionData(data);
 
-    setTransactionData(data);
-  };
+      csvLink?.current?.link?.click();
+    } else {
+      const newData: any = await downloadCSV();
 
-  useEffect(() => {
-    if (transactionData) {
-      setTimeout(() => csvLink.current.link.click());
+      await setTransactionData(newData);
+
+      csvLink?.current?.link?.click();
     }
-  }, [transactionData]);
+  };
 
   if (isLoading) {
     return (
@@ -55,7 +58,7 @@ const FarolPlan = () => {
           Download planilha de exemplo
         </a>
         <input type="file" id="file-csv" onChange={handleChange} style={{display: 'none'}}/>  */}
-        <Button variant='primary' style={styledLink} onClick={getTransactionData}>
+        <Button variant='primary' style={styledLink} onClick={onClick}>
           Download relatório
         </Button>
         <CSVLink

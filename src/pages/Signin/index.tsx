@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('===> Version 12 [28.06] ~ [pagarme key test - without zendesk]');
+  console.log('===> Version: 13 [07.07] ~ [new dashboards, new fetch planilha farol]');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>
