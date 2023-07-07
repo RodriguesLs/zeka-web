@@ -100,7 +100,7 @@ const CreateUpdateActivity = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(['activities']);
       },
-      onError: () => console.log('ERRO');
+      onError: () => console.log('ERRO'),
     },
   );
 
