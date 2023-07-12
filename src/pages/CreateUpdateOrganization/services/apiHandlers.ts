@@ -3,7 +3,6 @@ import { OrganizationFormData } from '..';
 
 export const fetchOrganizationById = async (orgId: number | string) => {
   const organization = await apiClient.get(`organizations/${orgId}`);
-  debugger;
   return organization;
 };
 
@@ -18,7 +17,7 @@ export const createOrganization = (data: any) => {
 };
 
 export const updateOrganization = (orgId: number | string, data: OrganizationFormData) => {
-  return apiClient.put(`organizations/${orgId}`, {
-    organization: data,
-  });
+  const headers = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+  return apiClient.put(`organizations/${orgId}`, data, headers);
 };

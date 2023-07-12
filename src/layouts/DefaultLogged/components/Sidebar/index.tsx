@@ -52,18 +52,18 @@ const Sidebar = () => {
         { role === 'user' && <NavLink to='/professores' icon={FiUser} title='Professores' /> }
         { (role === 'teacher' || role === 'user') && <NavLink to='/atividades' icon={FiKey} title='Atividades' /> }
         { (role === 'teacher' || role === 'student') && <NavLink to='/payment' icon={FaRegMoneyBillAlt} title='Pagamentos' /> }
-        {
-          role === 'student' && user?.student?.status === 'active' &&
+        {role === 'student' && user?.student?.status === 'active' && !!user?.student?.token && (
           <a
             href={`${API_TAMBORO}/#/login?userName=${user.email}&token=${user?.student?.token}`}
             className='linkToTamboro'
-            target="_blank"
+            target='_blank'
+            rel='noreferrer'
             title='Tamboro'
           >
             <Icon as={MdOutlineDirections} w='24px' h='24px' />
             Acesse o app zeka
           </a>
-        }
+        )}
         { (role === 'admin_organization') && <NavLink to='/departamentos' icon={GoOrganization} title='Departamentos' /> }
         { (role === 'admin_organization') && <NavLink to='/licencas/licenca' icon={FiKey} title='Licença' /> }
       </VStack>

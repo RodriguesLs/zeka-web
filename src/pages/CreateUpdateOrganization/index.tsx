@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useForm } from 'react-hook-form';
@@ -13,6 +13,7 @@ import {
   TabPanels,
   Tabs,
   VStack,
+  IconButton,
 } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -25,9 +26,10 @@ import {
   createOrganization,
   fetchOrganizationById,
   updateOrganization,
-  fetchOperationAreas,
 } from './services/apiHandlers';
 import useAuth from '@/hooks/useAuth';
+import { Thumbnail } from '../../pages/Signup/styles';
+import { FiCamera, FiTrash } from 'react-icons/fi';
 
 export interface OrganizationFormData {
   logo: File;
@@ -46,8 +48,9 @@ export interface OrganizationFormData {
   phone_contact_person_2: string;
   total_uses: number;
   available_uses: number;
+  image: File;
 }
-
+const LIMIT_SIZE_IMAGE = 1024 * 1024; // 1 MB
 const organizationFormSchema = yup.object().shape({
   name: yup.string(),
   phone_number: yup.string(),
@@ -94,6 +97,8 @@ const CreateUpdateOrganization = () => {
 
   useEffect(() => {
     if (!isCreateMode && user) reset(user);
+    if (user?.image) setThumbnail(user?.image);
+
     // setOperationAreas(operationAreasResp);
   }, [isCreateMode, user, operationAreas]);
 
@@ -107,16 +112,17 @@ const CreateUpdateOrganization = () => {
     },
   );
 
-  const onSubmit = (formData: any) => {
+  const onSubmit = async (formData: any) => {
     try {
-      mutate(formData);
+      await mutate({ ...formData, image: thumbnail });
+
       addToast({
         title: 'Sucesso!',
         description: `Usuário ${isCreateMode ? 'cadastrado' : 'atualizado'} com sucesso!`,
         type: 'success',
       });
 
-      role === 'admin_school' ? navigate('/farol-plan') : navigate('/empresas');
+      role === 'admin_school' ? navigate('/farol-plan') : navigate('/');
     } catch (e) {
       addToast({
         title: 'Opssss..',
@@ -128,6 +134,20 @@ const CreateUpdateOrganization = () => {
     }
   };
 
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
+  const preview = useMemo(() => {
+    if (thumbnail && typeof thumbnail === 'string') return thumbnail;
+    if (!thumbnail) return null;
+
+    return URL.createObjectURL(thumbnail);
+  }, [thumbnail]);
+
+  const onChangeImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files || event.target.files[0].size > LIMIT_SIZE_IMAGE) return null;
+
+    setThumbnail(event.target.files[0]);
+  };
+
   if (!isCreateMode && isLoading)
     return (
       <Box w='100%' pt='10rem' display='grid' placeContent='center'>
@@ -135,25 +155,41 @@ const CreateUpdateOrganization = () => {
       </Box>
     );
 
-  if (error) {
-    return <Error onClick={() => navigate('../')} />;
-  }
+  if (error) return <Error onClick={() => navigate('../')} />;
 
   return (
     <Box as='section' w='100%'>
       <Box as='form' w='100%' maxWidth='1000px' onSubmit={handleSubmit(onSubmit)}>
         <Tabs index={tabIndex} onChange={(index) => setTabIndex(index)}>
-          <TabList>
+          {/* <TabList>
             <Tab fontWeight='bold' _selected={{ color: 'brand.500' }}>
               Informações cadastrais
             </Tab>
-          </TabList>
+          </TabList> */}
           <TabPanels>
             <TabPanel>
               <VStack gap='1rem' w='100%' alignItems='start'>
-                <Heading as='legend' size='md'>
-                  {/* Informações cadastrais */}
-                </Heading>
+                <Box position='relative'>
+                  <Thumbnail style={{ backgroundImage: `url(${preview})` }} hasThumbnail={!!thumbnail}>
+                    <input type='file' accept='image/*' max='1' onChange={onChangeImage} />
+                    <FiCamera />
+                  </Thumbnail>
+                  {!!thumbnail && (
+                    <IconButton
+                      aria-label='remove-avatar'
+                      icon={<FiTrash />}
+                      position='absolute'
+                      bottom='12px'
+                      right='-12px'
+                      bg='none'
+                      color='#BBB'
+                      onClick={() => setThumbnail(null)}
+                      _hover={{
+                        color: '#e62b4b',
+                      }}
+                    />
+                  )}
+                </Box>
                 <HStack as='fieldset' w='100%'>
                   <Input
                     type='text'

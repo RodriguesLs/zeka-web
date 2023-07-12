@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('===> Version: 13 [07.07] ~ [new dashboards, new fetch planilha farol]');
+  console.log('===> Version: 14 [12.07] ~ [logo - organization]');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>

@@ -52,6 +52,7 @@ const PaymentStep = ({ onBackStep }: PaymentStepProps) => {
           ...signUpFormCompleted,
         },
         is_organization: true,
+        is_b2c: true,
       };
 
       setShowSpinner(true);
