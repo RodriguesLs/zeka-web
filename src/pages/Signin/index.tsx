@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('===> Version: 14 [12.07] ~ [logo - organization]');
+  console.log('===> Version: 15 [12.07] ~ [web deploy]');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>
