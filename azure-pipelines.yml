@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- master
+- production
 
 variables:
 
@@ -68,4 +68,4 @@ stages:
               ScriptType: 'Inline Script'
               InlineScript: |
                 yarn install
-                yarn build --if-present
+                yarn build
