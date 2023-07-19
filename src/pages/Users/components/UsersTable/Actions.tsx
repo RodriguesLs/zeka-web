@@ -14,8 +14,10 @@ import {
 
 import { FiEdit } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { queryClient } from '@/services/queryClient';
 
 import apiClient from '@/services/apiClient';
+import useToast from '@/hooks/useToast';
 
 interface ActionsProps {
   userId: number | string;
@@ -23,11 +25,26 @@ interface ActionsProps {
 
 const Actions = ({ userId }: ActionsProps) => {
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   const sendResetPassword = async () => {
     await apiClient.get('users/forgot_password');
 
     navigate('/usuarios');
+  };
+
+  const deleteUser = async () => {
+    await apiClient.delete(`students/${userId}`);
+
+    queryClient.invalidateQueries(['users']);
+
+    addToast({
+      title: 'Sucesso!',
+      description: 'Usuário deletado com sucesso!',
+      type: 'success',
+    });
+
+    navigate('/');
   };
 
   const handleNavigateToEditLicense = useCallback(() => {
@@ -49,6 +66,7 @@ const Actions = ({ userId }: ActionsProps) => {
               Editar usuário
             </CustomItem>
             <CustomItem onClick={sendResetPassword}>Resetar senha</CustomItem>
+            <CustomItem onClick={deleteUser}>Deletar usuário</CustomItem>
             {/* <CustomItem onClick={handleNavigateToEditLicense}>Editar</CustomItem> */}
           </PopoverBody>
         </PopoverContent>

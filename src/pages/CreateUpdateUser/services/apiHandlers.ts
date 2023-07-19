@@ -18,3 +18,5 @@ export const updateUser = (userId: number | string, data: UserFormData) => {
 };
 
 export const fetchDepartments = () => apiClient.get('operation_areas');
+
+export const fetchOrganizations = () => apiClient.get('organizations');

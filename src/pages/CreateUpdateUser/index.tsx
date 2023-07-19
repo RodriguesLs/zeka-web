@@ -21,7 +21,14 @@ import * as yup from 'yup';
 import { Button, Error, Input, Select, Spinner } from '@/components';
 import useToast from '@/hooks/useToast';
 import { queryClient } from '@/services/queryClient';
-import { createUser, fetchUserById, updateUser, fetchDepartments } from './services/apiHandlers';
+import {
+  createUser,
+  fetchUserById,
+  updateUser,
+  fetchDepartments,
+  fetchOrganizations,
+} from './services/apiHandlers';
+import useAuth from '@/hooks/useAuth';
 
 interface AddressFormData {
   street: string;
@@ -35,7 +42,7 @@ interface AddressFormData {
 export interface UserFormData {
   imageProfile: File;
   id: number;
-  code: string; // matrícula
+  code: string;
   name: string;
   gender: string;
   email: string;
@@ -47,6 +54,9 @@ export interface UserFormData {
   ocupation: string;
   organization_time: string | number;
   department: string;
+  result_encceja: string;
+  date_encceja: string;
+  quality_comments: string;
   address: AddressFormData;
 }
 
@@ -78,6 +88,8 @@ const userFormSchema = yup.object().shape({
 const CreateUpdateUser = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [departments, setDepartments] = useState([]);
+  const [organizations, setOrganizations] = useState([]);
+  const { role } = useAuth();
 
   const { userId } = useParams();
 
@@ -88,6 +100,12 @@ const CreateUpdateUser = () => {
 
   const { data: departmentsResp } = useQuery(['departments'], async () => {
     const { data } = await fetchDepartments();
+
+    return data;
+  });
+
+  const { data: organizationResp } = useQuery(['organizations'], async () => {
+    const { data } = await fetchOrganizations();
 
     return data;
   });
@@ -122,7 +140,8 @@ const CreateUpdateUser = () => {
     if (!isCreateMode && user) reset(user);
 
     setDepartments(departmentsResp);
-  }, [isCreateMode, user, departmentsResp]);
+    setOrganizations(organizationResp);
+  }, [isCreateMode, user, departmentsResp, organizationResp]);
 
   const { mutate } = useMutation(
     (data: UserFormData) => isCreateMode ? createUser(data) : updateUser(userId, data),
@@ -176,6 +195,11 @@ const CreateUpdateUser = () => {
             <Tab fontWeight='bold' _selected={{ color: 'brand.500' }}>
               Endereço
             </Tab>
+            {role === 'sysadmin' && (
+              <Tab fontWeight='bold' _selected={{ color: 'brand.500' }}>
+                Informações da empresa
+              </Tab>
+            )}
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -194,8 +218,8 @@ const CreateUpdateUser = () => {
                     label='Nome completo*'
                   />
                   <Select name='gender' label='Gênero' register={register} defaultValue='F'>
-                    <option value='F'>Feminino</option>
                     <option value='M'>Masculino</option>
+                    <option value='F'>Feminino</option>
                   </Select>
                 </HStack>
                 <HStack w='100%'>
@@ -281,6 +305,38 @@ const CreateUpdateUser = () => {
                 <HStack w='100%'>
                   <Input
                     type='text'
+                    name='date_encceja'
+                    placeholder='Ex: 19/01/2024'
+                    error={errors.date_encceja}
+                    register={register}
+                    autoComplete='off'
+                    mask={'99/99/9999'}
+                    label='Data do ENCCEJA:'
+                  />
+                  <Input
+                    type='text'
+                    name='result_encceja'
+                    placeholder='Ex: aprovado'
+                    error={errors.result_encceja}
+                    register={register}
+                    autoComplete='off'
+                    label='Devolutiva resultado:'
+                  />
+                </HStack>
+                <HStack w='100%'>
+                  <Input
+                    type='text'
+                    name='quality_comments'
+                    placeholder='Ex: conquistou com louvor nota máxima em língua portuguesa'
+                    error={errors.quality_comments}
+                    register={register}
+                    autoComplete='off'
+                    label='Comentários Qualitativos:'
+                  />
+                </HStack>
+                <HStack w='100%'>
+                  <Input
+                    type='text'
                     name='ocupation'
                     placeholder='Ex: Desenvolvedor de sistemas'
                     error={errors.ocupation}
@@ -291,20 +347,14 @@ const CreateUpdateUser = () => {
                   <Select name='department' label='Departamento' register={register}>
                     {departments?.map((d: any) => (
                       <option key={d.id} value={d.description}>
-                        {d.description}
+                        {d.description} - {d.organization_id}
                       </option>
                     ))}
                   </Select>
                   <Select name='status' label='Status' register={register}>
-                    <option value={'active'}>
-                      Ativo
-                    </option>
-                    <option value={'no_confirmed'}>
-                      Não confirmado
-                    </option>
-                    <option value={'inactive'}>
-                      Inativo
-                    </option>
+                    <option value={'active'}>Ativo</option>
+                    <option value={'no_confirmed'}>Não confirmado</option>
+                    <option value={'inactive'}>Inativo</option>
                   </Select>
                 </HStack>
                 <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
@@ -383,6 +433,34 @@ const CreateUpdateUser = () => {
                     register={register}
                     autoComplete='off'
                   />
+                </HStack>
+                <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
+                  <Button type='button' onClick={() => setTabIndex((oldState) => oldState - 1)}>
+                    Voltar
+                  </Button>
+                  <Button
+                    type='button'
+                    variant='primary'
+                    onClick={() => setTabIndex((oldState) => oldState + 1)}
+                  >
+                    Próximo
+                  </Button>
+                </Flex>
+              </VStack>
+            </TabPanel>
+            <TabPanel>
+              <VStack gap='1rem' w='100%' alignItems='start'>
+                <Heading as='legend' size='md'>
+                  Informações da empresa
+                </Heading>
+                <HStack w='100%'>
+                  <Select name='organization_id' label='Organização' register={register}>
+                    {organizations?.map((d: any) => (
+                      <option key={d.id} value={d.id}>
+                        {d.name}
+                      </option>
+                    ))}
+                  </Select>
                 </HStack>
                 <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
                   <Button type='button' onClick={() => setTabIndex((oldState) => oldState - 1)}>

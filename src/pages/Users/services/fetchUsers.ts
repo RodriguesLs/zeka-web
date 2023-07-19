@@ -1,8 +1,9 @@
 import apiClient from '@/services/apiClient';
 
-const fetchUsers = async (): Promise<any> => {
+const fetchUsers = async (role = '', organizationId = 0): Promise<any> => {
   try {
-    const response = await apiClient.get('/students?organization_id=1');
+    const path = role === 'sysadmin' ? '/students' : `/students?organization_id=${organizationId}`;
+    const response = await apiClient.get(path);
 
     return response.data;
   } catch (e) {

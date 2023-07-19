@@ -32,7 +32,7 @@ const Signin = () => {
 
   const onSubmit = async (formData: SignInFormData) => {
     try {
-      const result = await signIn(formData);
+      await signIn(formData);
     } catch (err) {
       addToast({
         title: 'Erro na autenticação',

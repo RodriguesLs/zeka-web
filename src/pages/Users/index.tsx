@@ -10,10 +10,12 @@ import { TableError, TableSkeleton } from '@/components/Table';
 import { useNavigate } from 'react-router-dom';
 import { parseExcelToJSON } from '@/services/xlsx/xlsxService';
 import { queryClient } from '@/services/queryClient';
+import useAuth from '@/hooks/useAuth';
 
 const Users = () => {
   let loading: boolean;
-  const { data, error, isLoading } = useQuery(['users'], fetchUsers);
+  const { role, organizationId } = useAuth();
+  const { data, error, isLoading } = useQuery(['users'], () => fetchUsers(role, organizationId));
   const navigate = useNavigate();
 
   const handleClick = () => document.getElementById('file-csv').click();

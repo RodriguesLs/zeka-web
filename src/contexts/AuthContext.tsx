@@ -2,6 +2,7 @@ import { createContext, useCallback, useState, ReactNode, useEffect } from 'reac
 import { useNavigate } from 'react-router-dom';
 
 import apiClient from '@/services/apiClient';
+import paymentApi from '@/services/paymentApi';
 import localStorageService from '@/services/localStorageService';
 
 interface User {
@@ -75,8 +76,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
     try {
       const response = await apiClient.post('sessions', { email, password });
-
-      const { token, refreshToken, user, student, role, organization_id } = response.data;
+      const { token, refreshToken, user, student = null, role, organization_id } = response.data;
 
       localStorageService().signIn({ token, refreshToken });
       setToken(token);
@@ -85,6 +85,11 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
       setOrganizationId(organization_id);
 
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      paymentApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+      if (role === 'student' && student?.status !== 'active') {
+        await paymentApi.get(`/${student.id}/verify_payment/${student.payment_id}`);
+      }
 
       navigate('/welcome');
     } catch (e) {

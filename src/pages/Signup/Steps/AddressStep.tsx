@@ -3,8 +3,10 @@ import { HStack, VStack } from '@chakra-ui/react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { Button, Input } from '@/components';
+import { Button, Input, Select } from '@/components';
 import { useSignUpForm } from '@/contexts/SignUpFormContext';
+import { States } from '@/constants/statesAndCities';
+import { useState } from 'react';
 
 interface Address {
   cep: string;
@@ -41,6 +43,7 @@ const addressStepFormSchema = yup.object().shape({
 
 const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
   const { handleUpdateSignupFormData, signUpFormData } = useSignUpForm();
+  const [cities, setCities] = useState(States.find(s => s.sigla === 'AC').cidades);
 
   const {
     register,
@@ -55,6 +58,9 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
     handleUpdateSignupFormData(formData);
     onNextStep();
   };
+
+  const onChangeState = (e: any) =>
+    setCities(States.find((s: any) => s.sigla === e.target.value).cidades);
 
   return (
     <VStack as='form' width='100%' onSubmit={handleSubmit(onSubmit)}>
@@ -111,24 +117,20 @@ const AddressStep = ({ onBackStep, onNextStep }: AddressStepProps) => {
         />
       </HStack>
       <HStack width='100%' gap='1rem' alignItems='baseline'>
-        <Input
-          type='text'
-          label='Cidade*'
-          name='address.city'
-          placeholder='Ex: São Paulo'
-          error={errors?.address?.city}
-          register={register}
-          autoComplete='off'
-        />
-        <Input
-          type='text'
-          label='UF*'
-          name='address.uf'
-          placeholder='Ex: SP'
-          error={errors?.address?.uf}
-          register={register}
-          autoComplete='off'
-        />
+        <Select name='address.uf' label='UF*' register={register} onChange={onChangeState}>
+          {States.map((s: any) => (
+            <option key={s.sigla} value={s.sigla}>
+              {s.nome}
+            </option>
+          ))}
+        </Select>
+        <Select name='address.city' label='Cidade*' register={register}>
+          {cities.map((s: string) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </Select>
       </HStack>
       <HStack width='100%' pt='2rem' gap='1rem'>
         <Button type='button' onClick={() => onBackStep()}>
