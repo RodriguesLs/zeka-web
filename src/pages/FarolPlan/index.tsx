@@ -1,9 +1,9 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { Box, Button, HStack, Spinner } from '@chakra-ui/react';
 import { MainDiv } from './dashboard.styled';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import fetchData, { downloadCSV } from './services/fetchData';
+import { downloadCSV } from './services/fetchData';
 import { CSVLink } from 'react-csv'
 import { Error } from '@/components';
 

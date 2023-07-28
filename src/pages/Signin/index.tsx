@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('===> Version: 17 [20.07] ~ [users.csv - adjust columns]');
+  console.log('===> Version: 19 [28.07] ~ [new api - farol plan]');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>
