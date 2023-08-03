@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('===> Version: 19 [28.07] ~ [new api - farol plan]');
+  console.log('===> Version: 20 [02.08] ~ [download latest-activities]');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>
