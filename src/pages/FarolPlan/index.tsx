@@ -93,7 +93,7 @@ const FarolPlan = () => {
           data={transactionDataLatest}
           filename='latest-activities.csv'
           className='hidden'
-          ref={csvLink}
+          ref={csvLinkLatest}
           target='_blank'
         />
       </HStack>
