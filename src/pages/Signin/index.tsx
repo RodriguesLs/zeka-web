@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('===> Version: 20 [02.08] ~ [download latest-activities]');
+  console.log('===> Version: 21 [04.08] ~ [download latest-activities]');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>
