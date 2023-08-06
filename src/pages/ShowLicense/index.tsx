@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 import { Box, HStack, VStack } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
@@ -6,6 +6,13 @@ import { useQuery } from '@tanstack/react-query';
 import { Input, Select } from '@/components';
 import { fetchLicense } from './services/apiHandlers';
 import { useForm } from 'react-hook-form';
+import { StyledH1 } from './license.styled';
+import Table from '@/components/Table';
+
+interface IUser {
+  name: string;
+  email: string;
+}
 
 interface ILicense {
   name: string;
@@ -14,6 +21,7 @@ interface ILicense {
   total_uses: number;
   available_uses: number;
   status: string;
+  users: IUser[];
 }
 
 const ShowLicense = () => {
@@ -29,13 +37,27 @@ const ShowLicense = () => {
 
   useEffect(() => {
     if (licenseResp) {
-      setLicense(licenseResp)
+      setLicense(licenseResp);
     } else {
       fetchLicense().then((data: any) => setLicense(data));
     }
   }, [license]);
 
   const onSubmit = async () => console.log('do nothing');
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Nome',
+        accessor: 'name',
+      },
+      {
+        Header: 'Email',
+        accessor: 'email',
+      },
+    ],
+    [],
+  );
 
   return (
     <Box as='section' w='100%'>
@@ -100,6 +122,10 @@ const ShowLicense = () => {
               <option value='inactive'>Inativa</option>
             </Select>
           </HStack>
+          <VStack width='100%' gap='1rem' alignItems='start'>
+            <StyledH1>Funcionários licenciados</StyledH1>
+            <Table data={license?.users || []} columns={columns} />
+          </VStack>
         </VStack>
       </Box>
     </Box>

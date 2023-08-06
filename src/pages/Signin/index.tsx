@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('===> Version: 21 [04.08] ~ [download latest-activities]');
+  console.log('===> Version: 22 [06.08] ~ [exibir funcionários - licenças]');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>
