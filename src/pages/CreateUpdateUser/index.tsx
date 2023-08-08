@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useForm } from 'react-hook-form';
@@ -58,6 +58,7 @@ export interface UserFormData {
   date_encceja: string;
   quality_comments: string;
   address: AddressFormData;
+  genderOther?: string;
 }
 
 const userFormSchema = yup.object().shape({
@@ -89,6 +90,7 @@ const CreateUpdateUser = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [departments, setDepartments] = useState([]);
   const [organizations, setOrganizations] = useState([]);
+  const [freeGender, setFreeGender] = useState(false);
   const { role } = useAuth();
 
   const { userId } = useParams();
@@ -167,7 +169,11 @@ const CreateUpdateUser = () => {
     },
   );
 
+  const onChangeGender = (e: any) => setFreeGender(e.target.value === 'L');
+
   const onSubmit = (formData: UserFormData) => {
+    if (formData.gender === 'L') formData.gender = formData.genderOther;
+
     mutate(formData);
 
     navigate('/usuarios');
@@ -217,10 +223,22 @@ const CreateUpdateUser = () => {
                     autoComplete='off'
                     label='Nome completo*'
                   />
-                  <Select name='gender' label='Gênero' register={register} defaultValue='F'>
+                  <Select name='gender' label='Gênero' register={register} onChange={onChangeGender} defaultValue=''>
                     <option value='M'>Masculino</option>
                     <option value='F'>Feminino</option>
+                    <option value='L'>Outro</option>
                   </Select>
+                  {freeGender && (
+                    <Input
+                      type='text'
+                      name='genderOther'
+                      placeholder='Ex: assexuado'
+                      error={errors.code}
+                      register={register}
+                      autoComplete='off'
+                      label='Gênero (outro):*'
+                    />
+                  )}
                 </HStack>
                 <HStack w='100%'>
                   <Input
@@ -438,40 +456,49 @@ const CreateUpdateUser = () => {
                   <Button type='button' onClick={() => setTabIndex((oldState) => oldState - 1)}>
                     Voltar
                   </Button>
-                  <Button
-                    type='button'
-                    variant='primary'
-                    onClick={() => setTabIndex((oldState) => oldState + 1)}
-                  >
-                    Próximo
-                  </Button>
+                  {role !== 'sysadmin' && (
+                    <Button type='submit' variant='primary' disabled={isSubmitting}>
+                      Salvar
+                    </Button>
+                  )}
+                  {role === 'sysadmin' && (
+                    <Button
+                      type='button'
+                      variant='primary'
+                      onClick={() => setTabIndex((oldState) => oldState + 1)}
+                    >
+                      Próximo
+                    </Button>
+                  )}
                 </Flex>
               </VStack>
             </TabPanel>
-            <TabPanel>
-              <VStack gap='1rem' w='100%' alignItems='start'>
-                <Heading as='legend' size='md'>
-                  Informações da empresa
-                </Heading>
-                <HStack w='100%'>
-                  <Select name='organization_id' label='Organização' register={register}>
-                    {organizations?.map((d: any) => (
-                      <option key={d.id} value={d.id}>
-                        {d.name}
-                      </option>
-                    ))}
-                  </Select>
-                </HStack>
-                <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
-                  <Button type='button' onClick={() => setTabIndex((oldState) => oldState - 1)}>
-                    Voltar
-                  </Button>
-                  <Button type='submit' variant='primary' disabled={isSubmitting}>
-                    Salvar
-                  </Button>
-                </Flex>
-              </VStack>
-            </TabPanel>
+            {role === 'sysadmin' && (
+              <TabPanel>
+                <VStack gap='1rem' w='100%' alignItems='start'>
+                  <Heading as='legend' size='md'>
+                    Informações da empresa
+                  </Heading>
+                  <HStack w='100%'>
+                    <Select name='organization_id' label='Organização' register={register}>
+                      {organizations?.map((d: any) => (
+                        <option key={d.id} value={d.id}>
+                          {d.name}
+                        </option>
+                      ))}
+                    </Select>
+                  </HStack>
+                  <Flex w='100%' pt='1.5rem' alignItems='center' gap='1rem'>
+                    <Button type='button' onClick={() => setTabIndex((oldState) => oldState - 1)}>
+                      Voltar
+                    </Button>
+                    <Button type='submit' variant='primary' disabled={isSubmitting}>
+                      Salvar
+                    </Button>
+                  </Flex>
+                </VStack>
+              </TabPanel>
+            )}
           </TabPanels>
         </Tabs>
       </Box>
