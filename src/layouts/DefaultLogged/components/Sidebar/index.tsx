@@ -41,7 +41,7 @@ const Sidebar = () => {
       <VStack as='nav' w='100%' h='100%' px='0.5rem'>
         <NavLink to='/welcome' icon={FiHome} title={homeTitle} />
         { role === 'student' && <NavLink to='/user-dashboard' icon={GoDashboard} title='Aprendizagem' /> }
-        { role === 'student' && <NavLink to='/welcome' icon={GoDashboard} title='Suporte Técnico' /> }
+        {/* { role === 'student' && <NavLink to='/welcome' icon={GoDashboard} title='Suporte Técnico' /> } */}
         { role === 'sysadmin' && <NavLink to='/farol-plan' icon={GoDashboard} title='Planilha Farol' /> }
         { role === 'admin_organization' && <NavLink to='/dashboard' icon={GoDashboard} title='Dashboard' /> }
         { (role === 'admin_organization' || role === 'sysadmin') && <NavLink to='/usuarios' icon={FiUser} title='Usuários' /> }

@@ -62,7 +62,7 @@ const StudentStep = ({ onNextStep }: StudentStepProps) => {
   const onSubmit = (formData: StudentStepFormData) => {
     handleUpdateSignupFormData({
       ...formData,
-      imageProfile: thumbnail,
+      // imageProfile: thumbnail,
     });
     onNextStep();
   };
@@ -75,7 +75,7 @@ const StudentStep = ({ onNextStep }: StudentStepProps) => {
 
   return (
     <VStack as='form' width='100%' onSubmit={handleSubmit(onSubmit)}>
-      <Box position='relative'>
+      {/* <Box position='relative'>
         <Thumbnail style={{ backgroundImage: `url(${preview})` }} hasThumbnail={!!thumbnail}>
           <input type='file' accept='image/*' max='1' onChange={onChangeImage} />
           <FiCamera />
@@ -95,7 +95,7 @@ const StudentStep = ({ onNextStep }: StudentStepProps) => {
             }}
           />
         )}
-      </Box>
+      </Box> */}
       <Input
         type='text'
         label='Nome completo*'

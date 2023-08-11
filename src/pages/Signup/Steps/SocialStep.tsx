@@ -60,7 +60,7 @@ const SocialStep = ({ onNextStep }: SocialStepProps) => {
       />
       <HStack width='100%' gap='1rem' alignItems='baseline'>
         <Select name='range_age' label='Faixa-etária' register={register} defaultValue='0'>
-          <option value='19-29'>19 - 29</option>
+          <option value='18-29'>18 - 29</option>
           <option value='30-39'>30 - 39</option>
           <option value='40-49'>40 - 49</option>
           <option value='50+'>50+</option>
@@ -115,6 +115,11 @@ const SocialStep = ({ onNextStep }: SocialStepProps) => {
           Gostaria de participar da comunidade de alunos Zeka no whatsapp?
         </Checkbox>
       </HStack>
+      {/* <HStack width='100%' gap='1rem' alignItems='baseline'>
+        <Checkbox name='is_test_user' register={register}>
+          É usuário de teste?
+        </Checkbox>
+      </HStack> */}
       <Button type='submit' variant='primary' style={{ marginTop: '2rem' }}>
         Avançar
       </Button>

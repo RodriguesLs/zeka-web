@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('===> Version: 23 [07.08] ~ [opção livre - gender]');
+  console.log('===> Version: 25 [11.08] ~ [include installments]');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
-import { Button, Input, Spinner } from '@/components';
+import { Button, Input, Spinner, Select } from '@/components';
 import { useSignUpForm } from '@/contexts/SignUpFormContext';
 import useToast from '@/hooks/useToast';
 import paymentApi from '@/services/paymentApi';
@@ -93,16 +93,30 @@ const PaymentStep = ({ onBackStep }: PaymentStepProps) => {
       {
       !showSpinner &&
       <VStack as='form' width='100%' onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          type='text'
-          label='Número do cartão*'
-          name='number'
-          placeholder='Ex: 4566 4546 45456 45454'
-          error={errors.number}
-          register={register}
-          autoComplete='off'
-          mask='9999 9999 9999 9999'
-        />
+        <HStack width='100%' gap='1rem' alignItems='baseline'>
+          <Input
+            type='text'
+            label='Número do cartão*'
+            name='number'
+            placeholder='Ex: 4566 4546 45456 45454'
+            error={errors.number}
+            register={register}
+            autoComplete='off'
+            mask='9999 9999 9999 9999'
+          />
+          <Select name='installments' label='Parcelas' register={register}>
+              <option value='1'>1x R$ 174,00</option>
+              <option value='2'>2x R$ 94,50</option>
+              <option value='3'>3x R$ 63,00</option>
+              <option value='4'>4x R$ 47,25</option>
+              <option value='5'>5x R$ 37,80</option>
+              <option value='6'>6x R$ 31,50</option>
+              <option value='7'>7x R$ 27,00</option>
+              <option value='8'>8x R$ 23,62</option>
+              <option value='9'>9x R$ 21,00</option>
+              <option value='10'>10x R$ 18,90</option>
+          </Select>
+        </HStack>
         <Input
           type='text'
           label='Nome (como no cartão)*'
