@@ -1,6 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const DiagnosticsByDiscipline = ({ diagnosticsFinalizedByDiscipline }) => {
+const DiagnosticsByDiscipline = ({ diagnosticsFinalizedByDiscipline }: any) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart

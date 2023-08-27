@@ -20,7 +20,7 @@ interface IFinalizedFunil {
   discipline_finalization: IDisciplineFinalization;
 }
 
-const FinalizedFunil = ({ discipline_finalization }: IFinalizedFunil) => {
+const FinalizedFunil = ({ discipline_finalization }: IFinalizedFunil | any) => {
   return (
     <ResponsiveContainer width='100%' height='80%'>
       <BarChart

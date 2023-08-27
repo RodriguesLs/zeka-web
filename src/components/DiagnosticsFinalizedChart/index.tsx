@@ -31,7 +31,7 @@ const data = [
   },
 ];
 
-const DiagnosticsFinalizedChart = ({ diagnosticsByWeek }) => {
+const DiagnosticsFinalizedChart = ({ diagnosticsByWeek }: any) => {
   return (
     <div style={{ width: '100%', height: 300 }}>
       <ResponsiveContainer>

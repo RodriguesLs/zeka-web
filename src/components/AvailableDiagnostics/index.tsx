@@ -4,9 +4,8 @@ import { Flex } from '@semcore/ui/flex-box';
 import Checkbox from '@semcore/ui/checkbox';
 const pieColors = [colors['blue-03'], colors['green-02'], colors['violet-04']];
 
-const AvailableDiagnostics = ({ finalized_initialized }) => {
+const AvailableDiagnostics = ({ finalized_initialized }: any) => {
   const data = finalized_initialized;
-  console.log({ data });
   const [selected, setSelected] = useState(['b']);
   const handleCheckboxToggle = useCallback(
     (name) => () => {

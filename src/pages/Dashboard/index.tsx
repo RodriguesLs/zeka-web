@@ -75,7 +75,6 @@ const labels = [
 
 const Dashboard = () => {
   const { data, error, isLoading } = useQuery(['admin-summary'], fetchData);
-  const handleChange = async (e) => {};
   const navigate = useNavigate();
 
   const dataEngajament = [
@@ -456,10 +455,10 @@ const ChartResults = ({ dataChart }) => {
   );
 };
 
-const UseDailyChart = () => {
+const UseDailyChart = ({ dataDayUseWeek }: any) => {
   return (
     <ResponsiveContainer width='100%' aspect={2}>
-      <BarChart data={UseDailyChartData}>
+      <BarChart data={dataDayUseWeek}>
         <XAxis dataKey='name' stroke='#000' />
         <YAxis />
         <CartesianGrid stroke='#ccc' strokeDasharray='1' />
@@ -565,7 +564,7 @@ const ChartByCourse = () => {
   );
 };
 
-const ChartByCourseOnly = ({ proficiency }) => {
+const ChartByCourseOnly = ({ proficiency }: any) => {
   return (
     <>
       <ResponsiveContainer width='100%' aspect={2}>
@@ -580,7 +579,7 @@ const ChartByCourseOnly = ({ proficiency }) => {
   );
 };
 
-const ChartByCourseOnly2 = ({ proficiency }) => {
+const ChartByCourseOnly2 = ({ proficiency }: any) => {
   return (
     <>
       <ResponsiveContainer width='100%' aspect={2}>
@@ -595,7 +594,7 @@ const ChartByCourseOnly2 = ({ proficiency }) => {
   );
 };
 
-const ChartByCourseOnly3 = ({ proficiency }) => {
+const ChartByCourseOnly3 = ({ proficiency }: any) => {
   return (
     <>
       <ResponsiveContainer width='100%' aspect={2}>
@@ -610,7 +609,7 @@ const ChartByCourseOnly3 = ({ proficiency }) => {
   );
 };
 
-const ChartByCourseOnly4 = ({ proficiency }) => {
+const ChartByCourseOnly4 = ({ proficiency }: any) => {
   return (
     <>
       <ResponsiveContainer width='100%' aspect={2}>
