@@ -42,7 +42,7 @@ const Signin = () => {
     }
   };
 
-  console.log('===> Version: 25 [11.08] ~ [include installments]');
+  console.log('===> Version: 26 [11.08] ~ [virada de chaves - installments]');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>

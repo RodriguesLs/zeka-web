@@ -9,3 +9,9 @@ export { default as Spinner } from './Spinner';
 export { default as Table } from './Table';
 export { default as Toast } from './ToastContainer';
 export { default as Checkbox } from './Checkbox';
+export { default as HorizontalBarChart } from './HorizontalBarChart';
+export { default as AvailableDiagnostics } from './AvailableDiagnostics';
+export { default as DiagnosticsFinalizedChart } from './DiagnosticsFinalizedChart';
+export { default as FunilFinalizacao } from './FunilFinalizacao';
+
+// export { default as UseDailyChart } from './UseDailyChart';

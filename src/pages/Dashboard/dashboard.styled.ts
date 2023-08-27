@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 
+export const StyledH1 = styled.h1`
+  font-size: 24px;
+  font-weight: bold;
+`;
+
 export const StyledDiv = styled.div`
   padding: 25px;
   background-color: white;

@@ -8,7 +8,7 @@ interface CardProps {
 
 const Card = ({ children, title }: CardProps) => {
   return (
-    <Box w='100%' h='100%' bg='background.white' p='1.5rem' borderRadius='6px'>
+    <Box w='100%' h='100%' bg='background.white' p='1rem' borderRadius='6px'>
       {title && (
         <Heading as='h3' size='base' color='gray.500' mb='1rem'>
           {title}
