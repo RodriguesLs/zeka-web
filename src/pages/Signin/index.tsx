@@ -42,7 +42,9 @@ const Signin = () => {
     }
   };
 
-  console.log('===> Version: 27 [27.08] ~ [dashboards - finalização]');
+  console.log('<=======================================================>');
+  console.log('==> Version: 28 [29.08] ~ [dashboards - alunos - v1] <==');
+  console.log('<=======================================================>');
 
   return (
     <VStack position='relative' w='100%' h='100%' placeContent='center'>

@@ -13,5 +13,5 @@ export { default as HorizontalBarChart } from './HorizontalBarChart';
 export { default as AvailableDiagnostics } from './AvailableDiagnostics';
 export { default as DiagnosticsFinalizedChart } from './DiagnosticsFinalizedChart';
 export { default as FunilFinalizacao } from './FunilFinalizacao';
-
+export { default as DiagnosticCourseProgressChart } from './DiagnosticCourseProgressChart';
 // export { default as UseDailyChart } from './UseDailyChart';
